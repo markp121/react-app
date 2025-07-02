@@ -35,5 +35,11 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "^3.6.2",
+    "sass": "^1.89.2",
+    "sass-loader": "^16.0.5",
+    "webpack": "^5.99.9"
   }
 }

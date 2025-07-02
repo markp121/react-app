@@ -1,0 +1,22 @@
+@use "variables";
+
+body {
+  font-family: variables.$font;
+  color: variables.$primary;
+  background-color: variables.$secondary;
+  padding: 0;
+  margin: 0;
+}
+
+h1 {
+  text-align: center;
+}
+
+ul {
+  padding: 0;
+  margin: 0;
+}
+
+li {
+  list-style: none;
+}
