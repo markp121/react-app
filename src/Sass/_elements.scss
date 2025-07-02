@@ -2,14 +2,16 @@
 
 body {
   font-family: variables.$font;
-  color: variables.$primary;
-  background-color: variables.$secondary;
+  color: variables.$font;
+  background-color: variables.$primary;
   padding: 0;
   margin: 0;
 }
 
 h1 {
   text-align: center;
+  margin: 3rem;
+  font-size: 3rem;
 }
 
 ul {
@@ -19,4 +21,18 @@ ul {
 
 li {
   list-style: none;
+}
+
+aside {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  border-radius: 0 8px 8px 0;
+  border: solid 1px black;
+  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  background-color: variables.$tertiary;
+  overflow: auto;
+  scrollbar-width: none;
+  max-width: 20vw;
 }

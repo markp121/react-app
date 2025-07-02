@@ -1,0 +1,66 @@
+@use "../variables";
+
+.job-list {
+  text-wrap: wrap;
+
+  ul {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    li {
+      padding: 0.25rem;
+      border-radius: 4px;
+      background: variables.$buttons;
+    }
+  }
+}
+
+.job-list-header {
+  padding: 1rem;
+}
+
+.job {
+  border: solid 1px black;
+  padding: 0 1rem;
+  margin: 1rem;
+  border-radius: 8px;
+  background: variables.$secondary;
+
+  &:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  }
+}
+
+.status-container {
+  margin: 1rem 0;
+  display: flex;
+}
+
+.status {
+  background: variables.$buttonAlt;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.status-ball {
+  height: 1rem;
+  width: 1rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.25rem;
+
+  &.assigned {
+    background: yellow;
+  }
+
+  &.unassigned {
+    background: red;
+  }
+
+  &.finished {
+    background: green;
+  }
+}

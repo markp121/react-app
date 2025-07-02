@@ -14,7 +14,7 @@
   margin: 2rem;
   border-radius: 10px;
   box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
-  background-color: variables.$tertiary;
+  background-color: variables.$secondary;
 }
 
 .profile-card-image {
@@ -35,7 +35,7 @@
   li {
     padding: 0.5rem;
     border-radius: 4px;
-    background-color: variables.$skills;
+    background-color: variables.$buttons;
     text-align: center;
   }
 }
