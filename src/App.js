@@ -2,6 +2,7 @@ import React from "react";
 import "./Sass/app.scss";
 import ProfileCard from "./Components/ProfileCard";
 import JobBoard from "./Components/JobBoard";
+import JobCounter from "./Components/JobCounter";
 
 const App = () => {
   const profiles = [
@@ -101,6 +102,7 @@ const App = () => {
           </li>
         ))}
       </ul>
+      <JobCounter />
     </div>
   );
 };

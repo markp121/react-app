@@ -1,0 +1,45 @@
+@use '../variables';
+
+.job-counter-container {
+  text-align: center;
+}
+
+.job-counter-buttons {
+  display: inline-flex;
+  gap: 1rem;
+
+  button {
+    background-color: variables.$buttonAlt;
+    border-radius: 12px;
+    border: solid 2px transparent;
+    color: variables.$fontColour;
+    cursor: pointer;
+    font-family: variables.$font;
+    font-size: 0.9rem;
+    padding: 0.25rem 0.5rem;
+    box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+    user-select: none;
+
+    &:not(:disabled):hover {
+      background: #F6F9FE;
+      color: #174ea6;
+      box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0, rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
+    }
+
+    &:not(:disabled):active {
+      box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0, rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
+      outline: none;
+    }
+
+    &:not(:disabled):focus {
+      outline: none;
+      border: 2px solid #4285f4;
+    }
+
+    &:disabled {
+      opacity: 0.2;
+      cursor: not-allowed;
+    }
+  }
+}
