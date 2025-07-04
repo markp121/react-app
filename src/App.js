@@ -3,6 +3,7 @@ import "./Sass/app.scss";
 import ProfileCard from "./Components/ProfileCard";
 import JobBoard from "./Components/JobBoard";
 import JobCounter from "./Components/JobCounter";
+import DynamicForm from "./Components/DynamicForm";
 
 const App = () => {
   const profiles = [
@@ -45,7 +46,8 @@ const App = () => {
       id: 1,
       companyName: "Tech Inc",
       jobName: "Back-End developer",
-      description: "Design and implement efficient back end architecture for a POS application",
+      description:
+        "Design and implement efficient back end architecture for a POS application",
       requiredSkills: ["TypeScript", "Next.JS", "SQL"],
       status: "Finished",
     },
@@ -89,6 +91,7 @@ const App = () => {
         <JobBoard jobs={jobs} />
       </aside>
       <h1>Team Profiles</h1>
+      <DynamicForm />
       <ul>
         {profiles.map((profile) => (
           <li key={profile.id}>
