@@ -63,7 +63,7 @@ const DynamicForm = () => {
             x
           </span>
         </label>
-        <input type="submit" hidden></input>
+        <input type="submit" hidden />
       </form>
       <div>
         <h3>Current Input:</h3>
