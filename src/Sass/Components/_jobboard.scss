@@ -40,6 +40,7 @@
 .status {
   background-color: variables.$buttonAlt;
   padding: 0.25rem 0.5rem;
+  margin-right: 1rem;
   border-radius: 4px;
   display: flex;
   align-items: center;
@@ -52,15 +53,15 @@
   display: inline-block;
   margin-right: 0.25rem;
 
-  &.assigned {
+  &.assigned, &.running{
     background: yellow;
   }
 
-  &.unassigned {
+  &.unassigned, &.stopped {
     background: red;
   }
 
-  &.finished {
+  &.finished, &.completed {
     background: green;
   }
 }

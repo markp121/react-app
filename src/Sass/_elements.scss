@@ -23,16 +23,68 @@ li {
   list-style: none;
 }
 
-aside {
+.sidebar {
   position: fixed;
   top: 0;
-  left: 0;
   bottom: 0;
-  border-radius: 0 8px 8px 0;
   border: solid 1px black;
-  box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
   background-color: variables.$tertiary;
   overflow: auto;
   scrollbar-width: none;
-  max-width: 20vw;
+  width: 20vw;
+
+  &.left {
+    left: 0;
+    border-radius: 0 8px 8px 0;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 5px 15px;
+  }
+
+  &.right {
+    right: 0;
+    border-radius: 8px 0 0 8px;
+    box-shadow: rgba(0, 0, 0, 0.35) 0 -5px 15px;
+  }
+}
+
+.button-neutral {
+  background-color: variables.$buttonAlt;
+  border-radius: 12px;
+  border: solid 2px transparent;
+  color: variables.$fontColour;
+  cursor: pointer;
+  font-family: variables.$font;
+  font-size: 0.9rem;
+  padding: 0.25rem 0.5rem;
+  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+  user-select: none;
+
+  &:not(:disabled):hover {
+    background: #F6F9FE;
+    color: #174ea6;
+    box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0, rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
+  }
+
+  &:not(:disabled):active {
+    box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0, rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
+    outline: none;
+  }
+
+  &:not(:disabled):focus {
+    outline: none;
+    border: 2px solid #4285f4;
+  }
+
+  &:disabled {
+    opacity: 0.2;
+    cursor: not-allowed;
+  }
+}
+
+select {
+  margin: 1rem 1rem 0 0;
+  appearance: none;
+  font-size: 1rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 6px;
 }

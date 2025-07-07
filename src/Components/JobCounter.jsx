@@ -54,10 +54,10 @@ const JobCounter = () => {
       <h2>Job Counter</h2>
       <p>Current Jobs: {jobCount}</p>
       <div className="job-counter-buttons">
-        <button onClick={handleAddJob}>Add Job</button>
-        <button onClick={handleRemoveJob}>Remove Job</button>
-        <button onClick={handleClearJobs}>Clear Jobs</button>
-        <button onClick={handleToggleEnv}>Toggle Environment</button>
+        <button className="button-neutral" onClick={handleAddJob}>Add Job</button>
+        <button className="button-neutral" onClick={handleRemoveJob}>Remove Job</button>
+        <button className="button-neutral" onClick={handleClearJobs}>Clear Jobs</button>
+        <button className="button-neutral" onClick={handleToggleEnv}>Toggle Environment</button>
       </div>
       <h3>{message}</h3>
     </div>
