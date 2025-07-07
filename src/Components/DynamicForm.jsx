@@ -102,7 +102,7 @@ const DynamicForm = ({ bots }) => {
         <h2>Bot List Manager</h2>
         <form onSubmit={handleSubmitBotForm}>
           <label htmlFor="addBot">Add a new bot:<br /></label>
-          <select defaultValue="" name="bots" id="addBot">
+          <select defaultValue="" name="bots" id="addBot" required>
             <option value="" disabled>
               Select Bot...
             </option>
