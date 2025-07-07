@@ -3,7 +3,8 @@ import "./Sass/app.scss";
 import ProfileCard from "./Components/ProfileCard";
 import JobBoard from "./Components/JobBoard";
 import JobCounter from "./Components/JobCounter";
-import DynamicForm from "./Components/DynamicForm";
+import DynamicList from "./Components/DynamicList";
+import BotListManager from "./Components/BotListManager";
 
 const App = () => {
   const profiles = [
@@ -90,7 +91,7 @@ const App = () => {
       id: 0,
       name: "Email Extractor",
       task: "Extracting emails",
-      status: "stopped",
+      status: "Stopped",
     },
     {
       id: 1,
@@ -137,7 +138,8 @@ const App = () => {
       </aside>
       <h1>Team Profiles</h1>
       <aside className="sidebar right">
-        <DynamicForm bots={bots} />
+        <DynamicList />
+        <BotListManager bots={bots} />
       </aside>
       <ul>
         {profiles.map((profile) => (

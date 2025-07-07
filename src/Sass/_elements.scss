@@ -24,14 +24,17 @@ li {
 }
 
 .sidebar {
+  display: flex;
+  flex-direction: column;
   position: fixed;
   top: 0;
   bottom: 0;
+  padding: 1rem;
   border: solid 1px black;
   background-color: variables.$tertiary;
   overflow: auto;
   scrollbar-width: none;
-  width: 20vw;
+  width: 18vw;
 
   &.left {
     left: 0;
@@ -87,4 +90,16 @@ select {
   font-size: 1rem;
   padding: 0.25rem 0.5rem;
   border-radius: 6px;
+}
+
+.remove-button {
+  cursor: pointer;
+  font-size: 1.875rem;
+  color: #e7000b;
+  background-color: transparent;
+  border: none;
+
+  &:hover {
+    color: #9f0712;
+  }
 }
