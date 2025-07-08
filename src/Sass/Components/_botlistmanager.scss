@@ -18,3 +18,58 @@
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   }
 }
+
+.dropdown-form-container {
+  display: grid;
+  align-items: center;
+  grid-template-columns: 5fr 1fr;
+  gap: 2rem;
+
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 0.5rem;
+
+    select {
+      width: 100%;
+      appearance: none;
+      font-size: 1rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 6px;
+    }
+
+    button {
+      max-width: fit-content;
+    }
+  }
+}
+
+.options-container {
+  position: relative;
+  width: 100%;
+  margin: 0 auto;
+  justify-items: end;
+
+  #optionsToggle {
+    display: flex;
+    flex-direction: column;
+    font-size: 1.3rem;
+    justify-items: center;
+    align-items: center;
+  }
+
+  #optionsCheckboxes {
+    position: absolute;
+    width: 110px;
+    top:40px;
+    right: 0;
+    z-index: 1000;
+    padding: 0.5rem;
+    border-radius: 4px;
+    background-color: variables.$primary;
+    color: variables.$fontColour;
+    box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+    user-select: none;
+  }
+}
