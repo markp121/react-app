@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 
 const BotListManager = ({ bots }) => {
   const [botList, setBotList] = useState([]);
-  const [buttonText, setButtonText] = useState("Start Bot");
   const timeout = useRef(null);
 
   const handleSubmitBotForm = (event) => {
@@ -23,34 +22,34 @@ const BotListManager = ({ bots }) => {
     }
   };
 
-  const handleChangeJobStatus = (index) => {
+  const handleChangeJobStatus = (event, index) => {
     if (botList[index].status.toLowerCase() === "running") {
-      stopBot(index);
+      stopBot(event, index);
     } else if (botList[index].status.toLowerCase() === "stopped") {
-      startBot(index);
+      startBot(event, index);
     } else if (botList[index].status.toLowerCase() === "completed") {
       const confirm = window.confirm("Do you want to restart the bot?");
       if (confirm) {
-        startBot(index);
+        startBot(event, index);
       }
     }
   };
 
-  const startBot = (index) => {
+  const startBot = (event, index) => {
     updateObj(index, "status", "Running");
-    setButtonText("Stop Bot");
+    event.target.innerText = "Stop Bot";
     timeout.current = setTimeout(
       () => {
         updateObj(index, "status", "Completed");
-        setButtonText("Start Bot");
+        event.target.innerText = "Start Bot";
       },
       getRandomArbitrary(4000, 10000),
     );
   }
 
-  const stopBot = (index) => {
+  const stopBot = (event, index) => {
     updateObj(index, "status", "Stopped");
-    setButtonText("Start Bot");
+    event.target.innerText = "Start Bot";
     if (timeout.current !== null) {
       clearTimeout(timeout.current);
     }
@@ -105,9 +104,9 @@ const BotListManager = ({ bots }) => {
                 </div>
                 <button
                   className="button-neutral"
-                  onClick={() => handleChangeJobStatus(index)}
+                  onClick={(event) => handleChangeJobStatus(event, index)}
                 >
-                  {buttonText}
+                  Start Bot
                 </button>
               </div>
             </div>
