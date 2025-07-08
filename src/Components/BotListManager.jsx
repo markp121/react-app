@@ -1,10 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import useClickOutside from "../Hooks/HandleClickOutside";
 
+const statuses = ["running", "stopped", "completed"]
+
 const BotListManager = ({ bots }) => {
   const [botList, setBotList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
-  const [statusFilter, setStatusFilter] = useState(["running", "stopped", "completed"]);
+  const [statusFilter, setStatusFilter] = useState(statuses);
   const [optionsOpen, setOptionsOpen] = useState(false);
 
   const timeoutRef = useRef(null);
@@ -17,8 +19,11 @@ const BotListManager = ({ bots }) => {
     addBotElement.value = "";
   };
 
-  const handleRemoveBot = (botItem) => {
-    setBotList(botList.filter((bot) => bot.id !== botItem.id));
+  const handleRemoveBot = (index) => {
+    setBotList((s) => [
+      ...s.slice(0, index),
+      ...s.slice(index + 1),
+    ]);
     if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
     }
@@ -91,6 +96,11 @@ const BotListManager = ({ bots }) => {
     return Math.random() * (max - min) + min;
   }
 
+  function capitalize(s)
+  {
+    return s && String(s[0]).toUpperCase() + String(s).slice(1);
+  }
+
   return (
     <div className="bot-list-manager">
       <h2>Bot List Manager</h2>
@@ -122,39 +132,19 @@ const BotListManager = ({ bots }) => {
           </button>
           {optionsOpen && (
             <ul id="optionsCheckboxes">
-              <li>
-                <input
-                  type="checkbox"
-                  id="checkboxRunning"
-                  name="checkboxRunning"
-                  value="running"
-                  defaultChecked
-                  onChange={handleStatusFilter}
-                />
-                <label htmlFor="checkboxRunning">Running</label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  id="checkboxStopped"
-                  name="checkboxStopped"
-                  value="stopped"
-                  defaultChecked
-                  onChange={handleStatusFilter}
-                />
-                <label htmlFor="checkboxStopped">Stopped</label>
-              </li>
-              <li>
-                <input
-                  type="checkbox"
-                  id="checkboxCompleted"
-                  name="checkboxCompleted"
-                  value="completed"
-                  defaultChecked
-                  onChange={handleStatusFilter}
-                />
-                <label htmlFor="checkboxCompleted">Completed</label>
-              </li>
+              {statuses.map((status, index) => (
+                <li key={index}>
+                  <input
+                    type="checkbox"
+                    id={`checkbox-${status}`}
+                    name={`checkbox-${status}`}
+                    value={status}
+                    checked={statusFilter.includes(status)}
+                    onChange={handleStatusFilter}
+                  />
+                  <label htmlFor={`checkbox-${status}`}>{capitalize(status)}</label>
+                </li>
+              ))}
             </ul>
           )}
         </div>
@@ -178,7 +168,7 @@ const BotListManager = ({ bots }) => {
                 </button>
               </div>
             </div>
-            <button className="remove-button" onClick={() => handleRemoveBot(bot)}>
+            <button className="remove-button" onClick={() => handleRemoveBot(index)}>
               <i className="bi bi-x"></i>
             </button>
           </li>
