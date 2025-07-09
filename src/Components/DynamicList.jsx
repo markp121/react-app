@@ -73,7 +73,7 @@ const DynamicList = () => {
               <li key={item.id} className="list-item">
                 {item.title}
                 <button
-                  className="remove-button"
+                  className="icon-button remove"
                   onClick={() => handleRemoveDynamicListItem(item)}
                 >
                   <i className="bi bi-x"></i>

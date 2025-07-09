@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import useClickOutside from "../Hooks/HandleClickOutside";
 import Modal from "../Components/Modal";
-import NewBotForm from "./NewBotForm";
+import NewBotForm from "./Forms/NewBotForm";
+import EditBotForm from "./Forms/EditBotForm";
 
 const statuses = ["running", "stopped", "completed"];
 
@@ -107,6 +108,12 @@ const BotListManager = () => {
     setFilteredList(filteredBotList);
   }, [botList, statusFilter]);
 
+  useEffect(() => {
+    const updatedBotList = bots.filter((bot) => botList.map((bot) => bot.id).includes(bot.id));
+    setBotList(updatedBotList);
+  }, [bots]);
+
+
   useClickOutside(wrapperRef, () => {
     setOptionsOpen(false);
   });
@@ -151,10 +158,10 @@ const BotListManager = () => {
     <div className="bot-list-manager">
       <div className="bot-list-header">
         <h2>Bot List Manager</h2>
-        <
-          Modal
+        <Modal
           deps={bots}
-          buttonText={"Create"}
+          openButtonClass={"button-neutral"}
+          openButtonInnerHtml={"Create"}
           modalContent={<NewBotForm bots={bots} setBots={setBots} />}
         />
       </div>
@@ -222,9 +229,17 @@ const BotListManager = () => {
                 </button>
               </div>
             </div>
-            <button className="remove-button" onClick={() => handleRemoveBot(index)}>
-              <i className="bi bi-x"></i>
-            </button>
+            <div className="list-item-buttons">
+              <button className="icon-button remove" onClick={() => handleRemoveBot(index)}>
+                <i className="bi bi-x"></i>
+              </button>
+              <Modal
+                deps={bots}
+                openButtonClass={"icon-button edit"}
+                openButtonInnerHtml={<i className="bi bi-pencil-square"></i>}
+                modalContent={<EditBotForm bots={bots} setBots={setBots} botListItem={bot} />}
+              />
+            </div>
           </li>
         ))}
       </ul>

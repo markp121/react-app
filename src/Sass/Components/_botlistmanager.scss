@@ -68,14 +68,22 @@
   #optionsCheckboxes {
     position: absolute;
     width: 110px;
-    top:40px;
+    top: 40px;
     right: 0;
     z-index: 1000;
     padding: 0.5rem;
     border-radius: 4px;
     background-color: variables.$primary;
     color: variables.$fontColour;
-    box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+    box-shadow:
+      rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+      rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
     user-select: none;
   }
+}
+
+.list-item-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }

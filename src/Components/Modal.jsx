@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
-const Modal = ({ deps, buttonText,  modalContent }) => {
+const Modal = ({ deps, openButtonClass, openButtonInnerHtml, modalContent }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -27,9 +27,9 @@ const Modal = ({ deps, buttonText,  modalContent }) => {
   }, [deps])
 
   return (
-    <div>
-      <button className="button-neutral" onClick={handleOpenModal}>
-        {buttonText}
+    <>
+      <button className={openButtonClass} onClick={handleOpenModal}>
+        {openButtonInnerHtml}
       </button>
       <ReactModal
         isOpen={showModal}
@@ -44,7 +44,7 @@ const Modal = ({ deps, buttonText,  modalContent }) => {
         </button>
         {modalContent}
       </ReactModal>
-    </div>
+    </>
   );
 };
 

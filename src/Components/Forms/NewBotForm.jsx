@@ -22,11 +22,11 @@ const NewBotForm = ({ bots, setBots }) => {
           <div>
             <label htmlFor="botName">Bot Name</label>
             <br />
-            <input type="text" id="botName" required />
+            <input type="text" id="botName" placeholder="Enter bot's name..." required />
           </div>
           <div>
             <label htmlFor="botTask">Bot Task</label> <br />
-            <input type="text" id="botTask" required />
+            <input type="text" id="botTask" placeholder="Enter bot's task..." required />
           </div>
         </div>
         <button type="submit" className="button-neutral">
