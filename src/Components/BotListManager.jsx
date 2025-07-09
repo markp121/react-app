@@ -1,9 +1,56 @@
 import React, { useEffect, useRef, useState } from "react";
 import useClickOutside from "../Hooks/HandleClickOutside";
+import Modal from "../Components/Modal";
+import NewBotForm from "./NewBotForm";
 
-const statuses = ["running", "stopped", "completed"]
+const statuses = ["running", "stopped", "completed"];
 
-const BotListManager = ({ bots }) => {
+const BotListManager = () => {
+  const [bots, setBots] = useState([
+    {
+      id: 0,
+      name: "Email Extractor",
+      task: "Extracting emails",
+      status: "Stopped",
+    },
+    {
+      id: 1,
+      name: "Notification Sender",
+      task: "Sending notifications",
+      status: "Stopped",
+    },
+    {
+      id: 2,
+      name: "Data Analyzer",
+      task: "Analyzing data",
+      status: "Stopped",
+    },
+    {
+      id: 3,
+      name: "Page Crawler",
+      task: "Crawl pages for relevant text",
+      status: "Stopped",
+    },
+    {
+      id: 4,
+      name: "Automated UI Tester",
+      task: "Execute test on application front-end",
+      status: "Stopped",
+    },
+    {
+      id: 5,
+      name: "Automated API Tester",
+      task: "Automated test of API calls",
+      status: "Stopped",
+    },
+    {
+      id: 6,
+      name: "Page Load Tester",
+      task: "Tracks performance of app page loads",
+      status: "Stopped",
+    },
+  ]);
+
   const [botList, setBotList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [statusFilter, setStatusFilter] = useState(statuses);
@@ -96,14 +143,21 @@ const BotListManager = ({ bots }) => {
     return Math.random() * (max - min) + min;
   }
 
-  function capitalize(s)
-  {
+  function capitalize(s) {
     return s && String(s[0]).toUpperCase() + String(s).slice(1);
   }
 
   return (
     <div className="bot-list-manager">
-      <h2>Bot List Manager</h2>
+      <div className="bot-list-header">
+        <h2>Bot List Manager</h2>
+        <
+          Modal
+          deps={bots}
+          buttonText={"Create"}
+          modalContent={<NewBotForm bots={bots} setBots={setBots} />}
+        />
+      </div>
       <div className="dropdown-form-container">
         <form onSubmit={handleSubmitBotForm}>
           <label htmlFor="addBot">Add a new bot:</label>
