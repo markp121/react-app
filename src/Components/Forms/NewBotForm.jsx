@@ -3,14 +3,15 @@ import React from "react";
 const NewBotForm = ({ bots, setBots }) => {
   const handleSubmitNewBotForm = (event) => {
     event.preventDefault();
-    const botNameElement = document.getElementById("botName");
-    const botTask = document.getElementById("botTask").value;
+    const form = event.target;
+    const botNameElement = form.querySelector("#botName");
+    const botTaskElement = form.querySelector("#botTask");
     const id = bots[bots.length - 1].id + 1;
     if (bots.map((bot) => bot.name.toLowerCase() === botNameElement.value.toLowerCase()).includes(true)) {
       alert("Duplicate Bot Name");
       return false;
     } else {
-      setBots([...bots, { id: id, name: botNameElement.value, task: botTask, status: "Stopped" }]);
+      setBots([...bots, { id: id, name: botNameElement.value, task: botTaskElement.value, status: "Stopped" }]);
     }
   };
 

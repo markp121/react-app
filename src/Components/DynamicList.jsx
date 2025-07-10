@@ -9,7 +9,7 @@ const DynamicList = () => {
 
   const handleSubmitDynamicListForm = (event) => {
     event.preventDefault();
-    const input = document.getElementById("textInput");
+    const input = event.target.getElementsByTagName("input")[0];
     setDynamicList([
       ...dynamicList,
       {
@@ -33,6 +33,7 @@ const DynamicList = () => {
           textInput={dynamicListInput}
           setTextInput={setDynamicListInput}
           placeholder={"Enter new list item..."}
+          required={true}
         />
         <input type="submit" hidden />
       </form>

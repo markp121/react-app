@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-const DynamicTextInput = ({ textInput, setTextInput, placeholder}) => {
+const DynamicTextInput = ({ textInput, setTextInput, placeholder, required }) => {
   const [showReset, setShowReset] = useState(false);
 
   const handleInputChange = (event) => {
@@ -10,7 +10,6 @@ const DynamicTextInput = ({ textInput, setTextInput, placeholder}) => {
   const handleResetInput = (event) => {
     const input = event.target.parentNode.getElementsByTagName("input")[0];
     input.value = "";
-    input.focus()
     setTextInput(input.value);
   };
 
@@ -19,14 +18,8 @@ const DynamicTextInput = ({ textInput, setTextInput, placeholder}) => {
   }, [textInput]);
 
   return (
-    <label className="text-input-field" htmlFor="textInput">
-      <input
-        type="text"
-        onChange={handleInputChange}
-        placeholder="&nbsp;"
-        id="textInput"
-        required
-      />
+    <label className="text-input-field">
+      <input type="text" onChange={handleInputChange} placeholder="&nbsp;" required={required} />
       <span className="label">{placeholder}</span>
       {showReset && (
         <span className="form-reset" onClick={handleResetInput}>

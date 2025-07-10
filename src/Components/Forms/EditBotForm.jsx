@@ -4,8 +4,8 @@ const EditBotForm = ({ bots, setBots, botListItem }) => {
   const handleEditBotForm = (event) => {
     event.preventDefault();
     const form = event.target;
-    const botNameElement = form.getElementById("botName");
-    const botTaskElement = form.getElementById("botTask");
+    const botNameElement = form.querySelector("#botName");
+    const botTaskElement = form.querySelector("#botTask");
     updateBotObject(botListItem.id, botNameElement.value, botTaskElement.value);
   };
 
