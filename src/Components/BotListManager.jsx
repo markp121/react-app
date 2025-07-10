@@ -1,88 +1,92 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import useClickOutside from "../Hooks/HandleClickOutside";
 import Modal from "../Components/Modal";
 import NewBotForm from "./Forms/NewBotForm";
 import EditBotForm from "./Forms/EditBotForm";
+import DynamicTextInput from "./DynamicTextInput";
 
 const statuses = ["running", "stopped", "completed"];
+const bots = [
+  {
+    id: 0,
+    name: "Email Extractor",
+    task: "Extracting emails",
+    status: "Stopped",
+  },
+  {
+    id: 1,
+    name: "Notification Sender",
+    task: "Sending notifications",
+    status: "Stopped",
+  },
+  {
+    id: 2,
+    name: "Data Analyzer",
+    task: "Analyzing data",
+    status: "Stopped",
+  },
+  {
+    id: 3,
+    name: "Page Crawler",
+    task: "Crawl pages for relevant text",
+    status: "Stopped",
+  },
+  {
+    id: 4,
+    name: "Automated UI Tester",
+    task: "Execute test on application front-end",
+    status: "Stopped",
+  },
+  {
+    id: 5,
+    name: "Automated API Tester",
+    task: "Automated test of API calls",
+    status: "Stopped",
+  },
+  {
+    id: 6,
+    name: "Page Load Tester",
+    task: "Tracks performance of app page loads",
+    status: "Stopped",
+  },
+];
 
 const BotListManager = () => {
-  const [bots, setBots] = useState([
-    {
-      id: 0,
-      name: "Email Extractor",
-      task: "Extracting emails",
-      status: "Stopped",
-    },
-    {
-      id: 1,
-      name: "Notification Sender",
-      task: "Sending notifications",
-      status: "Stopped",
-    },
-    {
-      id: 2,
-      name: "Data Analyzer",
-      task: "Analyzing data",
-      status: "Stopped",
-    },
-    {
-      id: 3,
-      name: "Page Crawler",
-      task: "Crawl pages for relevant text",
-      status: "Stopped",
-    },
-    {
-      id: 4,
-      name: "Automated UI Tester",
-      task: "Execute test on application front-end",
-      status: "Stopped",
-    },
-    {
-      id: 5,
-      name: "Automated API Tester",
-      task: "Automated test of API calls",
-      status: "Stopped",
-    },
-    {
-      id: 6,
-      name: "Page Load Tester",
-      task: "Tracks performance of app page loads",
-      status: "Stopped",
-    },
-  ]);
-
-  const [botList, setBotList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
+  const [botsState, setBotsState] = useState(bots);
+  const [displayedBots, setDisplayedBots] = useState([]);
   const [statusFilter, setStatusFilter] = useState(statuses);
   const [optionsOpen, setOptionsOpen] = useState(false);
+  const [searchText, setSearchText] = useState("");
 
   const timeoutRef = useRef(null);
   const wrapperRef = useRef("filterOptions");
 
-  const handleSubmitBotForm = (event) => {
+  const handleAddBotForm = (event) => {
     event.preventDefault();
     const addBotElement = document.getElementById("addBot");
-    setBotList([...botList, bots.filter((bot) => bot.name === addBotElement.value)[0]]);
+    setDisplayedBots([
+      ...displayedBots,
+      botsState.filter((bot) => bot.name === addBotElement.value)[0],
+    ]);
     addBotElement.value = "";
   };
 
   const handleRemoveBot = (index) => {
-    setBotList((s) => [
-      ...s.slice(0, index),
-      ...s.slice(index + 1),
+    setDisplayedBots((displayedBots) => [
+      ...displayedBots.slice(0, index),
+      ...displayedBots.slice(index + 1),
     ]);
     if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
     }
   };
 
-  const handleChangeJobStatus = (event, index) => {
-    if (botList[index].status.toLowerCase() === "running") {
+  const handleChangeBotStatus = (event, index) => {
+    if (displayedBots[index].status.toLowerCase() === "running") {
       stopBot(event, index);
-    } else if (botList[index].status.toLowerCase() === "stopped") {
+    } else if (displayedBots[index].status.toLowerCase() === "stopped") {
       startBot(event, index);
-    } else if (botList[index].status.toLowerCase() === "completed") {
+    } else if (displayedBots[index].status.toLowerCase() === "completed") {
       const confirm = window.confirm("Do you want to restart the bot?");
       if (confirm) {
         startBot(event, index);
@@ -90,7 +94,7 @@ const BotListManager = () => {
     }
   };
 
-  const handleStatusFilter = (event) => {
+  const handleStatusCheckboxChange = (event) => {
     const checked = event.target.checked;
     if (checked) {
       if (!statusFilter.includes(event.target.value)) {
@@ -101,29 +105,30 @@ const BotListManager = () => {
     }
   };
 
-  useEffect(() => {
-    const filteredBotList = botList.filter((bot) =>
-      statusFilter.includes(bot.status.toLowerCase()),
+  const filteredBotList = useMemo(() => {
+    return displayedBots.filter(
+      (bot) =>
+        statusFilter.includes(bot.status.toLowerCase()) &&
+        bot.name.toLowerCase().includes(searchText.toLowerCase()),
     );
-    setFilteredList(filteredBotList);
-  }, [botList, statusFilter]);
+  }, [displayedBots, statusFilter, searchText]);
 
   useEffect(() => {
-    const updatedBotList = bots.filter((bot) => botList.map((bot) => bot.id).includes(bot.id));
-    setBotList(updatedBotList);
-  }, [bots]);
-
+    setDisplayedBots((displayedBots) =>
+      botsState.filter((bot) => displayedBots.map((bot) => bot.id).includes(bot.id)),
+    );
+  }, [botsState]);
 
   useClickOutside(wrapperRef, () => {
     setOptionsOpen(false);
   });
 
   function startBot(event, index) {
-    updateObj(index, "status", "Running");
+    updateBotStatus(index, "Running");
     event.target.innerText = "Stop Bot";
     timeoutRef.current = setTimeout(
       () => {
-        updateObj(index, "status", "Completed");
+        updateBotStatus(index, "Completed");
         event.target.innerText = "Start Bot";
       },
       getRandomArbitrary(4000, 10000),
@@ -131,18 +136,18 @@ const BotListManager = () => {
   }
 
   function stopBot(event, index) {
-    updateObj(index, "status", "Stopped");
+    updateBotStatus(index, "Stopped");
     event.target.innerText = "Start Bot";
     if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
     }
   }
 
-  function updateObj(index, key, value) {
-    setBotList((s) => [
-      ...s.slice(0, index),
-      { ...s[index], [key]: value },
-      ...s.slice(index + 1),
+  function updateBotStatus(index, value) {
+    setDisplayedBots((displayedBots) => [
+      ...displayedBots.slice(0, index),
+      { ...displayedBots[index], status: value },
+      ...displayedBots.slice(index + 1),
     ]);
   }
 
@@ -159,21 +164,24 @@ const BotListManager = () => {
       <div className="bot-list-header">
         <h2>Bot List Manager</h2>
         <Modal
-          deps={bots}
+          deps={botsState}
           openButtonClass={"button-neutral"}
           openButtonInnerHtml={"Create"}
-          modalContent={<NewBotForm bots={bots} setBots={setBots} />}
+          modalContent={<NewBotForm bots={botsState} setBots={setBotsState} />}
         />
       </div>
-      <div className="dropdown-form-container">
-        <form onSubmit={handleSubmitBotForm}>
+      <div className="bot-list-search">
+        <DynamicTextInput textInput={searchText} setTextInput={setSearchText} placeholder={"Search bots..."}/>
+      </div>
+      <div className="bot-list-add">
+        <form onSubmit={handleAddBotForm}>
           <label htmlFor="addBot">Add a new bot:</label>
           <select defaultValue="" name="bots" id="addBot" required>
             <option value="" disabled>
               Select Bot...
             </option>
-            {bots.map((bot) => (
-              <option key={bot.id} value={bot.name}>
+            {botsState.map((bot, index) => (
+              <option key={index} value={bot.name}>
                 {bot.name}
               </option>
             ))}
@@ -201,7 +209,7 @@ const BotListManager = () => {
                     name={`checkbox-${status}`}
                     value={status}
                     checked={statusFilter.includes(status)}
-                    onChange={handleStatusFilter}
+                    onChange={handleStatusCheckboxChange}
                   />
                   <label htmlFor={`checkbox-${status}`}>{capitalize(status)}</label>
                 </li>
@@ -211,8 +219,8 @@ const BotListManager = () => {
         </div>
       </div>
       <ul>
-        {filteredList.map((bot, index) => (
-          <li key={index} className="list-item-bot">
+        {filteredBotList.map((bot, index) => (
+          <li key={index} className="bot-list-item">
             <div>
               <h3>{bot.name}</h3>
               <p>{bot.task}</p>
@@ -223,21 +231,23 @@ const BotListManager = () => {
                 </div>
                 <button
                   className="button-neutral"
-                  onClick={(event) => handleChangeJobStatus(event, index)}
+                  onClick={(event) => handleChangeBotStatus(event, index)}
                 >
                   Start Bot
                 </button>
               </div>
             </div>
-            <div className="list-item-buttons">
+            <div className="bot-list-item-buttons">
               <button className="icon-button remove" onClick={() => handleRemoveBot(index)}>
                 <i className="bi bi-x"></i>
               </button>
               <Modal
-                deps={bots}
+                deps={botsState}
                 openButtonClass={"icon-button edit"}
                 openButtonInnerHtml={<i className="bi bi-pencil-square"></i>}
-                modalContent={<EditBotForm bots={bots} setBots={setBots} botListItem={bot} />}
+                modalContent={
+                  <EditBotForm bots={botsState} setBots={setBotsState} botListItem={bot} />
+                }
               />
             </div>
           </li>

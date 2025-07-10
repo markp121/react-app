@@ -3,16 +3,17 @@ import React from "react";
 const EditBotForm = ({ bots, setBots, botListItem }) => {
   const handleEditBotForm = (event) => {
     event.preventDefault();
-    const botNameElement = document.getElementById("botName");
-    const botTaskElement = document.getElementById("botTask");
+    const form = event.target;
+    const botNameElement = form.getElementById("botName");
+    const botTaskElement = form.getElementById("botTask");
     updateBotObject(botListItem.id, botNameElement.value, botTaskElement.value);
   };
 
   function updateBotObject(id, newName, newTask) {
     const index = bots.findIndex((bot) => bot.id === id);
-    setBots(bots => [
+    setBots((bots) => [
       ...bots.slice(0, index),
-      { ...bots[index], "name": newName, "task": newTask },
+      { ...bots[index], name: newName, task: newTask },
       ...bots.slice(index + 1),
     ]);
   }
