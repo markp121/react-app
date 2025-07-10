@@ -19,7 +19,13 @@ const DynamicTextInput = ({ textInput, setTextInput, placeholder, required }) =>
 
   return (
     <label className="text-input-field">
-      <input type="text" onChange={handleInputChange} placeholder="&nbsp;" required={required} />
+      <input
+        type="text"
+        onChange={handleInputChange}
+        placeholder="&nbsp;"
+        name="textInput"
+        required={required}
+      />
       <span className="label">{placeholder}</span>
       {showReset && (
         <span className="form-reset" onClick={handleResetInput}>

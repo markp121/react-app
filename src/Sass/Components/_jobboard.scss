@@ -49,15 +49,18 @@
   display: inline-block;
   margin-right: 0.25rem;
 
-  &.assigned, &.running{
+  &.assigned,
+  &.running {
     background: yellow;
   }
 
-  &.unassigned, &.stopped {
+  &.unassigned,
+  &.stopped {
     background: red;
   }
 
-  &.finished, &.completed {
+  &.finished,
+  &.completed {
     background: green;
   }
 }

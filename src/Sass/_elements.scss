@@ -58,18 +58,24 @@ li {
   font-family: variables.$font;
   font-size: 0.9rem;
   padding: 0.25rem 0.5rem;
-  box-shadow: rgba(60, 64, 67, 0.3) 0 1px 3px 0, rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
-  transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+  box-shadow:
+    rgba(60, 64, 67, 0.3) 0 1px 3px 0,
+    rgba(60, 64, 67, 0.15) 0 4px 8px 3px;
+  transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
 
   &:not(:disabled):hover {
-    background: #F6F9FE;
+    background: #f6f9fe;
     color: #174ea6;
-    box-shadow: rgba(60, 64, 67, 0.3) 0 2px 3px 0, rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
+    box-shadow:
+      rgba(60, 64, 67, 0.3) 0 2px 3px 0,
+      rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
   }
 
   &:not(:disabled):active {
-    box-shadow: rgba(60, 64, 67, 0.3) 0 4px 4px 0, rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
+    box-shadow:
+      rgba(60, 64, 67, 0.3) 0 4px 4px 0,
+      rgba(60, 64, 67, 0.15) 0 8px 12px 6px;
     outline: none;
   }
 
@@ -104,7 +110,7 @@ li {
 
   &.edit {
     font-size: 1.3rem;
-    color: #0004e7;;
+    color: #0004e7;
 
     &:hover {
       color: #0a0b6c;

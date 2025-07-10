@@ -24,7 +24,7 @@ const Modal = ({ deps, openButtonClass, openButtonInnerHtml, modalContent }) => 
 
   useEffect(() => {
     handleCloseModal();
-  }, [deps])
+  }, [deps]);
 
   return (
     <>

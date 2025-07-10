@@ -3,9 +3,7 @@ import React, { useState } from "react";
 const JobCounter = () => {
   const [env, setEnv] = useState("Production");
   const [jobCount, setJobCount] = useState(0);
-  const [message, setMessage] = useState(
-    `No jobs available in ${env} environment.`,
-  );
+  const [message, setMessage] = useState(`No jobs available in ${env} environment.`);
   let nextCount = jobCount;
   let newEnv = env;
 
@@ -54,10 +52,18 @@ const JobCounter = () => {
       <h2>Job Counter</h2>
       <p>Current Jobs: {jobCount}</p>
       <div className="job-counter-buttons">
-        <button className="button-neutral" onClick={handleAddJob}>Add Job</button>
-        <button className="button-neutral" onClick={handleRemoveJob}>Remove Job</button>
-        <button className="button-neutral" onClick={handleClearJobs}>Clear Jobs</button>
-        <button className="button-neutral" onClick={handleToggleEnv}>Toggle Environment</button>
+        <button className="button-neutral" onClick={handleAddJob}>
+          Add Job
+        </button>
+        <button className="button-neutral" onClick={handleRemoveJob}>
+          Remove Job
+        </button>
+        <button className="button-neutral" onClick={handleClearJobs}>
+          Clear Jobs
+        </button>
+        <button className="button-neutral" onClick={handleToggleEnv}>
+          Toggle Environment
+        </button>
       </div>
       <h3>{message}</h3>
     </div>
