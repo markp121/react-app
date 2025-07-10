@@ -16,6 +16,10 @@ const EditBotForm = ({ botsState, setBotsState, botListItem }) => {
     }
   };
 
+  const handleDeleteBot = () => {
+    setBotsState(botsState.filter((a) => a.id !== botListItem.id));
+  };
+
   function updateBotObject(id, newName, newTask) {
     const index = botsState.findIndex((bot) => bot.id === id);
     setBotsState((botsState) => [
@@ -27,7 +31,10 @@ const EditBotForm = ({ botsState, setBotsState, botListItem }) => {
 
   return (
     <>
-      <h2>Edit Bot</h2>
+      <div className="modal-header">
+        <h2>Edit Bot</h2>
+        <button className="button danger" onClick={handleDeleteBot}>Delete</button>
+      </div>
       <form className="modal-form" onSubmit={handleEditBotForm}>
         <div className="form-inputs">
           <div>
@@ -40,7 +47,7 @@ const EditBotForm = ({ botsState, setBotsState, botListItem }) => {
             <input type="text" id="botTask" defaultValue={botListItem.task} required />
           </div>
         </div>
-        <button type="submit" className="button-neutral">
+        <button type="submit" className="button success">
           Save Bot
         </button>
       </form>

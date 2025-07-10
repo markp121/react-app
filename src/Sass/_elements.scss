@@ -49,7 +49,7 @@ li {
   }
 }
 
-.button-neutral {
+.button {
   background-color: variables.$buttonAlt;
   border-radius: 12px;
   border: solid 2px transparent;
@@ -65,8 +65,6 @@ li {
   user-select: none;
 
   &:not(:disabled):hover {
-    background: #f6f9fe;
-    color: #174ea6;
     box-shadow:
       rgba(60, 64, 67, 0.3) 0 2px 3px 0,
       rgba(60, 64, 67, 0.15) 0 6px 10px 4px;
@@ -81,12 +79,52 @@ li {
 
   &:not(:disabled):focus {
     outline: none;
-    border: 2px solid #4285f4;
   }
 
   &:disabled {
     opacity: 0.2;
     cursor: not-allowed;
+  }
+
+  &.neutral {
+    &:not(:disabled):hover {
+      background: #f6f9fe;
+      color: #174ea6;
+    }
+
+    &:not(:disabled):focus {
+      border-color: #4285f4;
+    }
+  }
+
+  &.success {
+    &:not(:disabled):hover {
+      background: #28a745;
+      color: variables.$primary;
+    }
+
+    &:not(:disabled):active {
+      background: #1e7e34;
+    }
+
+    &:not(:disabled):focus {
+      border-color: rgba(40, 167, 69, 0.5);
+    }
+  }
+
+  &.danger {
+    &:not(:disabled):hover {
+      background: #dc3545;
+      color: variables.$primary;
+    }
+
+    &:not(:disabled):active {
+      background: #bd2130
+    }
+
+    &:not(:disabled):focus {
+      border-color: rgba(220, 53, 69, 0.5);
+    }
   }
 }
 

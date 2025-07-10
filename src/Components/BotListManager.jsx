@@ -84,10 +84,12 @@ const BotListManager = ({ bots }) => {
   function startBot(event, index) {
     updateBotStatus(index, "Running");
     event.target.innerText = "Stop Bot";
+    event.target.classList = "button danger";
     timeoutRef.current = setTimeout(
       () => {
         updateBotStatus(index, "Completed");
         event.target.innerText = "Start Bot";
+        event.target.classList = "button success";
       },
       getRandomArbitrary(4000, 10000),
     );
@@ -96,6 +98,7 @@ const BotListManager = ({ bots }) => {
   function stopBot(event, index) {
     updateBotStatus(index, "Stopped");
     event.target.innerText = "Start Bot";
+    event.target.classList = "button success";
     if (timeoutRef.current !== null) {
       clearTimeout(timeoutRef.current);
     }
@@ -123,7 +126,7 @@ const BotListManager = ({ bots }) => {
         <h2>Bot List Manager</h2>
         <Modal
           deps={botsState}
-          openButtonClass={"button-neutral"}
+          openButtonClass={"button neutral"}
           openButtonInnerHtml={"Create"}
           modalContent={<NewBotForm botsState={botsState} setBotsState={setBotsState} />}
         />
@@ -149,7 +152,7 @@ const BotListManager = ({ bots }) => {
               </option>
             ))}
           </select>
-          <button type="submit" className="button-neutral">
+          <button type="submit" className="button success">
             Add Bot
           </button>
         </form>
@@ -157,7 +160,7 @@ const BotListManager = ({ bots }) => {
           <button
             id="optionsToggle"
             type="button"
-            className="button-neutral"
+            className="button neutral"
             onClick={() => setOptionsOpen(!optionsOpen)}
           >
             <i className="bi bi-list"></i>
@@ -193,7 +196,7 @@ const BotListManager = ({ bots }) => {
                   {bot.status}
                 </div>
                 <button
-                  className="button-neutral"
+                  className="button success"
                   onClick={(event) => handleChangeBotStatus(event, index)}
                 >
                   Start Bot
@@ -209,7 +212,11 @@ const BotListManager = ({ bots }) => {
                 openButtonClass={"icon-button edit"}
                 openButtonInnerHtml={<i className="bi bi-pencil-square"></i>}
                 modalContent={
-                  <EditBotForm botsState={botsState} setBotsState={setBotsState} botListItem={bot} />
+                  <EditBotForm
+                    botsState={botsState}
+                    setBotsState={setBotsState}
+                    botListItem={bot}
+                  />
                 }
               />
             </div>

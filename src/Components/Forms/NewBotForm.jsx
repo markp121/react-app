@@ -34,8 +34,8 @@ const NewBotForm = ({ botsState, setBotsState }) => {
             <input type="text" id="botTask" placeholder="Enter bot's task..." required />
           </div>
         </div>
-        <button type="submit" className="button-neutral">
-          Add Bot
+        <button type="submit" className="button success">
+          Create Bot
         </button>
       </form>
     </>
