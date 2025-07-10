@@ -1,20 +1,27 @@
 import React from "react";
 
-const EditBotForm = ({ bots, setBots, botListItem }) => {
+const EditBotForm = ({ botsState, setBotsState, botListItem }) => {
   const handleEditBotForm = (event) => {
     event.preventDefault();
     const form = event.target;
-    const botNameElement = form.querySelector("#botName");
-    const botTaskElement = form.querySelector("#botTask");
-    updateBotObject(botListItem.id, botNameElement.value, botTaskElement.value);
+    const botName = form.querySelector("#botName");
+    const botTask = form.querySelector("#botTask");
+
+    const compare = botsState.filter((bot) => bot.id !== botListItem.id);
+    if (compare.filter((bot) => bot.name.toLowerCase() === botName.value.toLowerCase()).length) {
+      alert("Duplicate Bot Name!");
+      return false;
+    } else {
+      updateBotObject(botListItem.id, botName.value, botTask.value);
+    }
   };
 
   function updateBotObject(id, newName, newTask) {
-    const index = bots.findIndex((bot) => bot.id === id);
-    setBots((bots) => [
-      ...bots.slice(0, index),
-      { ...bots[index], name: newName, task: newTask },
-      ...bots.slice(index + 1),
+    const index = botsState.findIndex((bot) => bot.id === id);
+    setBotsState((botsState) => [
+      ...botsState.slice(0, index),
+      { ...botsState[index], name: newName, task: newTask },
+      ...botsState.slice(index + 1),
     ]);
   }
 

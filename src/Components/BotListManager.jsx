@@ -125,7 +125,7 @@ const BotListManager = ({ bots }) => {
           deps={botsState}
           openButtonClass={"button-neutral"}
           openButtonInnerHtml={"Create"}
-          modalContent={<NewBotForm bots={botsState} setBots={setBotsState} />}
+          modalContent={<NewBotForm botsState={botsState} setBotsState={setBotsState} />}
         />
       </div>
       <div className="bot-list-search">
@@ -209,7 +209,7 @@ const BotListManager = ({ bots }) => {
                 openButtonClass={"icon-button edit"}
                 openButtonInnerHtml={<i className="bi bi-pencil-square"></i>}
                 modalContent={
-                  <EditBotForm bots={botsState} setBots={setBotsState} botListItem={bot} />
+                  <EditBotForm botsState={botsState} setBotsState={setBotsState} botListItem={bot} />
                 }
               />
             </div>
