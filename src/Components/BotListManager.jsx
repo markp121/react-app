@@ -124,12 +124,9 @@ const BotListManager = ({ bots }) => {
     <div className="bot-list-manager">
       <div className="bot-list-header">
         <h2>Bot List Manager</h2>
-        <Modal
-          deps={botsState}
-          openButtonClass={"button neutral"}
-          openButtonInnerHtml={"Create"}
-          modalContent={<NewBotForm botsState={botsState} setBotsState={setBotsState} />}
-        />
+        <Modal deps={botsState} openButtonClass={"button neutral"} openButtonInnerHtml={"Create"}>
+          <NewBotForm botsState={botsState} setBotsState={setBotsState} />
+        </Modal>
       </div>
       <div className="bot-list-search">
         <DynamicTextInput
@@ -211,14 +208,9 @@ const BotListManager = ({ bots }) => {
                 deps={botsState}
                 openButtonClass={"icon-button edit"}
                 openButtonInnerHtml={<i className="bi bi-pencil-square"></i>}
-                modalContent={
-                  <EditBotForm
-                    botsState={botsState}
-                    setBotsState={setBotsState}
-                    botListItem={bot}
-                  />
-                }
-              />
+              >
+                <EditBotForm botsState={botsState} setBotsState={setBotsState} botListItem={bot} />
+              </Modal>
             </div>
           </li>
         ))}

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
-const Modal = ({ deps, openButtonClass, openButtonInnerHtml, modalContent }) => {
+const Modal = ({ deps, openButtonClass, openButtonInnerHtml, children }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -42,7 +42,7 @@ const Modal = ({ deps, openButtonClass, openButtonInnerHtml, modalContent }) => 
         <button onClick={handleCloseModal} className="close-modal">
           <i className="bi bi-x"></i>
         </button>
-        {modalContent}
+        {children}
       </ReactModal>
     </>
   );
