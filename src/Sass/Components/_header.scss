@@ -1,0 +1,84 @@
+@use "../variables";
+
+.header-container {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  border-radius: 0 0 10px 10px;
+  padding: 0.4rem;
+  background-color: variables.$tertiary;
+  border: solid 1px black;
+  max-height: 50px;
+}
+
+.navbar-container {
+  border-radius: 6px;
+  display: flex;
+  background-color: variables.$secondary;
+  justify-content: center;
+}
+
+.navbar {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  text-align: start;
+}
+
+.navbar-item {
+  position: relative;
+  text-align: center;
+  background: none;
+  outline: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+
+  .navbar-button {
+    font-family: variables.$font;
+    font-size: 1.2rem;
+    background-color: variables.$secondary;
+    position: relative;
+    z-index: 10;
+    display: inline-flex;
+    align-items: center;
+    justify-content:  center;
+    overflow: hidden;
+    border: solid 1px transparent;
+    padding: 0.8rem 1.5rem;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .navbar-button-background {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    transition: all 0.2s ease-in-out;
+  }
+
+  &:hover {
+    .navbar-button {
+      border: solid 1px black;
+      transform: translateX(-4px) translateY(-4px);
+
+    }
+
+    .navbar-button-background {
+      transform: translateX(-4px) translateY(-4px);
+      box-shadow: 4px 4px variables.$buttons;
+    }
+  }
+
+  &:active {
+    .navbar-button {
+      transform: translateX(0) translateY(0);
+    }
+
+    .navbar-button-background {
+      transform: translateX(0) translateY(0);
+      box-shadow: 0 0 #0000;
+    }
+  }
+}

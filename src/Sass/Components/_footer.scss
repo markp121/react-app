@@ -1,0 +1,7 @@
+@use "../variables";
+
+.main-footer {
+  background-color: variables.$secondary;
+  display: flex;
+  justify-content: center;
+}
