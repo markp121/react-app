@@ -29,12 +29,11 @@ li {
   position: fixed;
   top: 0;
   bottom: 0;
-  padding: 1rem;
   border: solid 1px black;
   background-color: variables.$tertiary;
   overflow: auto;
   scrollbar-width: none;
-  width: 18vw;
+  transition: width 500ms ease-in-out;
 
   &.left {
     left: 0;
@@ -47,6 +46,38 @@ li {
     border-radius: 8px 0 0 8px;
     box-shadow: rgba(0, 0, 0, 0.35) 0 -5px 15px;
   }
+
+  &.open {
+    width: 18vw;
+
+    :nth-child(n) {
+      opacity: 1;
+      transition: opacity 500ms ease
+    }
+  }
+
+  &.close {
+    overflow: hidden;
+    width: 0;
+
+    :nth-child(n) {
+      opacity: 0;
+      transition: opacity 500ms ease
+    }
+  }
+}
+
+.sidebar-content-container {
+  position: relative;
+  margin: 1rem;
+  width: auto;
+  height: 100%;
+}
+
+.sidebar-content {
+  position: absolute;
+  width: 100%;
+  top: 45px;
 }
 
 .button {
@@ -124,6 +155,22 @@ li {
 
     &:not(:disabled):focus {
       border-color: rgba(220, 53, 69, 0.5);
+    }
+  }
+
+  &.sidebarBtn {
+    position: fixed;
+    z-index: 10;
+    font-size: 2rem;
+
+    &.left {
+      left: 12px;
+      top:16px
+    }
+
+    &.right {
+      right: 12px;
+      top:16px
     }
   }
 }

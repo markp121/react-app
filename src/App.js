@@ -5,6 +5,8 @@ import JobBoard from "./Components/JobBoard";
 import JobCounter from "./Components/JobCounter";
 import DynamicList from "./Components/DynamicList";
 import BotListManager from "./Components/BotListManager";
+import Sidebar from "./Components/Sidebar";
+
 import profiles from "./Data/Profiles";
 import bots from "./Data/Bots";
 import jobs from "./Data/Jobs";
@@ -12,14 +14,14 @@ import jobs from "./Data/Jobs";
 const App = () => {
   return (
     <div>
-      <aside className="sidebar left">
+      <Sidebar sidebarClass={"left"}>
         <JobBoard jobs={jobs} />
-      </aside>
-      <h1>Team Profiles</h1>
-      <aside className="sidebar right">
+      </Sidebar>
+      <Sidebar sidebarClass={"right"}>
         <DynamicList />
         <BotListManager bots={bots} />
-      </aside>
+      </Sidebar>
+      <h1>Team Profiles</h1>
       <ul>
         {profiles.map((profile) => (
           <li key={profile.id}>
