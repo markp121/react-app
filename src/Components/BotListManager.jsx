@@ -61,6 +61,17 @@ const BotListManager = ({ bots }) => {
     }
   };
 
+  const handleDeleteBot = (deletedItem, closeModal = () => {}) => {
+    const confirm = window.confirm("Are you sure you want to delete this bot?");
+    if (confirm) {
+      setBotsState(botsState.filter((a) => a.id !== deletedItem.id));
+      if (timeoutRef.current !== null) {
+        clearTimeout(timeoutRef.current);
+      }
+      closeModal();
+    }
+  };
+
   const filteredBotList = useMemo(() => {
     return displayedBots.filter(
       (bot) =>
@@ -124,7 +135,7 @@ const BotListManager = ({ bots }) => {
     <div className="bot-list-manager">
       <div className="bot-list-header">
         <h2>Bot List Manager</h2>
-        <Modal deps={botsState} openButtonClass={"button neutral"} openButtonInnerHtml={"Create"}>
+        <Modal openButtonClass={"button neutral"} openButtonInnerHtml={"Create"}>
           <NewBotForm botsState={botsState} setBotsState={setBotsState} />
         </Modal>
       </div>
@@ -205,12 +216,19 @@ const BotListManager = ({ bots }) => {
                 <i className="bi bi-x"></i>
               </button>
               <Modal
-                deps={botsState}
                 openButtonClass={"icon-button edit"}
-                openButtonInnerHtml={<i className="bi bi-pencil-square"></i>}
+                openButtonInnerHtml={<i className="bi bi-pencil"></i>}
               >
-                <EditBotForm botsState={botsState} setBotsState={setBotsState} botListItem={bot} />
+                <EditBotForm
+                  botsState={botsState}
+                  setBotsState={setBotsState}
+                  botListItem={bot}
+                  handleDeleteFunc={handleDeleteBot}
+                />
               </Modal>
+              <button className="icon-button delete" onClick={() => handleDeleteBot(bot)}>
+                <i className="bi bi-trash"></i>
+              </button>
             </div>
           </li>
         ))}

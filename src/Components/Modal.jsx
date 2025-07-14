@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import ReactModal from "react-modal";
 
-const Modal = ({ deps, openButtonClass, openButtonInnerHtml, children }) => {
+const Modal = ({ openButtonClass, openButtonInnerHtml, children }) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = () => {
@@ -22,10 +22,6 @@ const Modal = ({ deps, openButtonClass, openButtonInnerHtml, children }) => {
     }
   }, [showModal]);
 
-  useEffect(() => {
-    handleCloseModal();
-  }, [deps]);
-
   return (
     <>
       <button className={openButtonClass} onClick={handleOpenModal}>
@@ -42,7 +38,7 @@ const Modal = ({ deps, openButtonClass, openButtonInnerHtml, children }) => {
         <button onClick={handleCloseModal} className="close-modal">
           <i className="bi bi-x"></i>
         </button>
-        {children}
+        {React.cloneElement(children, { onSuccess: handleCloseModal })}
       </ReactModal>
     </>
   );

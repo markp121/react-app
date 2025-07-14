@@ -1,6 +1,6 @@
 import React from "react";
 
-const NewBotForm = ({ botsState, setBotsState }) => {
+const NewBotForm = ({ botsState, setBotsState, onSuccess }) => {
   const handleSubmitNewBotForm = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -17,6 +17,7 @@ const NewBotForm = ({ botsState, setBotsState }) => {
         { id: id, name: botName.value, task: botTask.value, status: "Stopped" },
       ]);
     }
+    onSuccess();
   };
 
   return (

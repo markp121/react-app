@@ -56,7 +56,7 @@ li {
 
     :nth-child(n) {
       opacity: 1;
-      transition: opacity 500ms ease
+      transition: opacity 500ms ease;
     }
   }
 
@@ -67,7 +67,7 @@ li {
 
     :nth-child(n) {
       opacity: 0;
-      transition: opacity 500ms ease
+      transition: opacity 500ms ease;
     }
   }
 }
@@ -155,7 +155,7 @@ li {
     }
 
     &:not(:disabled):active {
-      background: #bd2130
+      background: #bd2130;
     }
 
     &:not(:disabled):focus {
@@ -194,6 +194,15 @@ li {
 
     &:hover {
       color: #9f0712;
+    }
+  }
+
+  &.delete {
+    font-size: 1.3rem;
+    color: #dc3545;
+
+    &:hover {
+      color: #bd2130;
     }
   }
 

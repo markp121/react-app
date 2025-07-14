@@ -1,6 +1,6 @@
 import React from "react";
 
-const EditBotForm = ({ botsState, setBotsState, botListItem }) => {
+const EditBotForm = ({ botsState, setBotsState, botListItem, handleDeleteFunc, onSuccess }) => {
   const handleEditBotForm = (event) => {
     event.preventDefault();
     const form = event.target;
@@ -14,10 +14,7 @@ const EditBotForm = ({ botsState, setBotsState, botListItem }) => {
     } else {
       updateBotObject(botListItem.id, botName.value, botTask.value);
     }
-  };
-
-  const handleDeleteBot = () => {
-    setBotsState(botsState.filter((a) => a.id !== botListItem.id));
+    onSuccess();
   };
 
   function updateBotObject(id, newName, newTask) {
@@ -33,7 +30,9 @@ const EditBotForm = ({ botsState, setBotsState, botListItem }) => {
     <>
       <div className="modal-header">
         <h2>Edit Bot</h2>
-        <button className="button danger" onClick={handleDeleteBot}>Delete</button>
+        <button className="button danger" onClick={() => handleDeleteFunc(botListItem, onSuccess)}>
+          Delete
+        </button>
       </div>
       <form className="modal-form" onSubmit={handleEditBotForm}>
         <div className="form-inputs">

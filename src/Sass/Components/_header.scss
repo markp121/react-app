@@ -5,7 +5,7 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 100;
+  z-index: 10;
   border-radius: 0 0 10px 10px;
   padding: 0.4rem;
   background-color: variables.$tertiary;
@@ -44,7 +44,7 @@
     z-index: 10;
     display: inline-flex;
     align-items: center;
-    justify-content:  center;
+    justify-content: center;
     overflow: hidden;
     border: solid 1px transparent;
     padding: 0.8rem 1.5rem;
@@ -62,7 +62,6 @@
     .navbar-button {
       border: solid 1px black;
       transform: translateX(-4px) translateY(-4px);
-
     }
 
     .navbar-button-background {
