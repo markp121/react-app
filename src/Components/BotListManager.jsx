@@ -6,10 +6,11 @@ import DynamicTextInput from "./DynamicTextInput";
 import BotListItem from "./BotListItem";
 
 const statuses = ["running", "stopped", "completed"];
+let listId = 0;
 
 const BotListManager = ({ bots }) => {
   const [botsState, setBotsState] = useState(bots);
-  const [displayedBots, setDisplayedBots] = useState([]);
+  const [botList, setBotList] = useState([]);
   const [statusFilter, setStatusFilter] = useState(statuses);
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
@@ -19,9 +20,13 @@ const BotListManager = ({ bots }) => {
   const handleAddBotForm = (event) => {
     event.preventDefault();
     const addBotElement = document.getElementById("addBot");
-    setDisplayedBots([
-      ...displayedBots,
-      botsState.filter((bot) => bot.name === addBotElement.value)[0],
+    setBotList([
+      ...botList,
+      Object.assign(
+        {},
+        { listId: listId++ },
+        botsState.filter((bot) => bot.name === addBotElement.value)[0],
+      ),
     ]);
     addBotElement.value = "";
   };
@@ -38,17 +43,16 @@ const BotListManager = ({ bots }) => {
   };
 
   const filteredBotList = useMemo(() => {
-    return displayedBots.filter(
-      (bot) =>
-        statusFilter.includes(bot.status.toLowerCase()) &&
-        bot.name.toLowerCase().includes(searchText.toLowerCase()),
+    return botList.filter(
+      (botListItem) =>
+        statusFilter.includes(botListItem.status.toLowerCase()) &&
+        botListItem.name.toLowerCase().includes(searchText.toLowerCase()),
     );
-  }, [displayedBots, statusFilter, searchText]);
+  }, [botList, statusFilter, searchText]);
 
   useEffect(() => {
-    setDisplayedBots((displayedBots) =>
-      botsState.filter((bot) => displayedBots.map((displayedBot) => displayedBot.id).includes(bot.id),
-      ),
+    setBotList((botList) =>
+      botsState.filter((bot) => botList.map((botListItem) => botListItem.id).includes(bot.id)),
     );
   }, [botsState]);
 
@@ -124,12 +128,10 @@ const BotListManager = ({ bots }) => {
       <ul>
         {filteredBotList.map((bot, index) => (
           <BotListItem
-            bot={bot}
-            index={index}
+            botListItem={bot}
             botsState={botsState}
             setBotsState={setBotsState}
-            displayedBots={displayedBots}
-            setDisplayedBots={setDisplayedBots}
+            setBotList={setBotList}
             key={index}
           />
         ))}
