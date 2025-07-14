@@ -1,9 +1,9 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import useClickOutside from "../Hooks/UseClickOutside";
-import Modal from "../Components/Modal";
+import Modal from "./Modal";
 import NewBotForm from "./Forms/NewBotForm";
-import EditBotForm from "./Forms/EditBotForm";
 import DynamicTextInput from "./DynamicTextInput";
+import BotListItem from "./BotListItem";
 
 const statuses = ["running", "stopped", "completed"];
 
@@ -14,7 +14,6 @@ const BotListManager = ({ bots }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [searchText, setSearchText] = useState("");
 
-  const timeoutRef = useRef(null);
   const wrapperRef = useRef("filterOptions");
 
   const handleAddBotForm = (event) => {
@@ -25,29 +24,6 @@ const BotListManager = ({ bots }) => {
       botsState.filter((bot) => bot.name === addBotElement.value)[0],
     ]);
     addBotElement.value = "";
-  };
-
-  const handleRemoveBot = (index) => {
-    setDisplayedBots((displayedBots) => [
-      ...displayedBots.slice(0, index),
-      ...displayedBots.slice(index + 1),
-    ]);
-    if (timeoutRef.current !== null) {
-      clearTimeout(timeoutRef.current);
-    }
-  };
-
-  const handleChangeBotStatus = (event, index) => {
-    if (displayedBots[index].status.toLowerCase() === "running") {
-      stopBot(event, index);
-    } else if (displayedBots[index].status.toLowerCase() === "stopped") {
-      startBot(event, index);
-    } else if (displayedBots[index].status.toLowerCase() === "completed") {
-      const confirm = window.confirm("Do you want to restart the bot?");
-      if (confirm) {
-        startBot(event, index);
-      }
-    }
   };
 
   const handleStatusCheckboxChange = (event) => {
@@ -61,17 +37,6 @@ const BotListManager = ({ bots }) => {
     }
   };
 
-  const handleDeleteBot = (deletedItem, closeModal = () => {}) => {
-    const confirm = window.confirm("Are you sure you want to delete this bot?");
-    if (confirm) {
-      setBotsState(botsState.filter((a) => a.id !== deletedItem.id));
-      if (timeoutRef.current !== null) {
-        clearTimeout(timeoutRef.current);
-      }
-      closeModal();
-    }
-  };
-
   const filteredBotList = useMemo(() => {
     return displayedBots.filter(
       (bot) =>
@@ -82,8 +47,7 @@ const BotListManager = ({ bots }) => {
 
   useEffect(() => {
     setDisplayedBots((displayedBots) =>
-      botsState.filter((bot) =>
-        displayedBots.map((displayedBot) => displayedBot.id).includes(bot.id),
+      botsState.filter((bot) => displayedBots.map((displayedBot) => displayedBot.id).includes(bot.id),
       ),
     );
   }, [botsState]);
@@ -91,41 +55,6 @@ const BotListManager = ({ bots }) => {
   useClickOutside(wrapperRef, () => {
     setOptionsOpen(false);
   });
-
-  function startBot(event, index) {
-    updateBotStatus(index, "Running");
-    event.target.innerText = "Stop Bot";
-    event.target.classList = "button danger";
-    timeoutRef.current = setTimeout(
-      () => {
-        updateBotStatus(index, "Completed");
-        event.target.innerText = "Start Bot";
-        event.target.classList = "button success";
-      },
-      getRandomArbitrary(4000, 10000),
-    );
-  }
-
-  function stopBot(event, index) {
-    updateBotStatus(index, "Stopped");
-    event.target.innerText = "Start Bot";
-    event.target.classList = "button success";
-    if (timeoutRef.current !== null) {
-      clearTimeout(timeoutRef.current);
-    }
-  }
-
-  function updateBotStatus(index, value) {
-    setDisplayedBots((displayedBots) => [
-      ...displayedBots.slice(0, index),
-      { ...displayedBots[index], status: value },
-      ...displayedBots.slice(index + 1),
-    ]);
-  }
-
-  function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
-  }
 
   function capitalize(s) {
     return s && String(s[0]).toUpperCase() + String(s).slice(1);
@@ -194,43 +123,15 @@ const BotListManager = ({ bots }) => {
       </div>
       <ul>
         {filteredBotList.map((bot, index) => (
-          <li key={index} className="bot-list-item">
-            <div>
-              <h3>{bot.name}</h3>
-              <p>{bot.task}</p>
-              <div className="status-container">
-                <div className="status">
-                  <span className={"status-ball " + bot.status.toLowerCase()}></span>
-                  {bot.status}
-                </div>
-                <button
-                  className="button success"
-                  onClick={(event) => handleChangeBotStatus(event, index)}
-                >
-                  Start Bot
-                </button>
-              </div>
-            </div>
-            <div className="bot-list-item-buttons">
-              <button className="icon-button remove" onClick={() => handleRemoveBot(index)}>
-                <i className="bi bi-x"></i>
-              </button>
-              <Modal
-                openButtonClass={"icon-button edit"}
-                openButtonInnerHtml={<i className="bi bi-pencil"></i>}
-              >
-                <EditBotForm
-                  botsState={botsState}
-                  setBotsState={setBotsState}
-                  botListItem={bot}
-                  handleDeleteFunc={handleDeleteBot}
-                />
-              </Modal>
-              <button className="icon-button delete" onClick={() => handleDeleteBot(bot)}>
-                <i className="bi bi-trash"></i>
-              </button>
-            </div>
-          </li>
+          <BotListItem
+            bot={bot}
+            index={index}
+            botsState={botsState}
+            setBotsState={setBotsState}
+            displayedBots={displayedBots}
+            setDisplayedBots={setDisplayedBots}
+            key={index}
+          />
         ))}
       </ul>
     </div>
