@@ -7,30 +7,29 @@ const EditBotForm = ({ botsState, setBotsState, botListItem, handleDeleteFunc, o
     const botName = form.querySelector("#botName");
     const botTask = form.querySelector("#botTask");
 
-    const compare = botsState.filter((bot) => bot.id !== botListItem.id);
-    if (compare.filter((bot) => bot.name.toLowerCase() === botName.value.toLowerCase()).length) {
+    const usedNames = botsState
+      .filter((a) => a.id !== botListItem.id)
+      .map((b) => b.name.toLowerCase());
+    if (usedNames.includes(botName.value.toLowerCase())) {
       alert("Duplicate Bot Name!");
       return false;
     } else {
-      updateBotObject(botListItem.id, botName.value, botTask.value);
+      editBot(botName.value, botTask.value);
     }
     onSuccess();
   };
 
-  function updateBotObject(id, newName, newTask) {
-    const index = botsState.findIndex((bot) => bot.id === id);
-    setBotsState((botsState) => [
-      ...botsState.slice(0, index),
-      { ...botsState[index], name: newName, task: newTask },
-      ...botsState.slice(index + 1),
-    ]);
+  function editBot(newName, newTask) {
+    setBotsState((a) =>
+      a.map((b) => (b.id === botListItem.id ? { ...b, name: newName, task: newTask } : b)),
+    );
   }
 
   return (
     <>
       <div className="modal-header">
         <h2>Edit Bot</h2>
-        <button className="button danger" onClick={() => handleDeleteFunc(botListItem, onSuccess)}>
+        <button className="button danger" onClick={() => handleDeleteFunc(onSuccess)}>
           Delete
         </button>
       </div>

@@ -5,7 +5,7 @@ import NewBotForm from "./Forms/NewBotForm";
 import DynamicTextInput from "./DynamicTextInput";
 import BotListItem from "./BotListItem";
 
-const statuses = ["running", "stopped", "completed"];
+const statuses = ["running", "stopped", "completed", "failed"];
 let listId = 0;
 
 const BotListManager = ({ bots }) => {
@@ -19,13 +19,13 @@ const BotListManager = ({ bots }) => {
 
   const handleAddBotForm = (event) => {
     event.preventDefault();
-    const addBotElement = document.getElementById("addBot");
+    const addBotElement = event.target.querySelector("#addBot");
     setBotList([
       ...botList,
       Object.assign(
         {},
-        { listId: listId++ },
         botsState.filter((bot) => bot.name === addBotElement.value)[0],
+        { listId: listId++ },
       ),
     ]);
     addBotElement.value = "";
@@ -87,8 +87,8 @@ const BotListManager = ({ bots }) => {
             <option value="" disabled>
               Select Bot...
             </option>
-            {botsState.map((bot, index) => (
-              <option key={index} value={bot.name}>
+            {botsState.map((bot) => (
+              <option key={bot.id} value={bot.name}>
                 {bot.name}
               </option>
             ))}
@@ -126,13 +126,13 @@ const BotListManager = ({ bots }) => {
         </div>
       </div>
       <ul>
-        {filteredBotList.map((bot, index) => (
+        {filteredBotList.map((filteredBotListItem) => (
           <BotListItem
-            botListItem={bot}
+            botListItem={filteredBotListItem}
             botsState={botsState}
             setBotsState={setBotsState}
             setBotList={setBotList}
-            key={index}
+            key={filteredBotListItem.listId}
           />
         ))}
       </ul>
