@@ -8,14 +8,12 @@ const BotListItem = ({ botListItem, botsState, setBotsState, setBotList }) => {
   const timeoutRef = useRef(null);
 
   const handleRemoveBot = () => {
-    setBotStatus("Stopped");
     setBotList((a) => a.filter((b) => b.listId !== botListItem.listId));
   };
 
   const handleDeleteBot = (closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
     if (confirm) {
-      setBotStatus("Stopped");
       setBotsState(botsState.filter((a) => a.id !== botListItem.id));
       closeModal();
     }
@@ -51,8 +49,9 @@ const BotListItem = ({ botListItem, botsState, setBotsState, setBotList }) => {
         (resolve) => setBotStatus(resolve),
         (reject) => setBotStatus(reject),
       );
-    } else {
-      clearTimeout(timeoutRef.current);
+    }
+    return () => {
+        clearTimeout(timeoutRef.current);
     }
   }, [botStatus]);
 
