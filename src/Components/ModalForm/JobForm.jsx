@@ -10,54 +10,48 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
 
   const wrapperRef = useRef("jobOptions");
 
-  const handleNewJobForm = (event) => {
+  const handleJobForm = (event, callback) => {
     event.preventDefault();
     const jobName = event.target.querySelector("#jobName");
     const jobDescription = event.target.querySelector("#jobDescription");
     const jobStatus = event.target.querySelector("#jobStatus");
 
-    setJobsState((jobsState) => {
-      return [
-        ...jobsState,
-        {
-          id: nextId++,
-          name: jobName.value,
-          description: jobDescription.value,
-          requiredBots: requiredBots,
-          status: jobStatus.value,
-        },
-      ];
-    });
-    onSuccess();
-  };
-
-  const handleEditJobForm = (event) => {
-    event.preventDefault();
-    const jobName = event.target.querySelector("#jobName");
-    const jobDescription = event.target.querySelector("#jobDescription");
-    const jobStatus = event.target.querySelector("#jobStatus");
-
-    const usedNames = jobsState.filter((a) => a.id !== job.id).map((b) => b.name.toLowerCase());
-    if (usedNames.includes(jobName.value.toLowerCase())) {
+    const jobs = job ? jobsState.filter((a) => a.id !== job.id) : jobsState;
+    if (jobs.map((b) => b.name.toLowerCase()).includes(jobName.value.toLowerCase())) {
       alert("Duplicate Job Name!");
       return false;
     } else {
-      setJobsState((a) =>
-        a.map((b) =>
-          b.id === job.id
-            ? {
-                ...b,
-                name: jobName.value,
-                description: jobDescription.value,
-                requiredBots: requiredBots,
-                status: jobStatus.value,
-              }
-            : b,
-        ),
-      );
+      setJobsState(callback(jobName, jobDescription, jobStatus));
     }
     onSuccess();
   };
+
+  function addJob(jobName, jobDescription, jobStatus) {
+    return [
+      ...jobsState,
+      {
+        id: nextId++,
+        name: jobName.value,
+        description: jobDescription.value,
+        requiredBots: requiredBots,
+        status: jobStatus.value,
+      },
+    ];
+  }
+
+  function editJob(jobName, jobDescription, jobStatus) {
+    return jobsState.map((b) =>
+      b.id === job.id
+        ? {
+            ...b,
+            name: jobName.value,
+            description: jobDescription.value,
+            requiredBots: requiredBots,
+            status: jobStatus.value,
+          }
+        : b,
+    );
+  }
 
   useClickOutside(wrapperRef, () => {
     setOptionsOpen(false);
@@ -88,7 +82,12 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
           </button>
         )}
       </div>
-      <form className="job-form" onSubmit={job ? handleEditJobForm : handleNewJobForm}>
+      <form
+        className="job-form"
+        onSubmit={
+          job ? (event) => handleJobForm(event, editJob) : (event) => handleJobForm(event, addJob)
+        }
+      >
         <div className="form-inputs">
           <div className="form-group">
             <label htmlFor="jobName">Job Name:</label>

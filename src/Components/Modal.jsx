@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import ReactModal from "react-modal";
 
 const Modal = ({ openButtonClass, openButtonInnerHtml, children }) => {
