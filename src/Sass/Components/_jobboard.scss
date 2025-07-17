@@ -2,18 +2,12 @@
 
 .job-list {
   text-wrap: wrap;
+}
 
-  ul {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-
-    li {
-      padding: 0.25rem;
-      border-radius: 4px;
-      background-color: variables.$buttons;
-    }
-  }
+.job-list-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
 
 .job {
@@ -25,6 +19,18 @@
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
+  }
+
+  ul {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+
+    li {
+      padding: 0.25rem;
+      border-radius: 4px;
+      background-color: variables.$buttons;
+    }
   }
 }
 
@@ -49,15 +55,23 @@
   display: inline-block;
   margin-right: 0.25rem;
 
+  &.unassigned {
+    background: orange;
+  }
+
   &.assigned {
     background: yellow;
   }
 
-  &.unassigned {
-    background: red;
+  &.started {
+    background: blue;
   }
 
-  &.finished {
+  &.complete {
     background: green;
+  }
+
+  &.blocked {
+    background: red;
   }
 }

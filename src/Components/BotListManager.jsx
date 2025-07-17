@@ -1,15 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import useClickOutside from "../Hooks/UseClickOutside";
 import Modal from "./Modal";
-import NewBotForm from "./Forms/NewBotForm";
+import NewBotForm from "./ModalForm/NewBotForm";
 import DynamicTextInput from "./DynamicTextInput";
 import BotListItem from "./BotListItem";
 
 const statuses = ["running", "stopped", "completed", "failed"];
 let listId = 0;
 
-const BotListManager = ({ bots }) => {
-  const [botsState, setBotsState] = useState(bots);
+const BotListManager = ({ botsState, setBotsState }) => {
   const [botList, setBotList] = useState([]);
   const [statusFilter, setStatusFilter] = useState(statuses);
   const [optionsOpen, setOptionsOpen] = useState(false);

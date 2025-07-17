@@ -38,12 +38,19 @@
   width: 100%;
   margin: 1rem 0;
 
-  input {
+  input, textarea {
     appearance: none;
     font-size: 1rem;
     padding: 0.25rem 0.5rem;
     border-radius: 6px;
     margin: 0.25rem 0;
+  }
+
+  input[type="checkbox"] {
+    appearance: auto;
+    margin-right: 0.5rem;
+    height: 15px;
+    width: 15px;
   }
 
   label {

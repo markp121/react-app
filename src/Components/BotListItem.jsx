@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Modal from "./Modal";
-import EditBotForm from "./Forms/EditBotForm";
+import EditBotForm from "./ModalForm/EditBotForm";
 
 const BotListItem = (props) => {
   const { botListItem, botsState, setBotsState, setBotList, executeBotTask } = props;

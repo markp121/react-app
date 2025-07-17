@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Sass/app.scss";
 import ProfileCard from "./Components/ProfileCard";
 import JobBoard from "./Components/JobBoard";
@@ -15,16 +15,24 @@ import Main from "./Components/Main";
 import Footer from "./Components/Footer";
 
 const App = () => {
+  const [botsState, setBotsState] = useState(bots);
+
   return (
     <>
       <Header />
       <Main>
         <Sidebar sidebarClass={"left"}>
-          <JobBoard jobs={jobs} />
+          <JobBoard
+            jobs={jobs}
+            botsState={botsState}
+          />
         </Sidebar>
         <Sidebar sidebarClass={"right"}>
           <DynamicList />
-          <BotListManager bots={bots} />
+          <BotListManager
+            botsState={botsState}
+            setBotsState={setBotsState}
+          />
         </Sidebar>
         <h1>Team Profiles</h1>
         <ul>
