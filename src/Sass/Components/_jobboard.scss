@@ -12,6 +12,8 @@
 
 .job {
   border: solid 1px black;
+  display: grid;
+  grid-template-columns: 5fr 1fr;
   padding: 0 1rem;
   margin: 1rem 0;
   border-radius: 8px;
@@ -31,6 +33,13 @@
       border-radius: 4px;
       background-color: variables.$buttons;
     }
+  }
+
+  .functional-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    justify-content: center;
   }
 }
 

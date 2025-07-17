@@ -6,21 +6,15 @@ const Modal = ({ openButtonClass, openButtonInnerHtml, children }) => {
 
   const handleOpenModal = () => {
     setShowModal(true);
+    document.body.style.overflow = "hidden";
+    document.body.style.paddingRight = "15px";
   };
 
   const handleCloseModal = () => {
+    document.body.style.overflow = "unset";
+    document.body.style.paddingRight = "0px";
     setShowModal(false);
   };
-
-  useEffect(() => {
-    if (showModal) {
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = "15px";
-    } else {
-      document.body.style.overflow = "unset";
-      document.body.style.paddingRight = "0px";
-    }
-  }, [showModal]);
 
   return (
     <>

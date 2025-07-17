@@ -5,6 +5,14 @@ import Modal from "./Modal";
 const JobBoard = ({ botsState }) => {
   const [jobsState, setJobsState] = useState([]);
 
+  const handleDeleteJob = (job, closeModal = () => {}) => {
+    const confirm = window.confirm("Are you sure you want to delete this bot?");
+    if (confirm) {
+      setJobsState((jobsState) => jobsState.filter((a) => a.id !== job.id));
+      closeModal();
+    }
+  };
+
   const getJobMessage = () => {
     const jobCount = jobsState.length;
     if (jobCount === 0) {
@@ -25,24 +33,49 @@ const JobBoard = ({ botsState }) => {
       <div className="job-list-header">
         <h2>Jobs List</h2>
         <Modal openButtonClass={"button neutral"} openButtonInnerHtml={"Add Job"}>
-          <JobForm jobsState={jobsState} setJobsState={setJobsState} botsState={botsState} />
+          <JobForm
+            jobsState={jobsState}
+            setJobsState={setJobsState}
+            botsState={botsState}
+            job={null}
+            handleDeleteJob={null}
+          />
         </Modal>
       </div>
       <p>{getJobMessage()}</p>
       {jobsState.map((job) => (
         <div key={job.id} className="job">
-          <h4>{job.name}</h4>
-          <p>{job.description}</p>
-          <ul>
-            {job.requiredBots.map((skill) => (
-              <li key={skill}>{skill}</li>
-            ))}
-          </ul>
-          <div className="status-container">
-            <div className="status">
-              <span className={"status-ball " + job.status}></span>
-              {capitalize(job.status)}
+          <div>
+            <h4>{job.name}</h4>
+            <p>{job.description}</p>
+            <ul>
+              {job.requiredBots.map((skill) => (
+                <li key={skill}>{skill}</li>
+              ))}
+            </ul>
+            <div className="status-container">
+              <div className="status">
+                <span className={"status-ball " + job.status}></span>
+                {capitalize(job.status)}
+              </div>
             </div>
+          </div>
+          <div className="functional-buttons">
+            <Modal
+              openButtonClass={"icon-button edit"}
+              openButtonInnerHtml={<i className="bi bi-pencil"></i>}
+            >
+              <JobForm
+                jobsState={jobsState}
+                setJobsState={setJobsState}
+                botsState={botsState}
+                job={job}
+                handleDeleteJob={handleDeleteJob}
+              />
+            </Modal>
+            <button className="icon-button delete" onClick={() => handleDeleteJob(job)}>
+              <i className="bi bi-trash"></i>
+            </button>
           </div>
         </div>
       ))}

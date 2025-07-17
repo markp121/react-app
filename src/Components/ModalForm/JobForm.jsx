@@ -4,28 +4,58 @@ import useClickOutside from "../../Hooks/UseClickOutside";
 let nextId = 0;
 const jobStatus = ["unassigned", "assigned", "started", "complete", "blocked"];
 
-const JobForm = ({ jobsState, setJobsState, botsState, onSuccess }) => {
+const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onSuccess }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [requiredBots, setRequiredBots] = useState([]);
+  const [requiredBots, setRequiredBots] = useState(job ? job.requiredBots : []);
 
   const wrapperRef = useRef("jobOptions");
 
-  const handleNewJob = (event) => {
+  const handleNewJobForm = (event) => {
     event.preventDefault();
     const jobName = event.target.querySelector("#jobName");
     const jobDescription = event.target.querySelector("#jobDescription");
     const jobStatus = event.target.querySelector("#jobStatus");
 
-    setJobsState([
-      ...jobsState,
-      {
-        id: nextId++,
-        name: jobName.value,
-        description: jobDescription.value,
-        requiredBots: requiredBots,
-        status: jobStatus.value,
-      },
-    ]);
+    setJobsState((jobsState) => {
+      return [
+        ...jobsState,
+        {
+          id: nextId++,
+          name: jobName.value,
+          description: jobDescription.value,
+          requiredBots: requiredBots,
+          status: jobStatus.value,
+        },
+      ];
+    });
+    onSuccess();
+  };
+
+  const handleEditJobForm = (event) => {
+    event.preventDefault();
+    const jobName = event.target.querySelector("#jobName");
+    const jobDescription = event.target.querySelector("#jobDescription");
+    const jobStatus = event.target.querySelector("#jobStatus");
+
+    const usedNames = jobsState.filter((a) => a.id !== job.id).map((b) => b.name.toLowerCase());
+    if (usedNames.includes(jobName.value.toLowerCase())) {
+      alert("Duplicate Job Name!");
+      return false;
+    } else {
+      setJobsState((a) =>
+        a.map((b) =>
+          b.id === job.id
+            ? {
+                ...b,
+                name: jobName.value,
+                description: jobDescription.value,
+                requiredBots: requiredBots,
+                status: jobStatus.value,
+              }
+            : b,
+        ),
+      );
+    }
     onSuccess();
   };
 
@@ -50,12 +80,25 @@ const JobForm = ({ jobsState, setJobsState, botsState, onSuccess }) => {
 
   return (
     <div className="job-form-container">
-      <h3>Add New Job</h3>
-      <form className="job-form" onSubmit={handleNewJob}>
+      <div className="modal-header">
+        <h2>Add New Job</h2>
+        {job && (
+          <button className="button danger" onClick={() => handleDeleteJob(job, onSuccess)}>
+            Delete
+          </button>
+        )}
+      </div>
+      <form className="job-form" onSubmit={job ? handleEditJobForm : handleNewJobForm}>
         <div className="form-inputs">
           <div className="form-group">
             <label htmlFor="jobName">Job Name:</label>
-            <input type="text" placeholder="Enter the job" id="jobName" required />
+            <input
+              type="text"
+              placeholder="Enter the job"
+              id="jobName"
+              defaultValue={job ? job.name : ""}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="requiredBots">Add Required Bots:</label>
@@ -84,11 +127,21 @@ const JobForm = ({ jobsState, setJobsState, botsState, onSuccess }) => {
           </div>
           <div className="form-group">
             <label htmlFor="jobDescription">Job Description:</label>
-            <textarea placeholder="Enter job description" id="jobDescription" required />
+            <textarea
+              placeholder="Enter job description"
+              id="jobDescription"
+              defaultValue={job ? job.description : ""}
+              required
+            />
           </div>
           <div className="form-group">
             <label htmlFor="jobStatus">Set Job Status:</label>
-            <select className="job-status" id="jobStatus" defaultValue="" required>
+            <select
+              className="job-status"
+              id="jobStatus"
+              defaultValue={job ? job.status : ""}
+              required
+            >
               <option value="" disabled>
                 Select job status...
               </option>
@@ -101,7 +154,7 @@ const JobForm = ({ jobsState, setJobsState, botsState, onSuccess }) => {
           </div>
         </div>
         <button type="submit" className="button success">
-          Add Job
+          {job ? "Save Bot" : "Add Bot"}
         </button>
       </form>
     </div>
