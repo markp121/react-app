@@ -6,7 +6,7 @@ const NewBotForm = ({ botsState, setBotsState, onSuccess }) => {
     const form = event.target;
     const botName = form.querySelector("#botName");
     const botTask = form.querySelector("#botTask");
-    const id = botsState[botsState.length - 1].id + 1;
+    const id = botsState.length > 0 ? botsState[botsState.length - 1].id + 1 : 0;
 
     if (botsState.filter((bot) => bot.name.toLowerCase() === botName.value.toLowerCase()).length) {
       alert("Duplicate Bot Name");

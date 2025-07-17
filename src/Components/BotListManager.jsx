@@ -22,11 +22,9 @@ const BotListManager = ({ bots }) => {
     const addBotElement = event.target.querySelector("#addBot");
     setBotList([
       ...botList,
-      Object.assign(
-        {},
-        botsState.filter((bot) => bot.name === addBotElement.value)[0],
-        { listId: listId++ },
-      ),
+      Object.assign({}, botsState.filter((bot) => bot.name === addBotElement.value)[0], {
+        listId: listId++,
+      }),
     ]);
     addBotElement.value = "";
   };
@@ -52,13 +50,35 @@ const BotListManager = ({ bots }) => {
 
   useEffect(() => {
     setBotList((botList) =>
-      botsState.filter((bot) => botList.map((botListItem) => botListItem.id).includes(bot.id)),
+      botList.filter((botListItem) => botsState.map((bot) => bot.id).includes(botListItem.id)),
     );
   }, [botsState]);
 
   useClickOutside(wrapperRef, () => {
     setOptionsOpen(false);
   });
+
+  function executeBotTask(timeoutRef, callback) {
+    function botTask() {
+      return new Promise((resolve, reject) => {
+        timeoutRef.current = setTimeout(
+          () => {
+            const success = Math.random() < 0.8;
+            success ? resolve("Completed") : reject("Failed");
+          },
+          getRandomArbitrary(4000, 8000),
+        );
+      });
+    }
+    botTask().then(
+      (resolve) => callback(resolve),
+      (reject) => callback(reject),
+    );
+  }
+
+  function getRandomArbitrary(min, max) {
+    return Math.random() * (max - min) + min;
+  }
 
   function capitalize(s) {
     return s && String(s[0]).toUpperCase() + String(s).slice(1);
@@ -132,6 +152,7 @@ const BotListManager = ({ bots }) => {
             botsState={botsState}
             setBotsState={setBotsState}
             setBotList={setBotList}
+            executeBotTask={executeBotTask}
             key={filteredBotListItem.listId}
           />
         ))}

@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef } from "react";
 import Modal from "./Modal";
 import EditBotForm from "./Forms/EditBotForm";
 
-const BotListItem = ({ botListItem, botsState, setBotsState, setBotList }) => {
-  const [botStatus, setBotStatus] = useState(botListItem.status);
+const BotListItem = (props) => {
+  const { botListItem, botsState, setBotsState, setBotList, executeBotTask } = props;
 
   const timeoutRef = useRef(null);
 
@@ -14,55 +14,31 @@ const BotListItem = ({ botListItem, botsState, setBotsState, setBotList }) => {
   const handleDeleteBot = (closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
     if (confirm) {
-      setBotsState(botsState.filter((a) => a.id !== botListItem.id));
+      setBotsState((botsState) => botsState.filter((a) => a.id !== botListItem.id));
       closeModal();
     }
   };
 
   const handleChangeBotStatus = () => {
-    if (botStatus === "Running") {
-      setBotStatus("Stopped");
-    } else if (botStatus === "Stopped") {
-      setBotStatus("Running");
-    } else if (botStatus === "Completed" || botStatus === "Failed") {
+    if (botListItem.status === "Running") {
+      updateBotStatus("Stopped");
+      clearTimeout(timeoutRef.current);
+    } else if (botListItem.status === "Stopped") {
+      updateBotStatus("Running");
+      executeBotTask(timeoutRef, updateBotStatus);
+    } else if (botListItem.status === "Completed" || botListItem.status === "Failed") {
       const confirm = window.confirm("Do you want to restart the bot?");
       if (confirm) {
-        setBotStatus("Running");
+        updateBotStatus("Running");
+        executeBotTask(timeoutRef, updateBotStatus);
       }
     }
   };
 
-  useEffect(() => {
-    if (botStatus === "Running") {
-      const executeBotTask = () => {
-        return new Promise((resolve, reject) => {
-          timeoutRef.current = setTimeout(
-            () => {
-              const success = Math.random() < 0.8;
-              success ? resolve("Completed") : reject("Failed");
-            },
-            getRandomArbitrary(5000, 5000),
-          );
-        });
-      };
-      executeBotTask().then(
-        (resolve) => setBotStatus(resolve),
-        (reject) => setBotStatus(reject),
-      );
-    }
-    return () => {
-        clearTimeout(timeoutRef.current);
-    }
-  }, [botStatus]);
-
-  useEffect(() => {
+  function updateBotStatus(botStatus) {
     setBotList((a) =>
       a.map((b) => (b.listId === botListItem.listId ? { ...b, status: botStatus } : b)),
     );
-  }, [setBotList, botStatus, botListItem.listId]);
-
-  function getRandomArbitrary(min, max) {
-    return Math.random() * (max - min) + min;
   }
 
   return (
@@ -76,10 +52,10 @@ const BotListItem = ({ botListItem, botsState, setBotsState, setBotList }) => {
             {botListItem.status}
           </div>
           <button
-            className={botStatus === "Running" ? "button danger" : "button success"}
+            className={botListItem.status === "Running" ? "button danger" : "button success"}
             onClick={() => handleChangeBotStatus()}
           >
-            {botStatus === "Running" ? "Stop Bot" : "Start Bot"}
+            {botListItem.status === "Running" ? "Stop Bot" : "Start Bot"}
           </button>
         </div>
       </div>
@@ -95,7 +71,8 @@ const BotListItem = ({ botListItem, botsState, setBotsState, setBotList }) => {
             botsState={botsState}
             setBotsState={setBotsState}
             botListItem={botListItem}
-            handleDeleteFunc={handleDeleteBot}
+            handleDeleteBot={handleDeleteBot}
+            setBotList={setBotList}
           />
         </Modal>
         <button className="icon-button delete" onClick={() => handleDeleteBot()}>
