@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   justify-items: center;
+  gap: 1rem;
 
   h2 {
     text-align: center;
@@ -16,6 +17,7 @@
   display: grid;
   grid-template-columns: 5fr 1fr;
   padding: 1rem;
+  border-radius: 4px;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
@@ -52,15 +54,22 @@
     background-color: rgba(orange, 0.25);
   }
   &.assigned {
-    background-color: rgba(yellow, 0.10);
+    background-color: rgba(yellow, 0.1);
   }
   &.started {
-    background-color: rgba(blue, 0.10);
+    background-color: rgba(blue, 0.1);
   }
   &.complete {
-    background-color: rgba(green, 0.10);
+    background-color: rgba(green, 0.1);
   }
-  &.blocked{
-    background-color: rgba(red, 0.10);
+  &.blocked {
+    background-color: rgba(red, 0.1);
   }
+}
+
+.placeholder-message {
+  padding: 0.5rem 1rem;
+  opacity: 0.5;
+  text-align: center;
+  font-size: 0.9rem;
 }

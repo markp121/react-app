@@ -9,6 +9,10 @@
   display: grid;
   grid-template-columns: repeat(5, 1fr);
   gap: 1rem;
+  border-radius: 8px;
+  background-color: variables.$tertiary;
+  padding: 1rem;
+  min-height: 10vh;
 }
 
 .job-search {
