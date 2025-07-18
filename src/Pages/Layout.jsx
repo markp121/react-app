@@ -11,19 +11,22 @@ import bots from "../Data/Bots";
 
 const Layout = () => {
   const [botsState, setBotsState] = useState(bots);
+  const [jobsState, setJobsState] = useState([]);
+
+  const contextValue = { botsState, jobsState, setJobsState };
 
   return (
     <>
       <Header />
       <Main>
         <Sidebar sidebarClass={"left"}>
-          <JobBoard botsState={botsState} />
+          <JobBoard botsState={botsState} jobsState={jobsState} setJobsState={setJobsState} />
         </Sidebar>
         <Sidebar sidebarClass={"right"}>
           <DynamicList />
           <BotListManager botsState={botsState} setBotsState={setBotsState} />
         </Sidebar>
-        <Outlet />
+        <Outlet context={contextValue} />
       </Main>
       <Footer />
     </>

@@ -23,7 +23,14 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
     } else {
       setJobsState(callback(jobName, jobDescription, jobStatus));
     }
-    onSuccess();
+    if (onSuccess) {
+      onSuccess();
+    } else {
+      jobName.value = "";
+      jobDescription.value = "";
+      jobStatus.value = "";
+      setRequiredBots([]);
+    }
   };
 
   function addJob(jobName, jobDescription, jobStatus) {

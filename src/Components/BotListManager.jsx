@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import useClickOutside from "../Hooks/UseClickOutside";
 import Modal from "./Modal";
-import NewBotForm from "./ModalForm/NewBotForm";
+import NewBotForm from "./Forms/NewBotForm";
 import DynamicTextInput from "./DynamicTextInput";
 import BotListItem from "./BotListItem";
 

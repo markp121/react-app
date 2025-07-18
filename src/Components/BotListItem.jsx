@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import Modal from "./Modal";
-import EditBotForm from "./ModalForm/EditBotForm";
+import EditBotForm from "./Forms/EditBotForm";
 
 const BotListItem = (props) => {
   const { botListItem, botsState, setBotsState, setBotList, executeBotTask } = props;
@@ -43,7 +43,7 @@ const BotListItem = (props) => {
 
   return (
     <li className="bot-list-item">
-      <div>
+      <div className="bot-list-item-info">
         <h3>{botListItem.name}</h3>
         <p>{botListItem.task}</p>
         <div className="bot-status-container">

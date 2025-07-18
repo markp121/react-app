@@ -10,6 +10,8 @@
 @use "./Components/footer";
 @use "./Components/botlistitem";
 @use "./Components/jobform";
+@use "./Pages/jobs";
+@use "./Components/jobcolumn";
 
 @import url("https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap");
 @import url("../../node_modules/bootstrap-icons/font/bootstrap-icons.css");

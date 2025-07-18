@@ -1,10 +1,8 @@
-import React, { useState } from "react";
-import JobForm from "./ModalForm/JobForm";
+import React from "react";
+import JobForm from "./Forms/JobForm";
 import Modal from "./Modal";
 
-const JobBoard = ({ botsState }) => {
-  const [jobsState, setJobsState] = useState([]);
-
+const JobBoard = ({ botsState, jobsState, setJobsState }) => {
   const handleDeleteJob = (job, closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
     if (confirm) {
@@ -45,12 +43,14 @@ const JobBoard = ({ botsState }) => {
       <p>{getJobMessage()}</p>
       {jobsState.map((job) => (
         <div key={job.id} className="job">
-          <div>
+          <div className="job-info">
             <h4>{job.name}</h4>
             <p>{job.description}</p>
             <ul>
               {job.requiredBots.map((skill) => (
-                <li key={skill}>{skill}</li>
+                <div key={skill}>
+                  <li>{skill}</li>
+                </div>
               ))}
             </ul>
             <div className="status-container">
