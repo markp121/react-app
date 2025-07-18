@@ -10,7 +10,6 @@ import Header from "./Components/Header";
 
 import profiles from "./Data/Profiles";
 import bots from "./Data/Bots";
-import jobs from "./Data/Jobs";
 import Main from "./Components/Main";
 import Footer from "./Components/Footer";
 
@@ -23,7 +22,6 @@ const App = () => {
       <Main>
         <Sidebar sidebarClass={"left"}>
           <JobBoard
-            jobs={jobs}
             botsState={botsState}
           />
         </Sidebar>
