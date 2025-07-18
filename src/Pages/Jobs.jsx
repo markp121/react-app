@@ -3,6 +3,7 @@ import { useOutletContext } from "react-router-dom";
 
 import JobForm from "../Components/Forms/JobForm";
 import JobColumn from "../Components/JobColumn";
+import DynamicTextInput from "../Components/DynamicTextInput";
 
 const Jobs = () => {
   const { botsState, jobsState, setJobsState } = useOutletContext();
@@ -11,6 +12,7 @@ const Jobs = () => {
   const [started, setStarted] = useState([]);
   const [complete, setComplete] = useState([]);
   const [blocked, setBlocked] = useState([]);
+  const [searchText, setSearchText] = useState("");
 
   const statusListStates = useMemo(() => {
     return [
@@ -23,12 +25,23 @@ const Jobs = () => {
   }, [unassigned, assigned, started, complete, blocked]);
 
   return (
-    <>
+    <div className="jobs-page-body">
       <h1>Jobs Management</h1>
       <div className="job-form-wrapper">
         <JobForm jobsState={jobsState} setJobsState={setJobsState} botsState={botsState} />
       </div>
       <div className="jobs-wrapper">
+      <div className="job-search">
+        <div className="job-search-input">
+          <DynamicTextInput
+            textInput={searchText}
+            setTextInput={setSearchText}
+            placeholder={"Search Jobs..."}
+            required={false}
+          />
+        </div>
+      </div>
+        <div className="job-column-wrapper">
         {statusListStates.map(([jobStatus, statusList, setStatusList], index) => (
           <JobColumn
             key={index}
@@ -36,10 +49,12 @@ const Jobs = () => {
             statusList={statusList}
             setStatusList={setStatusList}
             jobsState={jobsState}
+            searchText={searchText}
           />
         ))}
+        </div>
       </div>
-    </>
+    </div>
   );
 };
 

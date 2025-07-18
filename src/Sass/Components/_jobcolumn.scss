@@ -4,16 +4,18 @@
   display: flex;
   flex-direction: column;
   justify-items: center;
+
+  h2 {
+    text-align: center;
+    text-transform: capitalize;
+  }
 }
 
-.job-column-list {
+.job-column-list-item {
   border: solid 1px black;
   display: grid;
   grid-template-columns: 5fr 1fr;
-  padding: 0 1rem;
-  margin: 1rem 0;
-  border-radius: 8px;
-  background-color: variables.$secondary;
+  padding: 1rem;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
@@ -21,13 +23,44 @@
 
   ul {
     display: flex;
+    flex-direction: column;
     gap: 0.5rem;
-    flex-wrap: wrap;
 
     li {
       padding: 0.25rem;
       border-radius: 4px;
       background-color: variables.$buttons;
+      width: fit-content;
+      text-wrap: nowrap;
     }
+  }
+
+  .job-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  .functional-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    justify-content: center;
+  }
+
+  &.unassigned {
+    background-color: rgba(orange, 0.25);
+  }
+  &.assigned {
+    background-color: rgba(yellow, 0.10);
+  }
+  &.started {
+    background-color: rgba(blue, 0.10);
+  }
+  &.complete {
+    background-color: rgba(green, 0.10);
+  }
+  &.blocked{
+    background-color: rgba(red, 0.10);
   }
 }

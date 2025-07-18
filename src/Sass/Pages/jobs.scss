@@ -1,10 +1,25 @@
-.job-form-wrapper {
+@use "../variables";
+
+.jobs-page-body {
   max-width: 60vw;
   margin:  0 auto 3rem auto;
 }
 
-.jobs-wrapper {
-  display: flex;
-  justify-content: space-evenly;
+.job-column-wrapper {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
 }
 
+.job-search {
+  display: flex;
+  justify-content: center;
+  border-radius: 8px;
+  background-color: variables.$tertiary;
+  padding: 0.25rem;
+  margin: 1rem 0;
+}
+
+.job-search-input {
+  width: 50%;
+}

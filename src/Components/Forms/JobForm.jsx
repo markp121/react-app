@@ -160,7 +160,7 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
           </div>
         </div>
         <button type="submit" className="button success">
-          {job ? "Save Bot" : "Add Bot"}
+          {job ? "Save Job" : "Add Job"}
         </button>
       </form>
     </div>
