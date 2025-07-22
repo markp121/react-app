@@ -75,10 +75,6 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
     }
   };
 
-  function capitalize(s) {
-    return s && String(s[0]).toUpperCase() + String(s).slice(1);
-  }
-
   return (
     <div className="job-form-container">
       <div className="modal-header">
@@ -107,13 +103,24 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
             />
           </div>
           <div className="form-group">
-            <label htmlFor="requiredBots">Add Required Bots:</label>
+            <p className="label">Add Required Bots:</p>
             <div className="dropdown-check-list" ref={wrapperRef} id="requiredBots">
               <span className="anchor" onClick={() => setOptionsOpen(!optionsOpen)}>
-                Select required bots...
+                {requiredBots.length > 0 ? requiredBots.map((requiredBot, index) => (
+                  <span className="required-bot" key={requiredBot}>
+                    {requiredBot}
+                    <span onClick={(event) => {
+                      event.stopPropagation();
+                      setRequiredBots([
+                        ...requiredBots.slice(0, index),
+                        ...requiredBots.slice(index + 1),
+                      ]);
+                    }}>X</span>
+                  </span>
+                )) : "Select any required bots..."}
               </span>
               {optionsOpen && (
-                <ul className="items">
+                <ul className="checkbox-popup">
                   {botsState.map((bot) => (
                     <li key={bot.id}>
                       <input
@@ -124,7 +131,7 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
                         checked={requiredBots.includes(bot.name)}
                         onChange={handleStatusCheckboxChange}
                       />
-                      <label htmlFor={`checkbox-${bot.id}`}>{capitalize(bot.name)}</label>
+                      <label style={{textTransform: "capitalize"}} htmlFor={`checkbox-${bot.id}`}>{bot.name}</label>
                     </li>
                   ))}
                 </ul>
@@ -152,8 +159,8 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
                 Select job status...
               </option>
               {jobStatus.map((status, index) => (
-                <option key={index} value={status}>
-                  {capitalize(status)}
+                <option key={index} value={status} style={{textTransform: "capitalize"}}>
+                  {status}
                 </option>
               ))}
             </select>

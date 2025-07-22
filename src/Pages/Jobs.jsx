@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { useOutletContext } from "react-router-dom";
 
 import JobForm from "../Components/Forms/JobForm";
@@ -13,6 +13,8 @@ const Jobs = () => {
   const [complete, setComplete] = useState([]);
   const [blocked, setBlocked] = useState([]);
   const [searchText, setSearchText] = useState("");
+
+  const dragRef = useRef(null);
 
   const statusListStates = useMemo(() => {
     return [
@@ -42,14 +44,16 @@ const Jobs = () => {
         </div>
       </div>
         <div className="job-column-wrapper">
-        {statusListStates.map(([jobStatus, statusList, setStatusList], index) => (
+        {statusListStates.map(([jobStatus, statusList, setStatusList]) => (
           <JobColumn
-            key={index}
+            key={jobStatus}
             jobStatus={jobStatus}
             statusList={statusList}
             setStatusList={setStatusList}
             jobsState={jobsState}
+            setJobsState={setJobsState}
             searchText={searchText}
+            dragRef={dragRef}
           />
         ))}
         </div>

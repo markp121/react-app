@@ -40,7 +40,7 @@
     .anchor {
       position: relative;
       cursor: pointer;
-      display: inline-block;
+      display: flex;
       border: 1px solid black;
       appearance: none;
       font-size: 1rem;
@@ -50,15 +50,17 @@
       align-items: center;
       width: 100%;
       box-sizing: border-box;
-      -webkit-box-sizing: border-box;
-      -moz-box-sizing: border-box;
+      text-wrap: auto;
+      flex-wrap: wrap;
+      gap: 0.25rem;
     }
 
-    .items {
+    .checkbox-popup {
       position: absolute;
       border: 1px solid black;
       padding: 0.5rem;
       background-color: white;
+      z-index: 10;
 
       li {
         padding: 0.25rem;
@@ -67,6 +69,21 @@
           font-size: 1rem;
         }
       }
+    }
+  }
+}
+
+.required-bot {
+  padding: 0.1rem 0.25rem;
+  border-radius: 4px;
+  background-color: lightgray;
+  font-size: 0.85rem;
+
+  span {
+    padding: 0.25rem;
+
+    &:hover {
+      color: grey;
     }
   }
 }

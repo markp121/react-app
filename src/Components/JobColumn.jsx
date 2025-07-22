@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, searchText }) => {
+const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, setJobsState, dragRef, searchText }) => {
   const [emptyList, setEmptyList] = useState(true);
 
   useEffect(() => {
@@ -16,30 +16,59 @@ const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, searchText
   useEffect(() => {
     if (filteredJobsList.length > 0) {
       setEmptyList(false);
+    } else {
+      setEmptyList(true);
     }
   }, [filteredJobsList]);
+
+  function setJobStatus(jobId) {
+    return setJobsState(
+      jobsState.map((b) =>
+        b.id === jobId
+          ? {
+              ...b,
+              status: jobStatus,
+            }
+          : b,
+      ),
+    );
+  }
+
+  const handleDragOver = (event) => {
+    event.preventDefault();
+    setJobStatus(dragRef.current);
+  };
 
   return (
     <div className="job-column">
       <h2>{jobStatus}</h2>
-      <ul className="job-column-list">
-        {emptyList && (
+      <div className="job-colum-dropzone" onDragOver={handleDragOver}>
+        <ul className="job-column-list">
+          {emptyList && (
             <p className="placeholder-message">There are no {jobStatus} jobs scheduled.</p>
-        )}
-        {filteredJobsList.map((job) => (
-          <li className={`job-column-list-item ${job.status}`} key={job.id}>
-            <div className="job-info">
-              <h4>{job.name}</h4>
-              <p>{job.description}</p>
-              <ul>
-                {job.requiredBots.map((skill) => (
-                  <li key={skill}>{skill}</li>
-                ))}
-              </ul>
-            </div>
-          </li>
-        ))}
-      </ul>
+          )}
+          {filteredJobsList.map((job) => (
+            <li
+              className={`job-column-list-item ${job.status}`}
+              key={job.id}
+              draggable="true"
+              onDrag={() => {
+                dragRef.current = job.id;
+              }}
+            >
+              <div className="job-info">
+                <h4>{job.name}</h4>
+                <p>{job.description}</p>
+                <ul>
+                  {job.requiredBots.map((skill, index) => (
+                    <li key={index}>{skill}</li>
+                  ))}
+                </ul>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
