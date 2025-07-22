@@ -6,7 +6,7 @@ const jobStatus = ["unassigned", "assigned", "started", "complete", "blocked"];
 
 const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onSuccess }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [requiredBots, setRequiredBots] = useState(job ? job.requiredBots : []);
+  const [requiredBots, setRequiredBots] = useState(job ? job.requiredBots.split(",") : []);
 
   const wrapperRef = useRef("jobOptions");
 
@@ -40,7 +40,7 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
         id: nextId++,
         name: jobName.value,
         description: jobDescription.value,
-        requiredBots: requiredBots,
+        requiredBots: requiredBots.join(", "),
         status: jobStatus.value,
       },
     ];
@@ -53,7 +53,7 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
             ...b,
             name: jobName.value,
             description: jobDescription.value,
-            requiredBots: requiredBots,
+            requiredBots: requiredBots.join(", "),
             status: jobStatus.value,
           }
         : b,
@@ -159,7 +159,7 @@ const JobForm = ({ jobsState, setJobsState, botsState, job, handleDeleteJob, onS
                 Select job status...
               </option>
               {jobStatus.map((status, index) => (
-                <option key={index} value={status} style={{textTransform: "capitalize"}}>
+                <option key={index} value={status} style={{ textTransform: "capitalize" }}>
                   {status}
                 </option>
               ))}

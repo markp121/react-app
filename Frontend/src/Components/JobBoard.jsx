@@ -47,7 +47,7 @@ const JobBoard = ({ botsState, jobsState, setJobsState }) => {
             <h4>{job.name}</h4>
             <p>{job.description}</p>
             <ul>
-              {job.requiredBots.map((skill) => (
+              {job.requiredBots.split(",").map((skill) => (
                 <div key={skill}>
                   <li>{skill}</li>
                 </div>

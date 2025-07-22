@@ -60,7 +60,8 @@ const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, setJobsSta
                 <h4>{job.name}</h4>
                 <p>{job.description}</p>
                 <ul>
-                  {job.requiredBots.map((skill, index) => (
+                  {
+                    job.requiredBots.split(",").map((skill, index) => (
                     <li key={index}>{skill}</li>
                   ))}
                 </ul>
