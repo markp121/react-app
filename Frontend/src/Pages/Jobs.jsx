@@ -32,9 +32,8 @@ const Jobs = () => {
       <div className="job-form-wrapper">
         <JobForm
           jobsState={jobsState}
-          setJobsState={setJobsState}
           botsState={botsState}
-          setNewJob={setNewJob}
+          setChangedJobState={setNewJob}
         />
       </div>
       <div className="jobs-wrapper">

@@ -42,12 +42,29 @@ app.post("/jobs", (req, res) => {
 })
 
 app.delete("/jobs/:id", (req, res) => {
-  const bookId = req.params.id;
+  const jobId = req.params.id;
   const q =  "DELETE FROM jobs WHERE id = ?";
 
-  db.query(q, [bookId], (err, data) => {
+  db.query(q, [jobId], (err, data) => {
     if (err) return res.json(err);
     return res.json("job deleted successfully");
+  })
+})
+
+app.put("/jobs/:id", (req, res) => {
+  const jobId = req.params.id;
+  const q = "UPDATE jobs SET `name` = ?, `description` = ?, `requiredBots` = ?, `status` = ? WHERE id = ?";
+
+  const values = [
+    req.body.name,
+    req.body.description,
+    req.body.requiredBots,
+    req.body.status,
+  ];
+
+  db.query(q, [...values, jobId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json("Job has been updated successfully");
   })
 })
 

@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Main from "../Components/Main";
 import Sidebar from "../Components/Sidebar";
 import JobBoard from "../Components/JobBoard";
@@ -14,7 +14,10 @@ const Layout = () => {
   const [botsState, setBotsState] = useState(bots);
   const [jobsState, setJobsState] = useState([]);
   const [newJob, setNewJob] = useState();
+  const [updatedJob, setUpdatedJob] = useState();
   const [deleteJob, setDeleteJob] = useState(false);
+
+  const updatedJobIdRef = useRef();
 
   const contextValue = { botsState, jobsState, setJobsState, setNewJob };
 
@@ -27,6 +30,14 @@ const Layout = () => {
       }
     };
 
+    const updateJob = async () => {
+      try {
+        await axios.put("http://localhost:8800/jobs/" + updatedJobIdRef.current, updatedJob);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+
     const fetchAllJobs = async () => {
       try {
         const res = await axios.get("http://localhost:8800/jobs");
@@ -38,10 +49,14 @@ const Layout = () => {
     if (newJob) {
       postNewJob();
       setNewJob();
-    } else {
+    } else if (updatedJob) {
+      updateJob();
+      setUpdatedJob();
+    }
+    else {
       fetchAllJobs();
     }
-  }, [newJob, deleteJob]);
+  }, [newJob, updatedJob, deleteJob]);
 
   const handleDeleteJob = async (job, closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
@@ -62,10 +77,11 @@ const Layout = () => {
       <Main>
         <Sidebar sidebarClass={"left"}>
           <JobBoard
-            botsState={botsState}
             jobsState={jobsState}
-            setJobsState={setJobsState}
+            botsState={botsState}
             setNewJob={setNewJob}
+            setUpdatedJob={setUpdatedJob}
+            updatedJobIdRef={updatedJobIdRef}
             handleDeleteJob={handleDeleteJob}
           />
         </Sidebar>

@@ -3,9 +3,9 @@ import useClickOutside from "../../Hooks/UseClickOutside";
 
 const jobStatus = ["unassigned", "assigned", "started", "complete", "blocked"];
 
-const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSuccess }) => {
+const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRef, handleDeleteJob, onSuccess }) => {
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [requiredBots, setRequiredBots] = useState([]);
+  const [requiredBots, setRequiredBots] = useState(job && job.requiredBots.length > 0 ? job.requiredBots.split(", ") : []);
 
   const wrapperRef = useRef("jobOptions");
 
@@ -15,12 +15,13 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
     const jobDescription = event.target.querySelector("#jobDescription");
     const jobStatus = event.target.querySelector("#jobStatus");
 
-    // const jobs = job ? jobsState.filter((a) => a.id !== job.id) : jobsState;
-    if (jobsState.map((b) => b.name.toLowerCase()).includes(jobName.value.toLowerCase())) {
+    const jobs = job ? jobsState.filter((a) => a.id !== job.id) : jobsState;
+    if (jobs.map((b) => b.name.toLowerCase()).includes(jobName.value.toLowerCase())) {
       alert("Duplicate Job Name!");
       return false;
     } else {
-      setNewJob({
+      if (job) updatedJobIdRef.current = job.id;
+      setChangedJobState({
         name: jobName.value,
         description: jobDescription.value,
         requiredBots: requiredBots.join(", "),
@@ -36,20 +37,6 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
       setRequiredBots([]);
     }
   };
-
-  // function editJob(jobName, jobDescription, jobStatus) {
-  //   return jobsState.map((b) =>
-  //     b.id === job.id
-  //       ? {
-  //           ...b,
-  //           name: jobName.value,
-  //           description: jobDescription.value,
-  //           requiredBots: requiredBots.join(", "),
-  //           status: jobStatus.value,
-  //         }
-  //       : b,
-  //   );
-  // }
 
   useClickOutside(wrapperRef, () => {
     setOptionsOpen(false);
@@ -70,11 +57,11 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
     <div className="job-form-container">
       <div className="modal-header">
         <h2>Add New Job</h2>
-        {/*{job && (*/}
-        {/*  <button className="button danger" onClick={() => handleDeleteJob(job, onSuccess)}>*/}
-        {/*    Delete*/}
-        {/*  </button>*/}
-        {/*)}*/}
+        {job && (
+          <button className="button danger" onClick={() => handleDeleteJob(job, onSuccess)}>
+            Delete
+          </button>
+        )}
       </div>
       <form className="job-form" onSubmit={handleJobForm}>
         <div className="form-inputs">
@@ -84,7 +71,7 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
               type="text"
               placeholder="Enter job name..."
               id="jobName"
-              // defaultValue={job ? job.name : ""}
+              defaultValue={job ? job.name : ""}
               required
             />
           </div>
@@ -137,7 +124,7 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
             <textarea
               placeholder="Enter job description..."
               id="jobDescription"
-              // defaultValue={job ? job.description : ""}
+              defaultValue={job ? job.description : ""}
               required
             />
           </div>
@@ -146,7 +133,7 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
             <select
               className="job-status"
               id="jobStatus"
-              defaultValue=""
+              defaultValue={job ? job.status : ""}
               required
             >
               <option value="" disabled>
@@ -161,8 +148,7 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
           </div>
         </div>
         <button type="submit" className="button success">
-          {/*{job ? "Save Job" : "Add Job"}*/}
-          Add Job
+          {job ? "Save Job" : "Add Job"}
         </button>
       </form>
     </div>

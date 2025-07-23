@@ -2,7 +2,7 @@ import React from "react";
 import JobForm from "./Forms/JobForm";
 import Modal from "./Modal";
 
-const JobBoard = ({ botsState, jobsState, setNewJob, handleDeleteJob }) => {
+const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobIdRef, handleDeleteJob }) => {
   const getJobMessage = () => {
     const jobCount = jobsState.length;
     if (jobCount === 0) {
@@ -23,7 +23,7 @@ const JobBoard = ({ botsState, jobsState, setNewJob, handleDeleteJob }) => {
       <div className="job-list-header">
         <h2>Jobs List</h2>
         <Modal openButtonClass={"button neutral"} openButtonInnerHtml={"Add Job"}>
-          <JobForm jobsState={jobsState} botsState={botsState} setNewJob={setNewJob} />
+          <JobForm jobsState={jobsState} botsState={botsState} setChangedJobState={setNewJob} />
         </Modal>
       </div>
       <p>{getJobMessage()}</p>
@@ -51,19 +51,19 @@ const JobBoard = ({ botsState, jobsState, setNewJob, handleDeleteJob }) => {
             </div>
           </div>
           <div className="functional-buttons">
-            {/*<Modal*/}
-            {/*  openButtonClass={"icon-button edit"}*/}
-            {/*  openButtonInnerHtml={<i className="bi bi-pencil"></i>}*/}
-            {/*>*/}
-            {/*  <JobForm*/}
-            {/*    jobsState={jobsState}*/}
-            {/*    botsState={botsState}*/}
-            {/*    newJob={newJob}*/}
-            {/*    setNewJob={setNewJob}*/}
-            {/*    job={job}*/}
-            {/*    handleDeleteJob={handleDeleteJob}*/}
-            {/*  />*/}
-            {/*</Modal>*/}
+            <Modal
+              openButtonClass={"icon-button edit"}
+              openButtonInnerHtml={<i className="bi bi-pencil"></i>}
+            >
+              <JobForm
+                jobsState={jobsState}
+                botsState={botsState}
+                setChangedJobState={setUpdatedJob}
+                job={job}
+                updatedJobIdRef={updatedJobIdRef}
+                handleDeleteJob={handleDeleteJob}
+              />
+            </Modal>
             <button className="icon-button delete" onClick={() => handleDeleteJob(job)}>
               <i className="bi bi-trash"></i>
             </button>
