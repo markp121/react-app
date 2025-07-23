@@ -41,6 +41,16 @@ app.post("/jobs", (req, res) => {
   })
 })
 
+app.delete("/jobs/:id", (req, res) => {
+  const bookId = req.params.id;
+  const q =  "DELETE FROM jobs WHERE id = ?";
+
+  db.query(q, [bookId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("job deleted successfully");
+  })
+})
+
 app.listen(8800, () => {
   console.log("listening to port 8800");
 });

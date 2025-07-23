@@ -1,13 +1,19 @@
 import React from "react";
 import JobForm from "./Forms/JobForm";
 import Modal from "./Modal";
+import axios from "axios";
 
-const JobBoard = ({ botsState, jobsState, setJobsState, setNewJob }) => {
-  const handleDeleteJob = (job, closeModal = () => {}) => {
+const JobBoard = ({ botsState, jobsState, setNewJob, setDeleteJob }) => {
+  const handleDeleteJob = async (job, closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
     if (confirm) {
-      setJobsState((jobsState) => jobsState.filter((a) => a.id !== job.id));
-      closeModal();
+      try {
+        await axios.delete("http://localhost:8800/jobs/" + job.id);
+        setDeleteJob((prev) => !prev);
+        closeModal();
+      } catch (error) {
+        console.log(error);
+      }
     }
   };
 

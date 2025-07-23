@@ -14,6 +14,7 @@ const Layout = () => {
   const [botsState, setBotsState] = useState(bots);
   const [jobsState, setJobsState] = useState([]);
   const [newJob, setNewJob] = useState();
+  const [deleteJob, setDeleteJob] = useState(false);
 
   const contextValue = { botsState, jobsState, setJobsState, setNewJob };
 
@@ -40,7 +41,7 @@ const Layout = () => {
     } else {
       fetchAllJobs();
     }
-  }, [newJob]);
+  }, [newJob, deleteJob]);
 
   return (
     <>
@@ -52,6 +53,7 @@ const Layout = () => {
             jobsState={jobsState}
             setJobsState={setJobsState}
             setNewJob={setNewJob}
+            setDeleteJob={setDeleteJob}
           />
         </Sidebar>
         <Sidebar sidebarClass={"right"}>

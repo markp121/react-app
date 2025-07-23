@@ -146,7 +146,7 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
             <select
               className="job-status"
               id="jobStatus"
-              // defaultValue={job ? job.status : ""}
+              defaultValue=""
               required
             >
               <option value="" disabled>
