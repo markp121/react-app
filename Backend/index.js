@@ -26,6 +26,21 @@ app.get("/jobs", (req, res) => {
   });
 });
 
+app.post("/jobs", (req, res) => {
+  const q = "INSERT INTO jobs(`name`, `description`, `requiredBots`, `status`) VALUES (?)";
+  const values = [
+    req.body.name,
+    req.body.description,
+    req.body.requiredBots,
+    req.body.status,
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json("Job has been created successfully");
+  })
+})
+
 app.listen(8800, () => {
   console.log("listening to port 8800");
 });

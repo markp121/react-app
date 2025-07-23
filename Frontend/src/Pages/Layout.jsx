@@ -13,10 +13,19 @@ import axios from "axios";
 const Layout = () => {
   const [botsState, setBotsState] = useState(bots);
   const [jobsState, setJobsState] = useState([]);
+  const [newJob, setNewJob] = useState();
 
-  const contextValue = { botsState, jobsState, setJobsState };
+  const contextValue = { botsState, jobsState, setJobsState, setNewJob };
 
   useEffect(() => {
+    const postNewJob = async () => {
+      try {
+        await axios.post("http://localhost:8800/jobs", newJob);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
     const fetchAllJobs = async () => {
       try {
         const res = await axios.get("http://localhost:8800/jobs");
@@ -24,17 +33,26 @@ const Layout = () => {
       } catch (error) {
         console.log(error);
       }
+    };
+    if (newJob) {
+      postNewJob();
+      setNewJob();
+    } else {
+      fetchAllJobs();
     }
-
-    fetchAllJobs();
-  }, []);
+  }, [newJob]);
 
   return (
     <>
       <Header />
       <Main>
         <Sidebar sidebarClass={"left"}>
-          <JobBoard botsState={botsState} jobsState={jobsState} setJobsState={setJobsState} />
+          <JobBoard
+            botsState={botsState}
+            jobsState={jobsState}
+            setJobsState={setJobsState}
+            setNewJob={setNewJob}
+          />
         </Sidebar>
         <Sidebar sidebarClass={"right"}>
           <DynamicList />
