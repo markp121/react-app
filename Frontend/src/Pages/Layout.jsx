@@ -43,6 +43,19 @@ const Layout = () => {
     }
   }, [newJob, deleteJob]);
 
+  const handleDeleteJob = async (job, closeModal = () => {}) => {
+    const confirm = window.confirm("Are you sure you want to delete this bot?");
+    if (confirm) {
+      try {
+        await axios.delete("http://localhost:8800/jobs/" + job.id);
+        setDeleteJob((prev) => !prev);
+        closeModal();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   return (
     <>
       <Header />
@@ -53,7 +66,7 @@ const Layout = () => {
             jobsState={jobsState}
             setJobsState={setJobsState}
             setNewJob={setNewJob}
-            setDeleteJob={setDeleteJob}
+            handleDeleteJob={handleDeleteJob}
           />
         </Sidebar>
         <Sidebar sidebarClass={"right"}>

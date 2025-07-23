@@ -23,7 +23,7 @@ const JobForm = ({ jobsState, botsState, setNewJob, job, handleDeleteJob, onSucc
       setNewJob({
         name: jobName.value,
         description: jobDescription.value,
-        requiredBots: requiredBots.length > 0 ? requiredBots.join(", ") : "",
+        requiredBots: requiredBots.join(", "),
         status: jobStatus.value,
       });
     }

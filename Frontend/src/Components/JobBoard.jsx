@@ -1,22 +1,8 @@
 import React from "react";
 import JobForm from "./Forms/JobForm";
 import Modal from "./Modal";
-import axios from "axios";
 
-const JobBoard = ({ botsState, jobsState, setNewJob, setDeleteJob }) => {
-  const handleDeleteJob = async (job, closeModal = () => {}) => {
-    const confirm = window.confirm("Are you sure you want to delete this bot?");
-    if (confirm) {
-      try {
-        await axios.delete("http://localhost:8800/jobs/" + job.id);
-        setDeleteJob((prev) => !prev);
-        closeModal();
-      } catch (error) {
-        console.log(error);
-      }
-    }
-  };
-
+const JobBoard = ({ botsState, jobsState, setNewJob, handleDeleteJob }) => {
   const getJobMessage = () => {
     const jobCount = jobsState.length;
     if (jobCount === 0) {
@@ -46,13 +32,17 @@ const JobBoard = ({ botsState, jobsState, setNewJob, setDeleteJob }) => {
           <div className="job-info">
             <h4>{job.name}</h4>
             <p>{job.description}</p>
-            <ul>
-              {job.requiredBots.split(",").map((skill) => (
-                <div key={skill}>
-                  <li>{skill}</li>
-                </div>
-              ))}
-            </ul>
+            {job.requiredBots.length > 0 ? (
+              <ul>
+                {job.requiredBots.split(",").map((bot) => (
+                  <div key={bot}>
+                    <li>{bot}</li>
+                  </div>
+                ))}
+              </ul>
+            ) : (
+              <span>No bots required</span>
+            )}
             <div className="status-container">
               <div className="status">
                 <span className={"status-ball " + job.status}></span>

@@ -59,12 +59,17 @@ const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, setJobsSta
               <div className="job-info">
                 <h4>{job.name}</h4>
                 <p>{job.description}</p>
-                <ul>
-                  {
-                    job.requiredBots.split(",").map((skill, index) => (
-                    <li key={index}>{skill}</li>
-                  ))}
-                </ul>
+                {job.requiredBots.length > 0 ? (
+                  <ul>
+                    {job.requiredBots.split(",").map((bot) => (
+                      <div key={bot}>
+                        <li>{bot}</li>
+                      </div>
+                    ))}
+                  </ul>
+                ) : (
+                  <span>No bots required</span>
+                )}
               </div>
             </li>
           ))}
