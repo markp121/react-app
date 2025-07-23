@@ -1,14 +1,16 @@
+import React, { useEffect, useRef, useState } from "react";
 import { Outlet } from "react-router-dom";
+import axios from "axios";
+
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import React, { useEffect, useRef, useState } from "react";
 import Main from "../Components/Main";
 import Sidebar from "../Components/Sidebar";
 import JobBoard from "../Components/JobBoard";
 import DynamicList from "../Components/DynamicList";
 import BotListManager from "../Components/BotListManager";
+
 import bots from "../Data/Bots";
-import axios from "axios";
 
 const Layout = () => {
   const [botsState, setBotsState] = useState(bots);
@@ -19,7 +21,7 @@ const Layout = () => {
 
   const updatedJobIdRef = useRef();
 
-  const contextValue = { botsState, jobsState, setJobsState, setNewJob };
+  const contextValue = { jobsState, botsState, setNewJob, setUpdatedJob, updatedJobIdRef };
 
   useEffect(() => {
     const postNewJob = async () => {
@@ -36,7 +38,7 @@ const Layout = () => {
       } catch (err) {
         console.log(err);
       }
-    }
+    };
 
     const fetchAllJobs = async () => {
       try {
@@ -52,8 +54,7 @@ const Layout = () => {
     } else if (updatedJob) {
       updateJob();
       setUpdatedJob();
-    }
-    else {
+    } else {
       fetchAllJobs();
     }
   }, [newJob, updatedJob, deleteJob]);

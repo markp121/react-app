@@ -6,35 +6,32 @@ import JobColumn from "../Components/JobColumn";
 import DynamicTextInput from "../Components/DynamicTextInput";
 
 const Jobs = () => {
-  const { botsState, jobsState, setJobsState, setNewJob } = useOutletContext();
-  const [unassigned, setUnassigned] = useState([]);
-  const [assigned, setAssigned] = useState([]);
-  const [started, setStarted] = useState([]);
-  const [complete, setComplete] = useState([]);
-  const [blocked, setBlocked] = useState([]);
+  const { jobsState, botsState, setNewJob, setUpdatedJob, updatedJobIdRef } = useOutletContext();
+
+  const [unassignedList, setUnassignedList] = useState([]);
+  const [assignedList, setAssignedList] = useState([]);
+  const [startedList, setStartedList] = useState([]);
+  const [completeList, setCompleteList] = useState([]);
+  const [blockedList, setBlockedList] = useState([]);
   const [searchText, setSearchText] = useState("");
 
   const dragRef = useRef(null);
 
-  const statusListStates = useMemo(() => {
+  const columnListStates = useMemo(() => {
     return [
-      ["unassigned", unassigned, setUnassigned],
-      ["assigned", assigned, setAssigned],
-      ["started", started, setStarted],
-      ["complete", complete, setComplete],
-      ["blocked", blocked, setBlocked],
+      [unassignedList, setUnassignedList, "unassigned"],
+      [assignedList, setAssignedList, "assigned"],
+      [startedList, setStartedList, "started"],
+      [completeList, setCompleteList, "complete"],
+      [blockedList, setBlockedList, "blocked"],
     ];
-  }, [unassigned, assigned, started, complete, blocked]);
+  }, [unassignedList, assignedList, startedList, completeList, blockedList]);
 
   return (
     <div className="jobs-page-body">
       <h1>Jobs Management</h1>
       <div className="job-form-wrapper">
-        <JobForm
-          jobsState={jobsState}
-          botsState={botsState}
-          setChangedJobState={setNewJob}
-        />
+        <JobForm jobsState={jobsState} botsState={botsState} setChangedJobState={setNewJob} />
       </div>
       <div className="jobs-wrapper">
         <div className="job-search">
@@ -48,16 +45,15 @@ const Jobs = () => {
           </div>
         </div>
         <div className="job-column-wrapper">
-          {statusListStates.map(([jobStatus, statusList, setStatusList]) => (
+          {columnListStates.map((columnListState, index) => (
             <JobColumn
-              key={jobStatus}
-              jobStatus={jobStatus}
-              statusList={statusList}
-              setStatusList={setStatusList}
+              columnListState={columnListState}
               jobsState={jobsState}
-              setJobsState={setJobsState}
+              setUpdatedJob={setUpdatedJob}
+              updatedJobIdRef={updatedJobIdRef}
               searchText={searchText}
               dragRef={dragRef}
+              key={index}
             />
           ))}
         </div>

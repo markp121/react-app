@@ -1,17 +1,18 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, setJobsState, dragRef, searchText }) => {
+const JobColumn = ({ columnListState, jobsState, setUpdatedJob, updatedJobIdRef, searchText, dragRef }) => {
   const [emptyList, setEmptyList] = useState(true);
+  const [columnList, setColumnList, columnStatus] = columnListState;
 
   useEffect(() => {
-    setStatusList(jobsState.filter((job) => job.status === jobStatus));
-  }, [setStatusList, jobsState, jobStatus]);
+    setColumnList(jobsState.filter((job) => job.status === columnStatus));
+  }, [setColumnList, jobsState, columnStatus]);
 
   const filteredJobsList = useMemo(() => {
-    return statusList.filter((statusListItem) =>
+    return columnList.filter((statusListItem) =>
       statusListItem.name.toLowerCase().includes(searchText.toLowerCase()),
     );
-  }, [searchText, statusList]);
+  }, [searchText, columnList]);
 
   useEffect(() => {
     if (filteredJobsList.length > 0) {
@@ -22,16 +23,9 @@ const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, setJobsSta
   }, [filteredJobsList]);
 
   function setJobStatus(jobId) {
-    return setJobsState(
-      jobsState.map((b) =>
-        b.id === jobId
-          ? {
-              ...b,
-              status: jobStatus,
-            }
-          : b,
-      ),
-    );
+    updatedJobIdRef.current = jobId;
+    const currentJob = jobsState.filter((job) => job.id === jobId)[0];
+    setUpdatedJob({...currentJob,  status: columnStatus});
   }
 
   const handleDragOver = (event) => {
@@ -41,11 +35,11 @@ const JobColumn = ({ jobStatus, statusList, setStatusList, jobsState, setJobsSta
 
   return (
     <div className="job-column">
-      <h2>{jobStatus}</h2>
+      <h2>{columnStatus}</h2>
       <div className="job-colum-dropzone" onDragOver={handleDragOver}>
         <ul className="job-column-list">
           {emptyList && (
-            <p className="placeholder-message">There are no {jobStatus} jobs scheduled.</p>
+            <p className="placeholder-message">There are no {columnStatus} jobs scheduled.</p>
           )}
           {filteredJobsList.map((job) => (
             <li
