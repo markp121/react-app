@@ -26,6 +26,14 @@ app.get("/jobs", (req, res) => {
   });
 });
 
+app.get("/bots", (req, res) => {
+  const q = "SELECT * FROM bots";
+  db.query(q, (err, data) => {
+    if (err) return res.json(err);
+    return res.json(data);
+  });
+});
+
 app.post("/jobs", (req, res) => {
   const q = "INSERT INTO jobs(`name`, `description`, `requiredBots`, `status`) VALUES (?)";
   const values = [
@@ -41,6 +49,19 @@ app.post("/jobs", (req, res) => {
   })
 })
 
+app.post("/bots", (req, res) => {
+  const q = "INSERT INTO bots(`name`, `task`) VALUES (?)";
+  const values = [
+    req.body.name,
+    req.body.task,
+  ];
+
+  db.query(q, [values], (err, data) => {
+    if (err) return res.send(err);
+    return res.json("Bot has been created successfully");
+  })
+})
+
 app.delete("/jobs/:id", (req, res) => {
   const jobId = req.params.id;
   const q =  "DELETE FROM jobs WHERE id = ?";
@@ -48,6 +69,16 @@ app.delete("/jobs/:id", (req, res) => {
   db.query(q, [jobId], (err, data) => {
     if (err) return res.json(err);
     return res.json("job deleted successfully");
+  })
+})
+
+app.delete("/bots/:id", (req, res) => {
+  const botId = req.params.id;
+  const q =  "DELETE FROM bots WHERE id = ?";
+
+  db.query(q, [botId], (err, data) => {
+    if (err) return res.json(err);
+    return res.json("bot deleted successfully");
   })
 })
 
@@ -65,6 +96,21 @@ app.put("/jobs/:id", (req, res) => {
   db.query(q, [...values, jobId], (err, data) => {
     if (err) return res.send(err);
     return res.json("Job has been updated successfully");
+  })
+})
+
+app.put("/bots/:id", (req, res) => {
+  const botId = req.params.id;
+  const q = "UPDATE bots SET `name` = ?, `task` = ? WHERE id = ?";
+
+  const values = [
+    req.body.name,
+    req.body.task,
+  ];
+
+  db.query(q, [...values, botId], (err, data) => {
+    if (err) return res.send(err);
+    return res.json("Bot has been updated successfully");
   })
 })
 

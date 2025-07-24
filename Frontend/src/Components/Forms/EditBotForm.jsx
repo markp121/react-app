@@ -1,49 +1,46 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 
 const EditBotForm = (props) => {
-  const { botsState, setBotsState, botListItem, handleDeleteBot, setBotList, onSuccess } = props;
-
-  const [name, setName] = useState(botListItem.name);
-  const [task, setTask] = useState(botListItem.task);
+  const { botListItem, botsState, updatedBot, setUpdatedBot, handleDeleteBot, onSuccess } = props;
 
   const handleEditBotForm = (event) => {
     event.preventDefault();
-    const form = event.target;
-    const botName = form.querySelector("#botName");
-    const botTask = form.querySelector("#botTask");
+    const botName = event.target.querySelector("#botName");
+    const botTask = event.target.querySelector("#botTask");
 
-    const usedNames = botsState
-      .filter((a) => a.id !== botListItem.id)
-      .map((b) => b.name.toLowerCase());
-    if (usedNames.includes(botName.value.toLowerCase())) {
+    const usedNames = botsState.filter((a) => a.id !== botListItem.id);
+    if (usedNames.map((b) => b.name.toLowerCase()).includes(botName.value.toLowerCase())) {
       alert("Duplicate Bot Name!");
       return false;
     } else {
-      setName(botName.value);
-      setTask(botTask.value);
+      setUpdatedBot({
+        name: botName.value,
+        task: botTask.value,
+      });
     }
     onSuccess();
   };
 
-  const updateTaskName = useCallback(
-    (setState) => {
-      setState((a) =>
-        a.map((b) => (b.id === botListItem.id ? { ...b, name: name, task: task } : b)),
-      );
-    },
-    [botListItem.id, name, task],
-  );
-
   useEffect(() => {
-    updateTaskName(setBotsState);
-    updateTaskName(setBotList);
-  }, [setBotsState, setBotList, updateTaskName]);
+    const updateBot = async () => {
+      try {
+        await axios.put("http://localhost:8800/bots/" + botListItem.id, updatedBot);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (updatedBot) {
+      updateBot();
+      setUpdatedBot();
+    }
+  }, [updatedBot, botListItem.id, setUpdatedBot]);
 
   return (
     <>
       <div className="modal-header">
         <h2>Edit Bot</h2>
-        <button className="button danger" onClick={() => handleDeleteBot(onSuccess)}>
+        <button className="button danger" onClick={() => handleDeleteBot(botListItem, onSuccess)}>
           Delete
         </button>
       </div>
@@ -52,11 +49,11 @@ const EditBotForm = (props) => {
           <div>
             <label htmlFor="botName">Bot Name</label>
             <br />
-            <input type="text" id="botName" defaultValue={name} required />
+            <input type="text" id="botName" defaultValue={botListItem.name} required />
           </div>
           <div>
             <label htmlFor="botTask">Bot Task</label> <br />
-            <input type="text" id="botTask" defaultValue={task} required />
+            <input type="text" id="botTask" defaultValue={botListItem.task} required />
           </div>
         </div>
         <button type="submit" className="button success">

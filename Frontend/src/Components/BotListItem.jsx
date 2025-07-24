@@ -1,22 +1,22 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Modal from "./Modal";
 import EditBotForm from "./Forms/EditBotForm";
 
 const BotListItem = (props) => {
-  const { botListItem, botsState, setBotsState, setBotList, executeBotTask } = props;
+  const {
+    botListItem,
+    botsState,
+    setBotList,
+    updatedBot,
+    setUpdatedBot,
+    executeBotTask,
+    handleDeleteBot,
+  } = props;
 
   const timeoutRef = useRef(null);
 
   const handleRemoveBot = () => {
-    setBotList((a) => a.filter((b) => b.listId !== botListItem.listId));
-  };
-
-  const handleDeleteBot = (closeModal = () => {}) => {
-    const confirm = window.confirm("Are you sure you want to delete this bot?");
-    if (confirm) {
-      setBotsState((botsState) => botsState.filter((a) => a.id !== botListItem.id));
-      closeModal();
-    }
+    setBotList((prev) => prev.filter((a) => a.listId !== botListItem.listId));
   };
 
   const handleChangeBotStatus = () => {
@@ -34,6 +34,10 @@ const BotListItem = (props) => {
       }
     }
   };
+
+  useEffect(() => {
+    setBotList((prev) => prev.map((b) => (b.id === botListItem.id ? { ...b, ...updatedBot } : b)));
+  }, [updatedBot, botListItem.id, setBotList]);
 
   function updateBotStatus(botStatus) {
     setBotList((a) =>
@@ -68,14 +72,14 @@ const BotListItem = (props) => {
           openButtonInnerHtml={<i className="bi bi-pencil"></i>}
         >
           <EditBotForm
-            botsState={botsState}
-            setBotsState={setBotsState}
             botListItem={botListItem}
+            botsState={botsState}
+            updatedBot={updatedBot}
+            setUpdatedBot={setUpdatedBot}
             handleDeleteBot={handleDeleteBot}
-            setBotList={setBotList}
           />
         </Modal>
-        <button className="icon-button delete" onClick={() => handleDeleteBot()}>
+        <button className="icon-button delete" onClick={() => handleDeleteBot(botListItem)}>
           <i className="bi bi-trash"></i>
         </button>
       </div>

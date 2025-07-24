@@ -10,10 +10,11 @@ import JobBoard from "../Components/JobBoard";
 import DynamicList from "../Components/DynamicList";
 import BotListManager from "../Components/BotListManager";
 
-import bots from "../Data/Bots";
-
 const Layout = () => {
-  const [botsState, setBotsState] = useState(bots);
+  const [botsState, setBotsState] = useState([]);
+  const [newBot, setNewBot] = useState();
+  const [updatedBot, setUpdatedBot] = useState();
+  const [deleteBot, setDeleteBot] = useState(false);
   const [jobsState, setJobsState] = useState([]);
   const [newJob, setNewJob] = useState();
   const [updatedJob, setUpdatedJob] = useState();
@@ -59,12 +60,37 @@ const Layout = () => {
     }
   }, [newJob, updatedJob, deleteJob]);
 
+  useEffect(() => {
+    const fetchAllBots = async () => {
+      try {
+        const res = await axios.get("http://localhost:8800/bots");
+        setBotsState(res.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchAllBots();
+  }, [newBot, updatedBot, deleteBot]);
+
   const handleDeleteJob = async (job, closeModal = () => {}) => {
-    const confirm = window.confirm("Are you sure you want to delete this bot?");
+    const confirm = window.confirm("Are you sure you want to delete this job?");
     if (confirm) {
       try {
         await axios.delete("http://localhost:8800/jobs/" + job.id);
         setDeleteJob((prev) => !prev);
+        closeModal();
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
+  const handleDeleteBot = async (bot, closeModal = () => {}) => {
+    const confirm = window.confirm("Are you sure you want to delete this bot?");
+    if (confirm) {
+      try {
+        await axios.delete("http://localhost:8800/bots/" + bot.id);
+        setDeleteBot((prev) => !prev);
         closeModal();
       } catch (error) {
         console.log(error);
@@ -88,7 +114,14 @@ const Layout = () => {
         </Sidebar>
         <Sidebar sidebarClass={"right"}>
           <DynamicList />
-          <BotListManager botsState={botsState} setBotsState={setBotsState} />
+          <BotListManager
+            botsState={botsState}
+            newBot={newBot}
+            setNewBot={setNewBot}
+            updatedBot={updatedBot}
+            setUpdatedBot={setUpdatedBot}
+            handleDeleteBot={handleDeleteBot}
+          />
         </Sidebar>
         <Outlet context={contextValue} />
       </Main>

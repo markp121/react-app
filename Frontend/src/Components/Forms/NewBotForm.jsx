@@ -1,24 +1,34 @@
-import React from "react";
+import React, { useEffect } from "react";
+import axios from "axios";
 
-const NewBotForm = ({ botsState, setBotsState, onSuccess }) => {
+const NewBotForm = ({ botsState, newBot, setNewBot, onSuccess }) => {
   const handleSubmitNewBotForm = (event) => {
     event.preventDefault();
-    const form = event.target;
-    const botName = form.querySelector("#botName");
-    const botTask = form.querySelector("#botTask");
-    const id = botsState.length > 0 ? botsState[botsState.length - 1].id + 1 : 0;
+    const botName = event.target.querySelector("#botName");
+    const botTask = event.target.querySelector("#botTask");
 
     if (botsState.filter((bot) => bot.name.toLowerCase() === botName.value.toLowerCase()).length) {
       alert("Duplicate Bot Name");
       return false;
     } else {
-      setBotsState([
-        ...botsState,
-        { id: id, name: botName.value, task: botTask.value, status: "Stopped" },
-      ]);
+      setNewBot({ name: botName.value, task: botTask.value });
     }
     onSuccess();
   };
+
+  useEffect(() => {
+    const postNewBot = async () => {
+      try {
+        await axios.post("http://localhost:8800/bots", newBot);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    if (newBot) {
+      postNewBot();
+      setNewBot();
+    }
+  }, [newBot, setNewBot]);
 
   return (
     <>

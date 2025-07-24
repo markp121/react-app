@@ -8,7 +8,7 @@ import BotListItem from "./BotListItem";
 const statuses = ["running", "stopped", "completed", "failed"];
 let listId = 0;
 
-const BotListManager = ({ botsState, setBotsState }) => {
+const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBot, handleDeleteBot }) => {
   const [botList, setBotList] = useState([]);
   const [statusFilter, setStatusFilter] = useState(statuses);
   const [optionsOpen, setOptionsOpen] = useState(false);
@@ -79,16 +79,12 @@ const BotListManager = ({ botsState, setBotsState }) => {
     return Math.random() * (max - min) + min;
   }
 
-  function capitalize(s) {
-    return s && String(s[0]).toUpperCase() + String(s).slice(1);
-  }
-
   return (
     <div className="bot-list-manager">
       <div className="bot-list-header">
         <h2>Bot List Manager</h2>
         <Modal openButtonClass={"button neutral"} openButtonInnerHtml={"Create"}>
-          <NewBotForm botsState={botsState} setBotsState={setBotsState} />
+          <NewBotForm botsState={botsState} newBot={newBot} setNewBot={setNewBot} />
         </Modal>
       </div>
       <div className="bot-list-search">
@@ -137,7 +133,7 @@ const BotListManager = ({ botsState, setBotsState }) => {
                     checked={statusFilter.includes(status)}
                     onChange={handleStatusCheckboxChange}
                   />
-                  <label htmlFor={`checkbox-${status}`}>{capitalize(status)}</label>
+                  <label htmlFor={`checkbox-${status}`} style={{textTransform: "capitalize"}}>{status}</label>
                 </li>
               ))}
             </ul>
@@ -149,9 +145,11 @@ const BotListManager = ({ botsState, setBotsState }) => {
           <BotListItem
             botListItem={filteredBotListItem}
             botsState={botsState}
-            setBotsState={setBotsState}
             setBotList={setBotList}
+            updatedBot={updatedBot}
+            setUpdatedBot={setUpdatedBot}
             executeBotTask={executeBotTask}
+            handleDeleteBot={handleDeleteBot}
             key={filteredBotListItem.listId}
           />
         ))}
