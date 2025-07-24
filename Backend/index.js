@@ -1,118 +1,178 @@
 import express from "express";
-import mysql from "mysql";
 import cors from "cors";
+import { Sequelize, DataTypes } from "sequelize";
 
 const app = express();
 
-const db = mysql.createConnection({
+const sequelize = new Sequelize("course_app", "root", "root", {
   host: "localhost",
-  user: "root",
-  password: "root",
-  database: "course_app",
+  dialect: "mysql",
 });
 
 app.use(express.json());
-app.use(cors())
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.json("Hello, this is the backend");
 });
 
-app.get("/jobs", (req, res) => {
-  const q = "SELECT * FROM jobs";
-  db.query(q, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
-  });
+const Jobs = sequelize.define("jobs", {
+  name: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  description: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  requiredBots: {
+    type: DataTypes.TEXT,
+  },
+  status: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
 });
 
-app.get("/bots", (req, res) => {
-  const q = "SELECT * FROM bots";
-  db.query(q, (err, data) => {
-    if (err) return res.json(err);
-    return res.json(data);
-  });
+const Bots = sequelize.define("bots", {
+  name: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  task: {
+    type: DataTypes.TEXT,
+    allowNull: false,
+  },
+  status: {
+    type: DataTypes.TEXT,
+    defaultValue: "Stopped",
+  },
 });
 
-app.post("/jobs", (req, res) => {
-  const q = "INSERT INTO jobs(`name`, `description`, `requiredBots`, `status`) VALUES (?)";
-  const values = [
-    req.body.name,
-    req.body.description,
-    req.body.requiredBots,
-    req.body.status,
-  ];
+// (async () => {
+//   await sequelize.sync({ force: true });
+//   console.log("Database Synced")
+// })();
 
-  db.query(q, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.json("Job has been created successfully");
-  })
-})
+app.get("/jobs", async (req, res) => {
+  try {
+    const jobs = await Jobs.findAll();
+    res.json(jobs);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-app.post("/bots", (req, res) => {
-  const q = "INSERT INTO bots(`name`, `task`) VALUES (?)";
-  const values = [
-    req.body.name,
-    req.body.task,
-  ];
+app.get("/bots", async (req, res) => {
+  try {
+    const bots = await Bots.findAll();
+    res.json(bots);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-  db.query(q, [values], (err, data) => {
-    if (err) return res.send(err);
-    return res.json("Bot has been created successfully");
-  })
-})
+app.post("/jobs", async (req, res) => {
+  const { name, description, requiredBots, status } = req.body;
+  try {
+    const newJob = await Jobs.create({
+      name,
+      description,
+      requiredBots,
+      status,
+    });
+    res.status(201).json(newJob);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-app.delete("/jobs/:id", (req, res) => {
+app.post("/bots", async (req, res) => {
+  const { name, task, status } = req.body;
+  try {
+    const newBot = await Bots.create({
+      name,
+      task,
+      status,
+    });
+    res.status(201).json(newBot);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+app.delete("/jobs/:id", async (req, res) => {
   const jobId = req.params.id;
-  const q =  "DELETE FROM jobs WHERE id = ?";
+  try {
+    const deleteJob = await Jobs.destroy({
+      where: {
+        id: jobId,
+      },
+    });
+    res.status(200).json(deleteJob);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-  db.query(q, [jobId], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("job deleted successfully");
-  })
-})
-
-app.delete("/bots/:id", (req, res) => {
+app.delete("/bots/:id", async (req, res) => {
   const botId = req.params.id;
-  const q =  "DELETE FROM bots WHERE id = ?";
+  try {
+    const deleteBot = await Bots.destroy({
+      where: {
+        id: botId,
+      },
+    });
+    res.status(200).json(deleteBot);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-  db.query(q, [botId], (err, data) => {
-    if (err) return res.json(err);
-    return res.json("bot deleted successfully");
-  })
-})
-
-app.put("/jobs/:id", (req, res) => {
+app.put("/jobs/:id", async (req, res) => {
   const jobId = req.params.id;
-  const q = "UPDATE jobs SET `name` = ?, `description` = ?, `requiredBots` = ?, `status` = ? WHERE id = ?";
+  const { name, description, requiredBots, status } = req.body;
+  try {
+    const updatedJob = await Jobs.update(
+      {
+        name: name,
+        description: description,
+        requiredBots: requiredBots,
+        status: status,
+      },
+      {
+        where: {
+          id: jobId,
+        },
+      },
+    );
+    res.status(200).json(updatedJob);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
-  const values = [
-    req.body.name,
-    req.body.description,
-    req.body.requiredBots,
-    req.body.status,
-  ];
-
-  db.query(q, [...values, jobId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json("Job has been updated successfully");
-  })
-})
-
-app.put("/bots/:id", (req, res) => {
+app.put("/bots/:id", async (req, res) => {
   const botId = req.params.id;
-  const q = "UPDATE bots SET `name` = ?, `task` = ? WHERE id = ?";
-
-  const values = [
-    req.body.name,
-    req.body.task,
-  ];
-
-  db.query(q, [...values, botId], (err, data) => {
-    if (err) return res.send(err);
-    return res.json("Bot has been updated successfully");
-  })
-})
+  const { name, task, status } = req.body;
+  try {
+    const updatedBot = await Bots.update(
+      {
+        name: name,
+        task: task,
+        status: status,
+      },
+      {
+        where: {
+          id: botId,
+        },
+      },
+    );
+    res.status(200).json(updatedBot);
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 
 app.listen(8800, () => {
   console.log("listening to port 8800");
