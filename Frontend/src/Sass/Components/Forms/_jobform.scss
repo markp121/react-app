@@ -1,25 +1,31 @@
-@use "../variables";
+@use "../../variables";
 
 .job-form-container {
+  .form-header {
+    display: flex;
+    justify-content: space-between;
+    margin: 0.5rem 0;
+  }
 
   .form-inputs {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 2rem
+    gap: 2rem;
+    margin: 0.5rem 0;
   }
 
-  select {
+  input[type="text"], select, textarea {
     width: 100%;
+    box-sizing:  border-box;
     appearance: none;
+    border: solid 1px;
     background: white;
     font-size: 1rem;
     padding: 0.25rem 0.5rem;
     border-radius: 6px;
     margin: 0.25rem 0;
-  }
-
-  textarea {
     font-family: variables.$font;
+    text-transform: capitalize;
   }
 
   .form-group {
@@ -29,6 +35,15 @@
 
     label {
       font-size: 1.1rem;
+    }
+
+    option {
+      text-transform: capitalize;
+    }
+
+    p {
+      padding: 0;
+      margin: 0;
     }
   }
 
@@ -52,6 +67,7 @@
       box-sizing: border-box;
       text-wrap: auto;
       flex-wrap: wrap;
+      color: rgba(black, 0.5);
       gap: 0.25rem;
     }
 
@@ -64,10 +80,19 @@
 
       li {
         padding: 0.25rem;
+        margin: 0.25rem 0;
+      }
 
-        label {
-          font-size: 1rem;
-        }
+      label {
+        font-size: 1rem;
+        text-transform: capitalize;
+      }
+
+      input[type="checkbox"] {
+        appearance: auto;
+        margin-right: 0.5rem;
+        height: 15px;
+        width: 15px;
       }
     }
   }
@@ -78,6 +103,7 @@
   border-radius: 4px;
   background-color: lightgray;
   font-size: 0.85rem;
+  color: black;
 
   span {
     padding: 0.25rem;

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import useClickOutside from "../Hooks/UseClickOutside";
 import Modal from "./Modal";
-import NewBotForm from "./Forms/NewBotForm";
+import BotForm from "./Forms/BotForm";
 import DynamicTextInput from "./DynamicTextInput";
 import BotListItem from "./BotListItem";
 
@@ -84,7 +84,7 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
       <div className="bot-list-header">
         <h2>Bot List Manager</h2>
         <Modal openButtonClass={"button neutral"} openButtonInnerHtml={"Create"}>
-          <NewBotForm botsState={botsState} newBot={newBot} setNewBot={setNewBot} />
+          <BotForm botsState={botsState} changedBot={newBot} setChangedBot={setNewBot} />
         </Modal>
       </div>
       <div className="bot-list-search">
@@ -114,15 +114,14 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
         </form>
         <div className="options-container" ref={wrapperRef}>
           <button
-            id="optionsToggle"
             type="button"
-            className="button neutral"
+            className="button neutral options-toggle"
             onClick={() => setOptionsOpen(!optionsOpen)}
           >
             <i className="bi bi-list"></i>
           </button>
           {optionsOpen && (
-            <ul id="optionsCheckboxes">
+            <ul className="options-checkboxes">
               {statuses.map((status, index) => (
                 <li key={index}>
                   <input
@@ -133,7 +132,7 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
                     checked={statusFilter.includes(status)}
                     onChange={handleStatusCheckboxChange}
                   />
-                  <label htmlFor={`checkbox-${status}`} style={{textTransform: "capitalize"}}>{status}</label>
+                  <label htmlFor={`checkbox-${status}`}>{status}</label>
                 </li>
               ))}
             </ul>
@@ -143,11 +142,11 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
       <ul>
         {filteredBotList.map((filteredBotListItem) => (
           <BotListItem
-            botListItem={filteredBotListItem}
             botsState={botsState}
             setBotList={setBotList}
             updatedBot={updatedBot}
             setUpdatedBot={setUpdatedBot}
+            botListItem={filteredBotListItem}
             executeBotTask={executeBotTask}
             handleDeleteBot={handleDeleteBot}
             key={filteredBotListItem.listId}

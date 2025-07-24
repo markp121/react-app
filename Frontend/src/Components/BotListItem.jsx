@@ -1,14 +1,14 @@
 import React, { useEffect, useRef } from "react";
 import Modal from "./Modal";
-import EditBotForm from "./Forms/EditBotForm";
+import BotForm from "./Forms/BotForm";
 
 const BotListItem = (props) => {
   const {
-    botListItem,
     botsState,
     setBotList,
     updatedBot,
     setUpdatedBot,
+    botListItem,
     executeBotTask,
     handleDeleteBot,
   } = props;
@@ -71,11 +71,11 @@ const BotListItem = (props) => {
           openButtonClass={"icon-button edit"}
           openButtonInnerHtml={<i className="bi bi-pencil"></i>}
         >
-          <EditBotForm
-            botListItem={botListItem}
+          <BotForm
             botsState={botsState}
-            updatedBot={updatedBot}
-            setUpdatedBot={setUpdatedBot}
+            changedBot={updatedBot}
+            setChangedBot={setUpdatedBot}
+            botListItem={botListItem}
             handleDeleteBot={handleDeleteBot}
           />
         </Modal>

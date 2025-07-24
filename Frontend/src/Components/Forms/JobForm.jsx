@@ -3,9 +3,21 @@ import useClickOutside from "../../Hooks/UseClickOutside";
 
 const jobStatus = ["unassigned", "assigned", "started", "complete", "blocked"];
 
-const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRef, handleDeleteJob, onSuccess }) => {
+const JobForm = (props) => {
+  const {
+    jobsState,
+    botsState,
+    setChangedJobState,
+    job,
+    updatedJobIdRef,
+    handleDeleteJob,
+    onSuccess,
+  } = props;
+
   const [optionsOpen, setOptionsOpen] = useState(false);
-  const [requiredBots, setRequiredBots] = useState(job && job.requiredBots.length > 0 ? job.requiredBots.split(", ") : []);
+  const [requiredBots, setRequiredBots] = useState(
+    job && job.requiredBots.length > 0 ? job.requiredBots.split(", ") : [],
+  );
 
   const wrapperRef = useRef("jobOptions");
 
@@ -55,7 +67,7 @@ const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRe
 
   return (
     <div className="job-form-container">
-      <div className="modal-header">
+      <div className="form-header">
         <h2>Add New Job</h2>
         {job && (
           <button className="button danger" onClick={() => handleDeleteJob(job, onSuccess)}>
@@ -63,7 +75,7 @@ const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRe
           </button>
         )}
       </div>
-      <form className="job-form" onSubmit={handleJobForm}>
+      <form onSubmit={handleJobForm}>
         <div className="form-inputs">
           <div className="form-group">
             <label htmlFor="jobName">Job Name:</label>
@@ -76,12 +88,12 @@ const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRe
             />
           </div>
           <div className="form-group">
-            <p className="label">Add Required Bots:</p>
+            <p>Add Required Bots:</p>
             <div className="dropdown-check-list" ref={wrapperRef} id="requiredBots">
               <span className="anchor" onClick={() => setOptionsOpen(!optionsOpen)}>
                 {requiredBots.length > 0
                   ? requiredBots.map((requiredBot, index) => (
-                      <span className="required-bot" key={requiredBot}>
+                      <div className="required-bot" key={requiredBot}>
                         {requiredBot}
                         <span
                           onClick={(event) => {
@@ -94,7 +106,7 @@ const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRe
                         >
                           X
                         </span>
-                      </span>
+                      </div>
                     ))
                   : "Select any required bots..."}
               </span>
@@ -110,9 +122,7 @@ const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRe
                         checked={requiredBots.includes(bot.name)}
                         onChange={handleStatusCheckboxChange}
                       />
-                      <label style={{ textTransform: "capitalize" }} htmlFor={`checkbox-${bot.id}`}>
-                        {bot.name}
-                      </label>
+                      <label htmlFor={`checkbox-${bot.id}`}>{bot.name}</label>
                     </li>
                   ))}
                 </ul>
@@ -140,7 +150,7 @@ const JobForm = ({ jobsState, botsState, setChangedJobState, job, updatedJobIdRe
                 Select job status...
               </option>
               {jobStatus.map((status, index) => (
-                <option key={index} value={status} style={{ textTransform: "capitalize" }}>
+                <option key={index} value={status}>
                   {status}
                 </option>
               ))}

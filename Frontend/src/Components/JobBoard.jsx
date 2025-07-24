@@ -14,10 +14,6 @@ const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobId
     }
   };
 
-  function capitalize(s) {
-    return s && String(s[0]).toUpperCase() + String(s).slice(1);
-  }
-
   return (
     <div className="job-list">
       <div className="job-list-header">
@@ -46,7 +42,7 @@ const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobId
             <div className="status-container">
               <div className="status">
                 <span className={"status-ball " + job.status}></span>
-                {capitalize(job.status)}
+                {job.status}
               </div>
             </div>
           </div>

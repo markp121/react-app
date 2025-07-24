@@ -4,7 +4,6 @@ import axios from "axios";
 
 import Header from "../Components/Header";
 import Footer from "../Components/Footer";
-import Main from "../Components/Main";
 import Sidebar from "../Components/Sidebar";
 import JobBoard from "../Components/JobBoard";
 import DynamicList from "../Components/DynamicList";
@@ -101,7 +100,7 @@ const Layout = () => {
   return (
     <>
       <Header />
-      <Main>
+      <main>
         <Sidebar sidebarClass={"left"}>
           <JobBoard
             jobsState={jobsState}
@@ -124,7 +123,7 @@ const Layout = () => {
           />
         </Sidebar>
         <Outlet context={contextValue} />
-      </Main>
+      </main>
       <Footer />
     </>
   );
