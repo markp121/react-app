@@ -1,6 +1,13 @@
 import React, { useEffect, useMemo, useState } from "react";
 
-const JobColumn = ({ columnListState, jobsState, setUpdatedJob, updatedJobIdRef, searchText, dragRef }) => {
+const JobColumn = ({
+  columnListState,
+  jobsState,
+  setDraggedJob,
+  updatedJobIdRef,
+  searchText,
+  dragRef,
+}) => {
   const [emptyList, setEmptyList] = useState(true);
   const [columnList, setColumnList, columnStatus] = columnListState;
 
@@ -22,21 +29,25 @@ const JobColumn = ({ columnListState, jobsState, setUpdatedJob, updatedJobIdRef,
     }
   }, [filteredJobsList]);
 
-  function setJobStatus(jobId) {
-    updatedJobIdRef.current = jobId;
-    const currentJob = jobsState.filter((job) => job.id === jobId)[0];
-    setUpdatedJob({...currentJob,  status: columnStatus});
-  }
-
-  const handleDragOver = (event) => {
+  const handleDrop = (event) => {
     event.preventDefault();
     setJobStatus(dragRef.current);
   };
 
+  function setJobStatus(jobId) {
+    updatedJobIdRef.current = jobId;
+    const currentJob = jobsState.filter((job) => job.id === jobId)[0];
+    setDraggedJob({ ...currentJob, status: columnStatus });
+  }
+
   return (
     <div className="job-column">
       <h2>{columnStatus}</h2>
-      <div className="job-colum-dropzone" onDragOver={handleDragOver}>
+      <div
+        className="job-colum-dropzone"
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={handleDrop}
+      >
         <ul className="job-column-list">
           {emptyList && (
             <p className="placeholder-message">There are no {columnStatus} jobs scheduled.</p>
@@ -53,11 +64,11 @@ const JobColumn = ({ columnListState, jobsState, setUpdatedJob, updatedJobIdRef,
               <div className="job-info">
                 <h4>{job.name}</h4>
                 <p>{job.description}</p>
-                {job.requiredBots.length > 0 ? (
+                {job.Bots.length > 0 ? (
                   <ul>
-                    {job.requiredBots.split(",").map((bot) => (
-                      <div key={bot}>
-                        <li>{bot}</li>
+                    {job.Bots.map((bot) => (
+                      <div key={bot.name}>
+                        <li>{bot.name}</li>
                       </div>
                     ))}
                   </ul>

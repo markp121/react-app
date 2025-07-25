@@ -6,7 +6,7 @@ import JobColumn from "../Components/JobColumn";
 import DynamicTextInput from "../Components/DynamicTextInput";
 
 const Jobs = () => {
-  const { jobsState, botsState, setNewJob, setUpdatedJob, updatedJobIdRef } = useOutletContext();
+  const { jobsState, botsState, setNewJob, setDraggedJob, updatedJobIdRef } = useOutletContext();
 
   const [unassignedList, setUnassignedList] = useState([]);
   const [assignedList, setAssignedList] = useState([]);
@@ -49,7 +49,7 @@ const Jobs = () => {
             <JobColumn
               columnListState={columnListState}
               jobsState={jobsState}
-              setUpdatedJob={setUpdatedJob}
+              setDraggedJob={setDraggedJob}
               updatedJobIdRef={updatedJobIdRef}
               searchText={searchText}
               dragRef={dragRef}

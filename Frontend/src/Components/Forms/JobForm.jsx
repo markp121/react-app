@@ -16,7 +16,7 @@ const JobForm = (props) => {
 
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [requiredBots, setRequiredBots] = useState(
-    job && job.requiredBots.length > 0 ? job.requiredBots.split(", ") : [],
+    job && job.Bots.length > 0 ? job.Bots.map((bot) => bot.name) : [],
   );
 
   const wrapperRef = useRef("jobOptions");
@@ -36,7 +36,7 @@ const JobForm = (props) => {
       setChangedJobState({
         name: jobName.value,
         description: jobDescription.value,
-        requiredBots: requiredBots.join(", "),
+        requiredBots: requiredBots,
         status: jobStatus.value,
       });
     }

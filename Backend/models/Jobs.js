@@ -1,5 +1,5 @@
 module.exports = (sequelize, DataTypes) => {
-  return sequelize.define("Jobs", {
+  const Jobs = sequelize.define("Jobs", {
     name: {
       type: DataTypes.TEXT,
       allowNull: false,
@@ -8,12 +8,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    requiredBots: {
-      type: DataTypes.TEXT,
-    },
     status: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
   });
+  Jobs.associate = (models) => {
+    Jobs.belongsToMany(models.Bots, { through: models.JobsBots });
+  };
+  return Jobs;
 };

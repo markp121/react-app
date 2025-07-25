@@ -18,10 +18,11 @@ const Layout = () => {
   const [newJob, setNewJob] = useState();
   const [updatedJob, setUpdatedJob] = useState();
   const [deleteJob, setDeleteJob] = useState(false);
+  const [draggedJob, setDraggedJob] = useState();
 
   const updatedJobIdRef = useRef();
 
-  const contextValue = { jobsState, botsState, setNewJob, setUpdatedJob, updatedJobIdRef };
+  const contextValue = { jobsState, botsState, setNewJob, setDraggedJob, updatedJobIdRef };
 
   useEffect(() => {
     const postNewJob = async () => {
@@ -34,7 +35,15 @@ const Layout = () => {
 
     const updateJob = async () => {
       try {
-        await axios.put("http://localhost:8800/jobs/" + updatedJobIdRef.current, updatedJob);
+        await axios.patch("http://localhost:8800/jobs/" + updatedJobIdRef.current, updatedJob);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    const dragJob = async () => {
+      try {
+        await axios.put("http://localhost:8800/Jobs/" + updatedJobIdRef.current, draggedJob);
       } catch (err) {
         console.log(err);
       }
@@ -42,33 +51,31 @@ const Layout = () => {
 
     const fetchAllJobs = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/jobs");
-        setJobsState(res.data);
+        return await axios.get("http://localhost:8800/jobs");
       } catch (error) {
         console.log(error);
       }
     };
     if (newJob) {
-      postNewJob();
-      setNewJob();
+      postNewJob().then(setNewJob());
     } else if (updatedJob) {
-      updateJob();
-      setUpdatedJob();
+      updateJob().then(setUpdatedJob());
+    } else if (draggedJob) {
+      dragJob().then(setDraggedJob());
     } else {
-      fetchAllJobs();
+      fetchAllJobs().then((res) => setJobsState(res.data));
     }
-  }, [newJob, updatedJob, deleteJob]);
+  }, [newJob, updatedJob, deleteJob, draggedJob]);
 
   useEffect(() => {
     const fetchAllBots = async () => {
       try {
-        const res = await axios.get("http://localhost:8800/bots");
-        setBotsState(res.data);
+        return await axios.get("http://localhost:8800/bots");
       } catch (error) {
         console.log(error);
       }
     };
-    fetchAllBots();
+    fetchAllBots().then((res) => setBotsState(res.data));
   }, [newBot, updatedBot, deleteBot]);
 
   const handleDeleteJob = async (job, closeModal = () => {}) => {

@@ -28,11 +28,11 @@ const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobId
           <div className="job-info">
             <h4>{job.name}</h4>
             <p>{job.description}</p>
-            {job.requiredBots.length > 0 ? (
+            {job.Bots.length > 0 ? (
               <ul>
-                {job.requiredBots.split(",").map((bot) => (
-                  <div key={bot}>
-                    <li>{bot}</li>
+                {job.Bots.map((bot) => (
+                  <div key={bot.name}>
+                    <li>{bot.name}</li>
                   </div>
                 ))}
               </ul>
