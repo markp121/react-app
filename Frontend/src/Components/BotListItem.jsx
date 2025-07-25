@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useRef } from "react";
 import Modal from "./Modal";
 import BotForm from "./Forms/BotForm";
 
@@ -34,10 +34,6 @@ const BotListItem = (props) => {
       }
     }
   };
-
-  useEffect(() => {
-    setBotList((prev) => prev.map((b) => (b.id === botListItem.id ? { ...b, ...updatedBot } : b)));
-  }, [updatedBot, botListItem.id, setBotList]);
 
   function updateBotStatus(botStatus) {
     setBotList((a) =>
@@ -75,6 +71,7 @@ const BotListItem = (props) => {
             botsState={botsState}
             changedBot={updatedBot}
             setChangedBot={setUpdatedBot}
+            setBotList={setBotList}
             botListItem={botListItem}
             handleDeleteBot={handleDeleteBot}
           />

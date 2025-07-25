@@ -2,7 +2,15 @@ import React, { useEffect } from "react";
 import axios from "axios";
 
 const BotForm = (props) => {
-  const { botsState, changedBot, setChangedBot, botListItem, handleDeleteBot, onSuccess } = props;
+  const {
+    botsState,
+    changedBot,
+    setChangedBot,
+    setBotList,
+    botListItem,
+    handleDeleteBot,
+    onSuccess,
+  } = props;
 
   const handleSubmitBotForm = (e) => {
     e.preventDefault();
@@ -37,12 +45,15 @@ const BotForm = (props) => {
     if (changedBot) {
       if (botListItem) {
         updateBot();
+        setBotList((prev) =>
+          prev.map((b) => (b.id === botListItem.id ? { ...b, ...changedBot } : b)),
+        );
       } else {
         newBot();
       }
       setChangedBot();
     }
-  }, [changedBot, botListItem, setChangedBot]);
+  }, [changedBot, botListItem, setChangedBot, setBotList]);
 
   return (
     <div className="bot-form-container">
