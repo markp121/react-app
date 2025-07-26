@@ -32,6 +32,7 @@ const JobColumn = ({
   const handleDrop = (event) => {
     event.preventDefault();
     setJobStatus(dragRef.current);
+    event.target.classList.remove("dragover");
   };
 
   function setJobStatus(jobId) {
@@ -46,6 +47,8 @@ const JobColumn = ({
       <div
         className="job-colum-dropzone"
         onDragOver={(e) => e.preventDefault()}
+        onDragEnter={(e) => e.target.classList.add("dragover")}
+        onDragLeave={(e) => e.target.classList.remove("dragover")}
         onDrop={handleDrop}
       >
         <ul className="job-column-list">
