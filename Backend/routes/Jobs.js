@@ -47,7 +47,11 @@ router.post("/", async (req, res) => {
 
 router.delete("/:id", async (req, res) => {
   const jobId = req.params.id;
+  const job = await Jobs.findByPk(jobId);
   try {
+    const bots = await job.getBots();
+    job.removeBots(bots);
+
     const deleteJob = await Jobs.destroy({
       where: {
         id: jobId,

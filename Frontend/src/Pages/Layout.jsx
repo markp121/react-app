@@ -57,15 +57,15 @@ const Layout = () => {
       }
     };
     if (newJob) {
-      postNewJob().then(setNewJob());
+      postNewJob().then(() => setNewJob());
     } else if (updatedJob) {
-      updateJob().then(setUpdatedJob());
+      updateJob().then(() => setUpdatedJob());
     } else if (draggedJob) {
-      dragJob().then(setDraggedJob());
+      dragJob().then(() => setDraggedJob());
     } else {
       fetchAllJobs().then((res) => setJobsState(res.data));
     }
-  }, [newJob, updatedJob, deleteJob, draggedJob]);
+  }, [newJob, updatedJob, deleteJob, draggedJob, deleteBot]);
 
   useEffect(() => {
     const fetchAllBots = async () => {
@@ -78,29 +78,33 @@ const Layout = () => {
     fetchAllBots().then((res) => setBotsState(res.data));
   }, [newBot, updatedBot, deleteBot]);
 
-  const handleDeleteJob = async (job, closeModal = () => {}) => {
+  const handleDeleteJob = (job, closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this job?");
-    if (confirm) {
+    const deleteJob = async () => {
       try {
         await axios.delete("http://localhost:8800/jobs/" + job.id);
-        setDeleteJob((prev) => !prev);
-        closeModal();
       } catch (error) {
         console.log(error);
       }
+    };
+    if (confirm) {
+      deleteJob().then(() => setDeleteJob((prev) => !prev));
+      closeModal();
     }
   };
 
-  const handleDeleteBot = async (bot, closeModal = () => {}) => {
+  const handleDeleteBot = (bot, closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
-    if (confirm) {
+    const deleteBot = async () => {
       try {
         await axios.delete("http://localhost:8800/bots/" + bot.id);
-        setDeleteBot((prev) => !prev);
-        closeModal();
       } catch (error) {
         console.log(error);
       }
+    };
+    if (confirm) {
+      deleteBot().then(() => setDeleteBot((prev) => !prev));
+      closeModal();
     }
   };
 

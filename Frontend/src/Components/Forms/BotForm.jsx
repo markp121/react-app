@@ -44,12 +44,12 @@ const BotForm = (props) => {
     };
     if (changedBot) {
       if (botListItem) {
-        updateBot().then(setChangedBot());
+        updateBot().then(() => setChangedBot());
         setBotList((prev) =>
           prev.map((b) => (b.id === botListItem.id ? { ...b, ...changedBot } : b)),
         );
       } else {
-        newBot().then(setChangedBot());
+        newBot().then(() => setChangedBot());
       }
     }
   }, [changedBot, botListItem, setChangedBot, setBotList]);
