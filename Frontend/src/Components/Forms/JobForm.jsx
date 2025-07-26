@@ -8,7 +8,7 @@ const JobForm = (props) => {
     jobsState,
     botsState,
     setChangedJobState,
-    job,
+    currentJob,
     updatedJobIdRef,
     handleDeleteJob,
     onSuccess,
@@ -16,7 +16,7 @@ const JobForm = (props) => {
 
   const [optionsOpen, setOptionsOpen] = useState(false);
   const [requiredBots, setRequiredBots] = useState(
-    job && job.Bots.length > 0 ? job.Bots.map((bot) => bot.name) : [],
+    currentJob && currentJob.Bots.length > 0 ? currentJob.Bots.map((bot) => bot.name) : [],
   );
 
   const wrapperRef = useRef("jobOptions");
@@ -27,12 +27,12 @@ const JobForm = (props) => {
     const jobDescription = event.target.querySelector("#jobDescription");
     const jobStatus = event.target.querySelector("#jobStatus");
 
-    const jobs = job ? jobsState.filter((a) => a.id !== job.id) : jobsState;
+    const jobs = currentJob ? jobsState.filter((a) => a.id !== currentJob.id) : jobsState;
     if (jobs.map((b) => b.name.toLowerCase()).includes(jobName.value.toLowerCase())) {
       alert("Duplicate Job Name!");
       return false;
     } else {
-      if (job) updatedJobIdRef.current = job.id;
+      if (currentJob) updatedJobIdRef.current = currentJob.id;
       setChangedJobState({
         name: jobName.value,
         description: jobDescription.value,
@@ -69,8 +69,8 @@ const JobForm = (props) => {
     <div className="job-form-container">
       <div className="form-header">
         <h2>Add New Job</h2>
-        {job && (
-          <button className="button danger" onClick={() => handleDeleteJob(job, onSuccess)}>
+        {currentJob && (
+          <button className="button danger" onClick={() => handleDeleteJob(currentJob, onSuccess)}>
             Delete
           </button>
         )}
@@ -83,7 +83,7 @@ const JobForm = (props) => {
               type="text"
               placeholder="Enter job name..."
               id="jobName"
-              defaultValue={job ? job.name : ""}
+              defaultValue={currentJob ? currentJob.name : ""}
               required
             />
           </div>
@@ -134,7 +134,7 @@ const JobForm = (props) => {
             <textarea
               placeholder="Enter job description..."
               id="jobDescription"
-              defaultValue={job ? job.description : ""}
+              defaultValue={currentJob ? currentJob.description : ""}
               required
             />
           </div>
@@ -143,7 +143,7 @@ const JobForm = (props) => {
             <select
               className="job-status"
               id="jobStatus"
-              defaultValue={job ? job.status : ""}
+              defaultValue={currentJob ? currentJob.status : ""}
               required
             >
               <option value="" disabled>
@@ -158,7 +158,7 @@ const JobForm = (props) => {
           </div>
         </div>
         <button type="submit" className="button success">
-          {job ? "Save Job" : "Add Job"}
+          {currentJob ? "Save Job" : "Add Job"}
         </button>
       </form>
     </div>

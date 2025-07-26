@@ -22,8 +22,6 @@ const Layout = () => {
 
   const updatedJobIdRef = useRef();
 
-  const contextValue = { jobsState, botsState, setNewJob, setDraggedJob, updatedJobIdRef };
-
   useEffect(() => {
     const postNewJob = async () => {
       try {
@@ -133,7 +131,17 @@ const Layout = () => {
             handleDeleteBot={handleDeleteBot}
           />
         </Sidebar>
-        <Outlet context={contextValue} />
+        <Outlet
+          context={{
+            jobsState,
+            botsState,
+            setNewJob,
+            setUpdatedJob,
+            setDraggedJob,
+            updatedJobIdRef,
+            handleDeleteJob,
+          }}
+        />
       </main>
       <Footer />
     </>

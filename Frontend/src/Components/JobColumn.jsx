@@ -1,13 +1,12 @@
 import React, { useEffect, useMemo, useState } from "react";
+import Modal from "./Modal";
+import JobForm from "./Forms/JobForm";
+import { useOutletContext } from "react-router-dom";
 
-const JobColumn = ({
-  columnListState,
-  jobsState,
-  setDraggedJob,
-  updatedJobIdRef,
-  searchText,
-  dragRef,
-}) => {
+const JobColumn = ({ columnListState, searchText, dragRef }) => {
+  const { jobsState, botsState, setUpdatedJob, setDraggedJob, updatedJobIdRef, handleDeleteJob } =
+    useOutletContext();
+
   const [emptyList, setEmptyList] = useState(true);
   const [columnList, setColumnList, columnStatus] = columnListState;
 
@@ -78,6 +77,24 @@ const JobColumn = ({
                 ) : (
                   <span>No bots required</span>
                 )}
+              </div>
+              <div className="functional-buttons">
+                <Modal
+                  openButtonClass={"icon-button edit"}
+                  openButtonInnerHtml={<i className="bi bi-pencil"></i>}
+                >
+                  <JobForm
+                    jobsState={jobsState}
+                    botsState={botsState}
+                    setChangedJobState={setUpdatedJob}
+                    currentJob={job}
+                    updatedJobIdRef={updatedJobIdRef}
+                    handleDeleteJob={handleDeleteJob}
+                  />
+                </Modal>
+                <button className="icon-button delete" onClick={() => handleDeleteJob(job)}>
+                  <i className="bi bi-trash"></i>
+                </button>
               </div>
             </li>
           ))}

@@ -55,7 +55,7 @@ const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobId
                 jobsState={jobsState}
                 botsState={botsState}
                 setChangedJobState={setUpdatedJob}
-                job={job}
+                currentJob={job}
                 updatedJobIdRef={updatedJobIdRef}
                 handleDeleteJob={handleDeleteJob}
               />
