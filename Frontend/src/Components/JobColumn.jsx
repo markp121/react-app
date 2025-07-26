@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Modal from "./Modal";
 import JobForm from "./Forms/JobForm";
-import { useOutletContext } from "react-router-dom";
+import { Link, useOutletContext } from "react-router-dom";
 
 const JobColumn = ({ columnListState, searchText, dragRef }) => {
   const { jobsState, botsState, setUpdatedJob, setDraggedJob, updatedJobIdRef, handleDeleteJob } =
@@ -96,6 +96,7 @@ const JobColumn = ({ columnListState, searchText, dragRef }) => {
                   <i className="bi bi-trash"></i>
                 </button>
               </div>
+              <Link to={`/jobs/${job.id}`} state={{job: job}} className="job-link"></Link>
             </li>
           ))}
         </ul>

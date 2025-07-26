@@ -1,0 +1,59 @@
+@use "../variables";
+
+.job-page {
+  display: flex;
+  justify-content: center;
+}
+
+.job-page-body {
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: variables.$secondary;
+  margin: 2rem auto;
+  display: grid;
+  gap: 2rem;
+  max-width: 80vw;
+}
+
+.job-details {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.job-header, .job-description, .job-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+
+.job-bots {
+  .list-item {
+    background: variables.$buttons;
+    padding: 0.5rem;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    h4, p {
+      display: flex;
+      justify-content: space-between;
+    }
+  }
+}
+
+.job-status {
+  p {
+    text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    gap: 0.5rem;
+    background-color: variables.$buttonAlt;
+    padding: 0.25rem;
+    border-radius: 4px;
+  }
+}

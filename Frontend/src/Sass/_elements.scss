@@ -135,6 +135,7 @@ li {
   border: none;
   appearance: none;
   outline: none;
+  z-index: 1;
 
   &.remove {
     font-size: 1.875rem;

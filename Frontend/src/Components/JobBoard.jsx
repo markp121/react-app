@@ -1,6 +1,7 @@
 import React from "react";
 import JobForm from "./Forms/JobForm";
 import Modal from "./Modal";
+import { Link } from "react-router-dom";
 
 const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobIdRef, handleDeleteJob }) => {
   const getJobMessage = () => {
@@ -64,6 +65,7 @@ const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobId
               <i className="bi bi-trash"></i>
             </button>
           </div>
+          <Link to={`/jobs/${job.id}`} state={{job: job}} className="job-link"></Link>
         </div>
       ))}
     </div>

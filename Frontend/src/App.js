@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./Pages/Layout";
 import Home from "./Pages/Home";
 import Jobs from "./Pages/Jobs";
+import JobPage from "./Pages/JobPage";
 
 import "./Sass/app.scss";
 
@@ -14,6 +15,7 @@ const App = () => {
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
           <Route path="jobs" element={<Jobs />} />
+          <Route path="jobs/:id" element={<JobPage />} />
         </Route>
       </Routes>
     </BrowserRouter>

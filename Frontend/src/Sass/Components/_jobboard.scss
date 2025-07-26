@@ -9,6 +9,8 @@
 .job {
   border: solid 1px black;
   display: grid;
+  position: relative;
+  box-sizing: border-box;
   grid-template-columns: 5fr 1fr;
   padding: 1rem;
   margin: 1rem 0;
@@ -48,6 +50,15 @@
     flex-direction: column;
     gap: 3rem;
     justify-content: center;
+  }
+
+  .job-link {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
   }
 }
 
