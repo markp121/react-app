@@ -14,6 +14,7 @@
 
 .job-colum-dropzone {
   height: 100%;
+  z-index: 10;
   border-radius: 4px;
   transition: all 200ms ease-in-out;
   border: solid 1px transparent;
@@ -30,6 +31,7 @@
   grid-template-columns: 5fr 1fr;
   padding: 1rem;
   border-radius: 4px;
+  position: relative;
 
   &:hover {
     box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;

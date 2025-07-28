@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Layout from "./Pages/Layout";
-import Home from "./Pages/Home";
+import Profiles from "./Pages/Profiles";
 import Jobs from "./Pages/Jobs";
 import JobPage from "./Pages/JobPage";
 
@@ -13,7 +13,7 @@ const App = () => {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
+          <Route index element={<Profiles />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path="jobs/:id" element={<JobPage />} />
         </Route>

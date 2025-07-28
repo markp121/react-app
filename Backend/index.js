@@ -16,6 +16,8 @@ const jobsRouter = require("./routes/Jobs");
 app.use("/jobs", jobsRouter);
 const botsRouter = require("./routes/Bots");
 app.use("/bots", botsRouter);
+const profilesRouter = require("./routes/Profiles");
+app.use("/profiles", profilesRouter);
 
 db.sequelize.sync().then(() => {
   app.listen(8800, () => {
