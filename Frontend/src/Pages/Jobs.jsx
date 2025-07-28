@@ -4,9 +4,11 @@ import { useOutletContext } from "react-router-dom";
 import JobForm from "../Components/Forms/JobForm";
 import JobColumn from "../Components/JobColumn";
 import DynamicTextInput from "../Components/DynamicTextInput";
+import useClickOutside from "../Hooks/UseClickOutside";
+import { multiSelect } from "../Functions/multiSelect";
 
 const Jobs = () => {
-  const { jobsState, botsState, setNewJob } = useOutletContext();
+  const { jobsState, botsState, setNewJob, botsFilter, setBotsFilter } = useOutletContext();
 
   const [unassignedList, setUnassignedList] = useState([]);
   const [assignedList, setAssignedList] = useState([]);
@@ -14,8 +16,10 @@ const Jobs = () => {
   const [completeList, setCompleteList] = useState([]);
   const [blockedList, setBlockedList] = useState([]);
   const [searchText, setSearchText] = useState("");
+  const [optionsOpen, setOptionsOpen] = useState(false);
 
   const dragRef = useRef(null);
+  const wrapperRef = useRef("filterOptions");
 
   const columnListStates = useMemo(() => {
     return [
@@ -26,6 +30,15 @@ const Jobs = () => {
       [blockedList, setBlockedList, "blocked"],
     ];
   }, [unassignedList, assignedList, startedList, completeList, blockedList]);
+
+  const handleCheckboxChange = (event) => {
+    const checkboxValue = event.target.value;
+    multiSelect(checkboxValue, botsFilter, setBotsFilter);
+  };
+
+  useClickOutside(wrapperRef, () => {
+    setOptionsOpen(false);
+  });
 
   return (
     <div className="jobs-page-body">
@@ -42,6 +55,32 @@ const Jobs = () => {
               placeholder={"Search Jobs..."}
               required={false}
             />
+          </div>
+          <div className="options-container" ref={wrapperRef}>
+            <button
+              type="button"
+              className="button neutral options-toggle"
+              onClick={() => setOptionsOpen(!optionsOpen)}
+            >
+              <i className="bi bi-list"></i>
+            </button>
+            {optionsOpen && (
+              <ul className="options-checkboxes">
+                {botsState.map((bot) => (
+                  <li key={bot.id}>
+                    <input
+                      type="checkbox"
+                      id={`checkbox-${bot.id}`}
+                      name={`checkbox-${bot.id}`}
+                      value={bot.name}
+                      checked={botsFilter.includes(bot.name)}
+                      onChange={handleCheckboxChange}
+                    />
+                    <label htmlFor={`checkbox-${bot.id}`}>{bot.name}</label>
+                  </li>
+                ))}
+              </ul>
+            )}
           </div>
         </div>
         <div className="job-column-wrapper">

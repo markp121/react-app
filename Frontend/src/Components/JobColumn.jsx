@@ -4,8 +4,15 @@ import JobForm from "./Forms/JobForm";
 import { Link, useOutletContext } from "react-router-dom";
 
 const JobColumn = ({ columnListState, searchText, dragRef }) => {
-  const { jobsState, botsState, setUpdatedJob, setDraggedJob, updatedJobIdRef, handleDeleteJob } =
-    useOutletContext();
+  const {
+    jobsState,
+    botsState,
+    setUpdatedJob,
+    setDraggedJob,
+    botsFilter,
+    updatedJobIdRef,
+    handleDeleteJob,
+  } = useOutletContext();
 
   const [emptyList, setEmptyList] = useState(true);
   const [columnList, setColumnList, columnStatus] = columnListState;
@@ -15,10 +22,12 @@ const JobColumn = ({ columnListState, searchText, dragRef }) => {
   }, [setColumnList, jobsState, columnStatus]);
 
   const filteredJobsList = useMemo(() => {
-    return columnList.filter((statusListItem) =>
-      statusListItem.name.toLowerCase().includes(searchText.toLowerCase()),
+    return columnList.filter(
+      (statusListItem) =>
+        botsFilter.some((item) => statusListItem.Bots.map((a) => a.name).includes(item)) &&
+        statusListItem.name.toLowerCase().includes(searchText.toLowerCase()),
     );
-  }, [searchText, columnList]);
+  }, [searchText, columnList, botsFilter]);
 
   useEffect(() => {
     if (filteredJobsList.length > 0) {
@@ -96,7 +105,7 @@ const JobColumn = ({ columnListState, searchText, dragRef }) => {
                   <i className="bi bi-trash"></i>
                 </button>
               </div>
-              <Link to={`/jobs/${job.id}`} state={{job: job}} className="job-link"></Link>
+              <Link to={`/jobs/${job.id}`} state={{ job: job }} className="job-link"></Link>
             </li>
           ))}
         </ul>

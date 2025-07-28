@@ -19,6 +19,7 @@ const Layout = () => {
   const [updatedJob, setUpdatedJob] = useState();
   const [deleteJob, setDeleteJob] = useState(false);
   const [draggedJob, setDraggedJob] = useState();
+  const [botsFilter, setBotsFilter] = useState();
 
   const updatedJobIdRef = useRef();
 
@@ -73,7 +74,10 @@ const Layout = () => {
         console.log(error);
       }
     };
-    fetchAllBots().then((res) => setBotsState(res.data));
+    fetchAllBots().then((res) => {
+      setBotsState(res.data);
+      setBotsFilter(res.data.map((bot) => bot.name));
+    });
   }, [newBot, updatedBot, deleteBot]);
 
   const handleDeleteJob = (job, closeModal = () => {}) => {
@@ -138,6 +142,8 @@ const Layout = () => {
             setNewJob,
             setUpdatedJob,
             setDraggedJob,
+            botsFilter,
+            setBotsFilter,
             updatedJobIdRef,
             handleDeleteJob,
           }}

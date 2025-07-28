@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import BotForm from "./Forms/BotForm";
 import DynamicTextInput from "./DynamicTextInput";
 import BotListItem from "./BotListItem";
+import { multiSelect } from "../Functions/multiSelect";
 
 const statuses = ["running", "stopped", "completed", "failed"];
 let listId = 0;
@@ -28,15 +29,9 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
     addBotElement.value = "";
   };
 
-  const handleStatusCheckboxChange = (event) => {
-    const checked = event.target.checked;
-    if (checked) {
-      if (!statusFilter.includes(event.target.value)) {
-        setStatusFilter([...statusFilter, event.target.value]);
-      }
-    } else {
-      setStatusFilter(statusFilter.filter((filter) => filter !== event.target.value));
-    }
+  const handleCheckboxChange = (event) => {
+    const checkboxValue = event.target.value;
+    multiSelect(checkboxValue, statusFilter, setStatusFilter);
   };
 
   const filteredBotList = useMemo(() => {
@@ -130,7 +125,7 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
                     name={`checkbox-${status}`}
                     value={status}
                     checked={statusFilter.includes(status)}
-                    onChange={handleStatusCheckboxChange}
+                    onChange={handleCheckboxChange}
                   />
                   <label htmlFor={`checkbox-${status}`}>{status}</label>
                 </li>
