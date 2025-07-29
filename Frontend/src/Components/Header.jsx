@@ -14,6 +14,10 @@ const Header = () => {
             <div className="navbar-button">JOBS</div>
             <div className="navbar-button-background"></div>
           </Link>
+          <Link className="navbar-item" to="/investment-calculator">
+            <div className="navbar-button">INVESTMENT CALCULATOR</div>
+            <div className="navbar-button-background"></div>
+          </Link>
         </nav>
       </div>
     </header>

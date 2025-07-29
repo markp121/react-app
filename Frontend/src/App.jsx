@@ -8,6 +8,7 @@ import JobPage from "./Pages/JobPage";
 
 import "./Sass/app.scss";
 import NotFound from "./Pages/NotFound.jsx";
+import InvestmentCalc from "./Pages/InvestmentCalc.jsx";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route index element={<Profiles />} />
           <Route path="jobs" element={<Jobs />} />
           <Route path="jobs/:id" element={<JobPage />} />
+          <Route path="investment-calculator" element={<InvestmentCalc />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
