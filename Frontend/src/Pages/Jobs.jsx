@@ -5,7 +5,7 @@ import JobForm from "../Components/Forms/JobForm";
 import JobColumn from "../Components/JobColumn";
 import DynamicTextInput from "../Components/DynamicTextInput";
 import useClickOutside from "../Hooks/UseClickOutside";
-import { multiSelect } from "../Functions/multiSelect";
+import { handleMultiSelect, handleToggleAll } from "../EventHandlers/multiSelect";
 
 const Jobs = () => {
   const { jobsState, botsState, setNewJob, botsFilter, setBotsFilter } = useOutletContext();
@@ -30,11 +30,6 @@ const Jobs = () => {
       [blockedList, setBlockedList, "blocked"],
     ];
   }, [unassignedList, assignedList, startedList, completeList, blockedList]);
-
-  const handleCheckboxChange = (event) => {
-    const checkboxValue = event.target.value;
-    multiSelect(checkboxValue, botsFilter, setBotsFilter);
-  };
 
   useClickOutside(wrapperRef, () => {
     setOptionsOpen(false);
@@ -65,21 +60,33 @@ const Jobs = () => {
               <i className="bi bi-list"></i>
             </button>
             {optionsOpen && (
-              <ul className="options-checkboxes">
-                {botsState.map((bot) => (
-                  <li key={bot.id}>
-                    <input
-                      type="checkbox"
-                      id={`checkbox-${bot.id}`}
-                      name={`checkbox-${bot.id}`}
-                      value={bot.name}
-                      checked={botsFilter.includes(bot.name)}
-                      onChange={handleCheckboxChange}
-                    />
-                    <label htmlFor={`checkbox-${bot.id}`}>{bot.name}</label>
-                  </li>
-                ))}
-              </ul>
+              <div className="options-popup">
+                <div className="options-reset">
+                  <input
+                    type="checkbox"
+                    id="checkbox-all"
+                    name="checkbox-all"
+                    onChange={(e) => handleToggleAll(e, botsState.map((a) => a.name), setBotsFilter)}
+                    checked={botsFilter.length === botsState.length}
+                  />
+                  <label htmlFor="checkbox-all">Select All</label>
+                </div>
+                <ul className="options-checkboxes">
+                  {botsState.map((bot) => (
+                    <li key={bot.id}>
+                      <input
+                        type="checkbox"
+                        id={`checkbox-${bot.id}`}
+                        name={`checkbox-${bot.id}`}
+                        value={bot.name}
+                        checked={botsFilter.includes(bot.name)}
+                        onChange={(e) => handleMultiSelect(e, botsFilter, setBotsFilter)}
+                      />
+                      <label htmlFor={`checkbox-${bot.id}`}>{bot.name}</label>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             )}
           </div>
         </div>

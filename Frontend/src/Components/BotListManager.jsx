@@ -4,7 +4,7 @@ import Modal from "./Modal";
 import BotForm from "./Forms/BotForm";
 import DynamicTextInput from "./DynamicTextInput";
 import BotListItem from "./BotListItem";
-import { multiSelect } from "../Functions/multiSelect";
+import { handleMultiSelect, handleToggleAll } from "../EventHandlers/multiSelect";
 
 const statuses = ["running", "stopped", "completed", "failed"];
 let listId = 0;
@@ -27,11 +27,6 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
       }),
     ]);
     addBotElement.value = "";
-  };
-
-  const handleCheckboxChange = (event) => {
-    const checkboxValue = event.target.value;
-    multiSelect(checkboxValue, statusFilter, setStatusFilter);
   };
 
   const filteredBotList = useMemo(() => {
@@ -116,21 +111,33 @@ const BotListManager = ({ botsState, newBot, setNewBot, updatedBot, setUpdatedBo
             <i className="bi bi-list"></i>
           </button>
           {optionsOpen && (
-            <ul className="options-checkboxes">
-              {statuses.map((status, index) => (
-                <li key={index}>
-                  <input
-                    type="checkbox"
-                    id={`checkbox-${status}`}
-                    name={`checkbox-${status}`}
-                    value={status}
-                    checked={statusFilter.includes(status)}
-                    onChange={handleCheckboxChange}
-                  />
-                  <label htmlFor={`checkbox-${status}`}>{status}</label>
-                </li>
-              ))}
-            </ul>
+            <div className="options-popup">
+              <div className="options-reset">
+                <input
+                  type="checkbox"
+                  id="checkbox-all"
+                  name="checkbox-all"
+                  onChange={(e) => handleToggleAll(e, statuses, setStatusFilter)}
+                  checked={statusFilter.length === statuses.length}
+                />
+                <label htmlFor="checkbox-all">Select All</label>
+              </div>
+              <ul className="options-checkboxes">
+                {statuses.map((status, index) => (
+                  <li key={index}>
+                    <input
+                      type="checkbox"
+                      id={`checkbox-${status}`}
+                      name={`checkbox-${status}`}
+                      value={status}
+                      checked={statusFilter.includes(status)}
+                      onChange={(e) => handleMultiSelect(e, statusFilter, setStatusFilter)}
+                    />
+                    <label htmlFor={`checkbox-${status}`}>{status}</label>
+                  </li>
+                ))}
+              </ul>
+            </div>
           )}
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 .jobs-page-body {
   max-width: 60vw;
-  margin:  0 auto 3rem auto;
+  margin: 0 auto 3rem auto;
 }
 
 .job-column-wrapper {
@@ -25,15 +25,9 @@
   padding: 0.25rem;
   margin: 1rem 0;
 
-  .options-container {
-    width: fit-content;
-    margin: 0;
-    left: 0;
-
-    .options-checkboxes {
-      top: 0;
-      left: 45px;
-    }
+  .options-popup {
+    top: 0;
+    left: 43px;
   }
 }
 
