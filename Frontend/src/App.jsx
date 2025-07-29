@@ -7,6 +7,7 @@ import Jobs from "./Pages/Jobs";
 import JobPage from "./Pages/JobPage";
 
 import "./Sass/app.scss";
+import NotFound from "./Pages/NotFound.jsx";
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="jobs" element={<Jobs />} />
           <Route path="jobs/:id" element={<JobPage />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>
   );

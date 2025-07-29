@@ -1,0 +1,71 @@
+@use "../variables";
+
+.not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: variables.$primary;
+
+  .not-found-content {
+    text-align: center;
+  }
+
+  .not-found-title {
+    font-size: 8rem;
+    font-weight: bold;
+    padding: 1rem;
+    color: #343a40;
+    margin: 0;
+    animation: fadeInDown 0.5s ease-out;
+  }
+
+  .error-icon {
+    font-size: 6rem;
+    animation: fadeInUp 0.5s ease-out;
+    color: #343a40;
+    animation-fill-mode: both;
+  }
+
+  .not-found-subtitle {
+    font-size: 2rem;
+    color: #495057;
+    margin-bottom: 1.5rem;
+    animation: fadeInUp 0.5s ease-out 0.3s;
+    animation-fill-mode: both;
+  }
+
+  .not-found-text {
+    font-size: 1.25rem;
+    color: #6c757d;
+    margin-bottom: 2rem;
+    animation: fadeInUp 0.5s ease-out 0.4s;
+    animation-fill-mode: both;
+  }
+
+  .button {
+    font-size: 2rem;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
