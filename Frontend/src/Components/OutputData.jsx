@@ -3,6 +3,7 @@ import { calculateInvestmentResults } from "../utils/investments.js";
 import { CategoryScale } from "chart.js";
 import Chart from "chart.js/auto";
 import LineChart from "./LineChart.jsx";
+import { generatePdf } from "../utils/generateReport.js";
 
 Chart.register(CategoryScale);
 
@@ -52,7 +53,15 @@ const OutputData = ({ inputValue, currency }) => {
     }));
   }, [resultData, currency]);
 
+  const handleGeneratePDF = () => {
+    generatePdf({ ...inputValue, resultData });
+  };
+
   return (
+    <div>
+      <div className="output-data-header">
+        <button className="button neutral" onClick={handleGeneratePDF}>Download PDF Report</button>
+      </div>
     <div className="output-data">
       <table>
         <thead>
@@ -77,6 +86,8 @@ const OutputData = ({ inputValue, currency }) => {
         </tbody>
       </table>
       <LineChart resultData={chartData} currency={currency} />
+
+    </div>
     </div>
   );
 };
