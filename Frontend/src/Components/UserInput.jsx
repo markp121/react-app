@@ -6,8 +6,14 @@ const codes = [
   { code: "eur", symbol: "€" },
 ];
 
-const UserInput = ({ userInput, setUserInput, currency, setCurrency, currencyTable, initialState }) => {
-
+const UserInput = ({
+  userInput,
+  setUserInput,
+  currency,
+  setCurrency,
+  currencyTable,
+  initialState,
+}) => {
   const handleChange = (inputIdentifier, newValue) => {
     setUserInput((prev) => ({
       ...prev,
@@ -20,8 +26,8 @@ const UserInput = ({ userInput, setUserInput, currency, setCurrency, currencyTab
       setUserInput((prev) => {
         return {
           ...prev,
-          initialInvestment: Math.round(prev.initialInvestment * currencyTable[currency] * 100) / 100,
-          annualInvestment: Math.round(prev.annualInvestment * currencyTable[currency] * 100) / 100,
+          initialInvestment: (prev.initialInvestment * currencyTable[currency]).toFixed(2),
+          annualInvestment: (prev.annualInvestment * currencyTable[currency]).toFixed(2),
         };
       });
     }
@@ -56,8 +62,10 @@ const UserInput = ({ userInput, setUserInput, currency, setCurrency, currencyTab
           <input
             type="number"
             id="initialInvestment"
-            value={userInput.initialInvestment}
-            onChange={(e) => handleChange("initialInvestment", e.target.value)}
+            value={userInput.initialInvestment && Math.max(0, userInput.initialInvestment)}
+            onChange={(e) =>
+              handleChange("initialInvestment", e.target.value < 0 ? 0 : e.target.value)
+            }
             min={0}
           />
         </div>
@@ -68,8 +76,10 @@ const UserInput = ({ userInput, setUserInput, currency, setCurrency, currencyTab
           <input
             type="number"
             id="annualInvestment"
-            value={userInput.annualInvestment}
-            onChange={(e) => handleChange("annualInvestment", e.target.value)}
+            value={userInput.annualInvestment && Math.max(0, userInput.annualInvestment)}
+            onChange={(e) =>
+              handleChange("annualInvestment", e.target.value < 0 ? 0 : e.target.value)
+            }
             min={0}
           />
         </div>
@@ -78,8 +88,10 @@ const UserInput = ({ userInput, setUserInput, currency, setCurrency, currencyTab
           <input
             type="number"
             id="expectedReturn"
-            value={userInput.expectedReturn}
-            onChange={(e) => handleChange("expectedReturn", e.target.value)}
+            value={userInput.expectedReturn && Math.max(0, userInput.expectedReturn)}
+            onChange={(e) =>
+              handleChange("expectedReturn", e.target.value < 0 ? 0 : e.target.value)
+            }
             min={0}
           />
         </div>
@@ -88,8 +100,8 @@ const UserInput = ({ userInput, setUserInput, currency, setCurrency, currencyTab
           <input
             type="number"
             id="duration"
-            value={userInput.duration}
-            onChange={(e) => handleChange("duration", e.target.value)}
+            value={userInput.duration && Math.max(0, userInput.duration)}
+            onChange={(e) => handleChange("duration", e.target.value < 0 ? 0 : e.target.value)}
             min={0}
           />
         </div>
