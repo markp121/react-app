@@ -14,9 +14,20 @@
     font-size: 1.2rem;
 
     li {
-      list-style: disc;
+      list-style: disc inside;
       margin: 0.25rem 0;
     }
+  }
+}
+
+.tech-stack {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tech-stack-list {
+  ul {
+
   }
 }
 

@@ -16,15 +16,28 @@ const Home = () => {
             can create and manage jobs. Bots can be added to jobs and the status of jobs can be
             updated. This app employs a simple backend where Bots, Jobs and Profiles are stored in a
             MySQL database.
-            <br />
-            <br />
-            <strong>Technologies Stack:</strong>
-            <br />
-            <li>React</li>
-            <li>Node.js</li>
-            <li>Express</li>
-            <li>MySQL</li>
-          </p>
+          </p> <br />
+          <h2>Tech Stack:</h2>
+          <div className="tech-stack">
+            <div className="tech-stack-list">
+              <h3>Backend:</h3>
+              <ul>
+                <li>Node.js</li>
+                <li>Express</li>
+                <li>Sequelize ORM</li>
+                <li>MySQL</li>
+              </ul>
+            </div>
+            <div>
+              <h3>Frontend:</h3>
+              <ul>
+                <li>React</li>
+                <li>Vite as the build tool</li>
+                <li>ESLint</li>
+                <li>Node.js</li>
+              </ul>
+            </div>
+          </div>
         </section>
         <div className="home-image">
           <img src={logo} alt="logo" />
