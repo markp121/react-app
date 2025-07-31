@@ -10,6 +10,7 @@
   overflow: auto;
   scrollbar-width: none;
   transition: width 500ms ease-in-out;
+  z-index: 1;
 
   &.left {
     left: 0;
