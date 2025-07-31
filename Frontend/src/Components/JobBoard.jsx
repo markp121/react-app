@@ -61,11 +61,8 @@ const JobBoard = ({ jobsState, botsState, setNewJob, setUpdatedJob, updatedJobId
                 handleDeleteJob={handleDeleteJob}
               />
             </Modal>
-            <button className="icon-button delete" onClick={() => handleDeleteJob(job)}>
-              <i className="bi bi-trash"></i>
-            </button>
           </div>
-          <Link to={`/jobs/${job.id}`} state={{job: job}} className="job-link"></Link>
+          <Link to={`/jobs/${job.id}`} state={job} className="job-link"></Link>
         </div>
       ))}
     </div>

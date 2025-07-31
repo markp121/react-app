@@ -59,7 +59,7 @@ const BotForm = (props) => {
       <div className="form-header">
         <h2>Edit Bot</h2>
         {botListItem && (
-          <button className="button danger" onClick={() => handleDeleteBot(botListItem, onSuccess)}>
+          <button className="button danger" onClick={() => handleDeleteBot(botListItem.id, onSuccess)}>
             Delete
           </button>
         )}

@@ -21,6 +21,10 @@ const Jobs = () => {
   const dragRef = useRef(null);
   const wrapperRef = useRef("filterOptions");
 
+  const botList = useMemo(() => {
+    return botsState.map((a) => a.name).concat(["none"]);
+  })
+
   const columnListStates = useMemo(() => {
     return [
       [unassignedList, setUnassignedList, "unassigned"],
@@ -66,8 +70,8 @@ const Jobs = () => {
                     type="checkbox"
                     id="checkbox-all"
                     name="checkbox-all"
-                    onChange={(e) => handleToggleAll(e, botsState.map((a) => a.name), setBotsFilter)}
-                    checked={botsFilter.length === botsState.length}
+                    onChange={(e) => handleToggleAll(e, botList, setBotsFilter)}
+                    checked={botsFilter.length === botList.length}
                   />
                   <label htmlFor="checkbox-all">Select All</label>
                 </div>
@@ -85,6 +89,17 @@ const Jobs = () => {
                       <label htmlFor={`checkbox-${bot.id}`}>{bot.name}</label>
                     </li>
                   ))}
+                  <li>
+                    <input
+                      type="checkbox"
+                      id="checkbox-none"
+                      name="checkbox-none"
+                      value="none"
+                      checked={botsFilter.includes("none")}
+                      onChange={(e) => handleMultiSelect(e, botsFilter, setBotsFilter)}
+                    />
+                    <label htmlFor={`checkbox-none`}>No bots</label>
+                  </li>
                 </ul>
               </div>
             )}

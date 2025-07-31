@@ -10,7 +10,7 @@
   border-radius: 8px;
   background-color: variables.$secondary;
   margin: 2rem auto;
-  display: grid;
+  display: flex;
   gap: 2rem;
   max-width: 80vw;
 }
@@ -18,22 +18,27 @@
 .job-details {
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   gap: 1rem;
 }
 
-.job-header, .job-description, .job-status {
+.job-status {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
 }
+
+.job-actions {
+  display: flex;
+  justify-content: space-between;
+  }
 
 .job-bots {
   .list-item {
     background: variables.$buttons;
     padding: 0.5rem;
     border-radius: 4px;
-    margin: 0.5rem 0;
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
@@ -41,8 +46,16 @@
     h4, p {
       display: flex;
       justify-content: space-between;
+      gap: 1rem;
     }
   }
+}
+
+.job-bots-list {
+  display: grid;
+  gap: 1rem;
+  grid-template-rows: repeat(3, auto);
+  grid-auto-flow: column;
 }
 
 .job-status {

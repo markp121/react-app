@@ -22,12 +22,20 @@ const JobColumn = ({ columnListState, searchText, dragRef }) => {
   }, [setColumnList, jobsState, columnStatus]);
 
   const filteredJobsList = useMemo(() => {
-    return columnList.filter(
-      (statusListItem) =>
-        botsFilter.some((item) => statusListItem.Bots.map((a) => a.name).includes(item)) &&
-        statusListItem.name.toLowerCase().includes(searchText.toLowerCase()),
-    );
-  }, [searchText, columnList, botsFilter]);
+    return columnList.filter((statusListItem) => {
+      if (statusListItem.Bots.length > 0) {
+        return (
+          botsFilter.some((item) => statusListItem.Bots.map((a) => a.name).includes(item)) &&
+          statusListItem.name.toLowerCase().includes(searchText.toLowerCase())
+        );
+      } else {
+        return (
+          botsFilter.includes("none") &&
+          statusListItem.name.toLowerCase().includes(searchText.toLowerCase())
+        );
+      }
+    });
+  }, [columnList, botsFilter, searchText]);
 
   useEffect(() => {
     if (filteredJobsList.length > 0) {
@@ -101,11 +109,11 @@ const JobColumn = ({ columnListState, searchText, dragRef }) => {
                     handleDeleteJob={handleDeleteJob}
                   />
                 </Modal>
-                <button className="icon-button delete" onClick={() => handleDeleteJob(job)}>
+                <button className="icon-button delete" onClick={() => handleDeleteJob(job.id)}>
                   <i className="bi bi-trash"></i>
                 </button>
               </div>
-              <Link to={`/jobs/${job.id}`} state={{ job: job }} className="job-link"></Link>
+              <Link to={`/jobs/${job.id}`} state={job} className="job-link"></Link>
             </li>
           ))}
         </ul>

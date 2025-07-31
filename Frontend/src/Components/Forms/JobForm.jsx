@@ -70,7 +70,7 @@ const JobForm = (props) => {
       <div className="form-header">
         <h2>Add New Job</h2>
         {currentJob && (
-          <button className="button danger" onClick={() => handleDeleteJob(currentJob, onSuccess)}>
+          <button className="button danger" onClick={() => handleDeleteJob(currentJob.id, onSuccess)}>
             Delete
           </button>
         )}

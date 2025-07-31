@@ -21,7 +21,7 @@ const Layout = () => {
   const [draggedJob, setDraggedJob] = useState();
   const [botsFilter, setBotsFilter] = useState();
 
-  const updatedJobIdRef = useRef();
+  const updatedJobIdRef = useRef(null);
 
   useEffect(() => {
     const postNewJob = async () => {
@@ -76,15 +76,15 @@ const Layout = () => {
     };
     fetchAllBots().then((res) => {
       setBotsState(res.data);
-      setBotsFilter(res.data.map((bot) => bot.name));
+      setBotsFilter(res.data.map((bot) => bot.name).concat(["none"]));
     });
   }, [newBot, updatedBot, deleteBot]);
 
-  const handleDeleteJob = (job, closeModal = () => {}) => {
+  const handleDeleteJob = (jobId, closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this job?");
     const deleteJob = async () => {
       try {
-        await axios.delete("http://localhost:8800/jobs/" + job.id);
+        await axios.delete("http://localhost:8800/jobs/" + jobId);
       } catch (error) {
         console.log(error);
       }
@@ -95,11 +95,11 @@ const Layout = () => {
     }
   };
 
-  const handleDeleteBot = (bot, closeModal = () => {}) => {
+  const handleDeleteBot = (botId, closeModal = () => {}) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
     const deleteBot = async () => {
       try {
-        await axios.delete("http://localhost:8800/bots/" + bot.id);
+        await axios.delete("http://localhost:8800/bots/" + botId);
       } catch (error) {
         console.log(error);
       }

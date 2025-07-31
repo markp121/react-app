@@ -76,7 +76,7 @@ const BotListItem = (props) => {
             handleDeleteBot={handleDeleteBot}
           />
         </Modal>
-        <button className="icon-button delete" onClick={() => handleDeleteBot(botListItem)}>
+        <button className="icon-button delete" onClick={() => handleDeleteBot(botListItem.id)}>
           <i className="bi bi-trash"></i>
         </button>
       </div>
