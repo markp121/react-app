@@ -80,7 +80,7 @@ const Layout = () => {
     });
   }, [newBot, updatedBot, deleteBot]);
 
-  const handleDeleteJob = (jobId, closeModal = () => {}) => {
+  const handleDeleteJob = (jobId, onSuccess) => {
     const confirm = window.confirm("Are you sure you want to delete this job?");
     const deleteJob = async () => {
       try {
@@ -91,11 +91,11 @@ const Layout = () => {
     };
     if (confirm) {
       deleteJob().then(() => setDeleteJob((prev) => !prev));
-      closeModal();
+      if (typeof onSuccess === "function") onSuccess();
     }
   };
 
-  const handleDeleteBot = (botId, closeModal = () => {}) => {
+  const handleDeleteBot = (botId, onSuccess) => {
     const confirm = window.confirm("Are you sure you want to delete this bot?");
     const deleteBot = async () => {
       try {
@@ -106,7 +106,7 @@ const Layout = () => {
     };
     if (confirm) {
       deleteBot().then(() => setDeleteBot((prev) => !prev));
-      closeModal();
+      if (typeof onSuccess === "function") onSuccess();
     }
   };
 

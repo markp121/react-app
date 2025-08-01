@@ -32,7 +32,7 @@ const Home = () => {
               <h3>Frontend:</h3>
               <ul>
                 <li>React</li>
-                <li>Vite as the build tool</li>
+                <li>Vite</li>
                 <li>ESLint</li>
                 <li>Node.js</li>
               </ul>

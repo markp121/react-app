@@ -4,7 +4,7 @@ const Sidebar = ({ sidebarClass, children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div>
+    <>
       <button
         className={`button neutral sidebarBtn ${sidebarClass}`}
         onClick={() => setIsOpen(!isOpen)}
@@ -18,7 +18,7 @@ const Sidebar = ({ sidebarClass, children }) => {
           </div>
         </div>
       </aside>
-    </div>
+    </>
   );
 };
 

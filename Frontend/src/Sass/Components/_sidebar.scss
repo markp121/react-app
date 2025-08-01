@@ -4,13 +4,13 @@
   display: flex;
   flex-direction: column;
   position: fixed;
-  height: 93%;
+  height: 86.6%;
   border: solid 1px black;
   background-color: variables.$tertiary;
   overflow: auto;
   scrollbar-width: none;
   transition: width 500ms ease-in-out;
-  z-index: 1;
+  z-index: 20;
 
   &.left {
     left: 0;

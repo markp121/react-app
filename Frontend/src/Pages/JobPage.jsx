@@ -4,9 +4,7 @@ const JobPage = () => {
   const { jobsState, handleDeleteJob } = useOutletContext();
 
   const navigate = useNavigate();
-
   const jobId = useLocation().state.id;
-  console.log(jobId);
   const job = jobsState.filter((prev) => prev.id === jobId)[0];
 
   return (
@@ -34,7 +32,7 @@ const JobPage = () => {
               </div>
               <div className="job-actions">
                 <button className="button neutral">Edit Job</button>
-                <button className="button danger" onClick={() => handleDeleteJob(jobId, navigate("/jobs"))}>Delete Job</button>
+                <button className="button danger" onClick={() => handleDeleteJob(jobId, () => navigate("/jobs"))}>Delete Job</button>
               </div>
             </div>
             <div className="job-bots">
